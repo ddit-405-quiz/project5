@@ -17,13 +17,6 @@ public class Controller {
 	UserService userService = UserService.getInstance();
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
-	Scanner sc = new Scanner(System.in);
-	
-	public int correctCount = 0;
-	// 아이템 사용여부 체크를 위한 변수
-	public boolean useDouble = false;
-	public boolean useHint = false;
-	public boolean useLife = false;
 
 	public static void main(String[] args) {
 		 new Controller().start();
@@ -52,10 +45,10 @@ public class Controller {
 				view = quizMenu();
 				break;
 			case View.QUIZ_FAIL:
-				view = failMenu();
+				view = quizService.failMenu();
 				break;
 			case View.QUIZ_SUCCESS:
-				view = success();
+				view = quizService.success();
 				break;
 			case View.SHOP_MAIN:
 				view = shopMain();
@@ -142,7 +135,7 @@ public class Controller {
 		case 1:
 			System.out.println("몇개를 구매하시겠습니까?");
 			System.out.print("\n 【  선택  】 ");
-			quantity = sc.nextInt();
+			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(200 * quantity)){
 				itemService.setUserItem(1, quantity, userService.getUserInfo().get("USER_NO").toString());
@@ -154,7 +147,7 @@ public class Controller {
 		case 2:
 			System.out.println("몇개를 구매하시겠습니까?");
 			System.out.print("\n 【  선택  】 ");
-			quantity = sc.nextInt();
+			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(100 * quantity)){
 				itemService.setUserItem(2, quantity, userService.getUserInfo().get("USER_NO").toString());
@@ -166,7 +159,7 @@ public class Controller {
 		case 3:
 			System.out.println("몇개를 구매하시겠습니까?");
 			System.out.print("\n 【  선택  】 ");
-			quantity = sc.nextInt();
+			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(100 * quantity)){
 				itemService.setUserItem(3, quantity, userService.getUserInfo().get("USER_NO").toString());
@@ -211,13 +204,13 @@ public class Controller {
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
-			return startQuiz(1);
+			return quizService.startQuiz(1);
 		case 2:
-			return startQuiz(2);
+			return quizService.startQuiz(2);
 		case 3:
-			return startQuiz(3);
+			return quizService.startQuiz(3);
 		case 4:
-			return startQuiz(4);
+			return quizService.startQuiz(4);
 		case 5:
 			return View.HOME_MAIN;
 		default:
@@ -225,163 +218,4 @@ public class Controller {
 		}
 	}
 
-	// 퀴즈시작
-	private int startQuiz(int genre) {
-		
-		useItem();
-				
-		correctCount = 0;
-		int life = 0;
-		
-		if(useLife) {
-			life = 4;
-		} else {
-			life = 2;
-		}
-
-		List<Map<String, Object>> quizList = new ArrayList<>();
-		quizList = quizService.getQuiz(genre);
-		
-		for (int i = 0; i < 5; i++) {
-			
-			// 2번 틀리면 게임오버
-			if(life <= 0) {
-				return View.QUIZ_FAIL;
-			}
-			
-			PrintUtil.bar();
-			System.out.println("\t        Q" + (i+1));
-			PrintUtil.bar2();
-			System.out.println(quizList.get(i).get("QUIZ_DETAIL"));
-			if(useHint) {
-				PrintUtil.bar2();
-				System.out.println("초성힌트 : " + quizList.get(i).get("QUIZ_HINT"));
-			}
-			PrintUtil.bar();
-			System.out.print("\n 【  정답입력 】 ");
-			String answer = sc.nextLine();
-			
-			if(answer.equals(quizList.get(i).get("QUIZ_ANSWER"))) {
-				PrintUtil.bar2();
-				System.out.println("\t          정답입니다!");
-				PrintUtil.bar2();
-				correctCount++;
-			} else {
-				PrintUtil.bar2();
-				System.out.println("\t          오답입니다!");
-				life--;
-				System.out.println("\t 남은목숨 : " + life);
-				PrintUtil.bar2();
-			}
-		}
-		return View.QUIZ_SUCCESS;
-	}
-	
-	// 아이템 사용하는 메소드
-	private void useItem() {
-		PrintUtil.bar();
-		System.out.println("\t     아이템 1개 선택");
-		PrintUtil.bar2();
-		String userNo = userService.getUserInfo().get("USER_NO").toString();
-		System.out.println("\t① 점수2배 : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") + " 개 보유중 ");
-		System.out.println("\t① 초성힌트 : " + itemService.checkItem(userNo).get("ITEM_HINT") +" 개 보유중 ");
-		System.out.println("\t① 목숨 +2 : " + itemService.checkItem(userNo).get("ITEM_LIFE") + " 개 보유중 ");
-		System.out.println("\t     ① 사용하지않음");
-		PrintUtil.bar2();
-		System.out.println();
-		PrintUtil.bar();
-		System.out.print("\n 【  선택  】 ");
-		
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			// 아이템의 개수가 부족하면
-			if(Integer.parseInt(itemService.checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
-				System.out.println("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				return;
-			}
-			System.out.println("점수2배를 사용하셨습니다!");
-			useDouble = true;
-			break;
-		case 2:
-			if(Integer.parseInt(itemService.checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
-				System.out.println("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				return;
-			}
-			System.out.println("초성힌트를 사용하셨습니다!");
-			useHint = true;
-			break;
-		case 3:
-			if(Integer.parseInt(itemService.checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
-				System.out.println("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				return;
-			}
-			System.out.println("목숨 +2를 사용하셨습니다!");
-			useLife = true;
-			break;
-		case 4:
-			return;
-		default:
-			return;
-		}
-	}
-
-	// 실패시 실행되는 메소드
-	private int failMenu() {
-		PrintUtil.bar();
-		System.out.println("\t  퀴즈 풀기에 실패하셨습니다!");
-		PrintUtil.bar2();
-		if(useDouble) {
-			userService.setUserScore(correctCount*2);
-		} else {
-			userService.setUserScore(correctCount);
-		}
-		userService.setUserGameMoney(correctCount * 10);
-		Object score = userService.getUserInfo().get("USER_SCORE");
-		System.out.println("    맞춘문제   " + correctCount + " / 10" + "       내 점수 : " + score);
-		PrintUtil.bar2();
-		System.out.println("\t① 퀴즈풀기   ② 메인메뉴   ");
-		PrintUtil.bar();
-		System.out.print("\n 【  선택 】 ");
-		
-		useDouble = false;
-		useHint = false;
-		useLife = false;
-		
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-		case 2:
-			return View.HOME_MAIN;
-		default:
-			return View.HOME_MAIN;
-		}
-	}
-	
-	// 성공시 실행되는 메소드
-	private int success() {
-		PrintUtil.bar();
-		System.out.println("\t  퀴즈 풀기에 성공하셨습니다!");
-		PrintUtil.bar2();
-		userService.setUserScore(correctCount);
-		userService.setUserGameMoney(correctCount * 10);
-		Object score = userService.getUserInfo().get("USER_SCORE");
-		System.out.println("    맞춘문제   " + correctCount + " / 10" + "       내 점수 : " + score);
-		PrintUtil.bar2();
-		System.out.println("\t① 퀴즈풀기   ② 메인메뉴   ");
-		PrintUtil.bar();
-		System.out.print("\n 【  선택 】 ");
-		
-		useDouble = false;
-		useHint = false;
-		useLife = false;
-		
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-		case 2:
-			return View.HOME_MAIN;
-		default:
-			return View.HOME_MAIN;
-		}
-	}
 }

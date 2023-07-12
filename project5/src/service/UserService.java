@@ -31,14 +31,12 @@ public class UserService {
 	}
 	
 	UserDAO userDAO = UserDAO.getInstance();
+	
 	// 유저의 정보를 저장하고, 외부에서 확인할 수 있게 하기 위한 변수와 메소드
 	private Map<String, Object> userInfo = null;
-	public  Map<String, Object> getUserInfo(){
+	public Map<String, Object> getUserInfo(){
 		return userDAO.getUserInfo(userInfo.get("USER_NO").toString());
 	}
-
-	
-
 	
 	//로그인
 	public int logIn() {
