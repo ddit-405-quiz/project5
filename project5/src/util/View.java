@@ -42,6 +42,11 @@ public interface View {
 	int SHOP = 7;
 	int SHOP_MAIN = 71;
 	
+	int ITEM = 8;
+	int ITEM_DOUBLE = 81;
+	int ITEM_HINT = 82;
+	int ITEM_LIFE = 83;
+	
 	int ADMIN_MAIN = 9;			//包府磊 皋牢
 	int ADMIN_QUIZ = 91;		//包府磊
 	int ADMIN_QUIZ_INSERT = 91;
