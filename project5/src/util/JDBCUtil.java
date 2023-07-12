@@ -102,6 +102,43 @@ public class JDBCUtil {
 		return row;
 	}
 
+	public List<Map<String, Object>> selectAll(String sql) {
+
+		List<Map<String, Object>> list = new ArrayList<>();
+		
+		try {
+			
+			conn = DriverManager.getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			int columnCount = rsmd.getColumnCount();
+			
+			while (rs.next()) {
+				
+				Map<String, Object> row = null;
+				
+				if (row == null)
+					row = new HashMap<>();
+				for (int i = 1; i <= columnCount; i++) {
+					String key = rsmd.getColumnLabel(i);
+					Object value = rs.getObject(i);
+					row.put(key, value);
+				}
+				
+				list.add(row);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) try {rs.close();} catch (Exception e) {}
+			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
+			if (conn != null) try {conn.close();} catch (Exception e) {}
+		}
+		return list;
+	}
+	
 	public int update(String sql, List<Object> param) {
 		int result = 0;
 		try {
