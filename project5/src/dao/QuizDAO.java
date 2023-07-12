@@ -16,8 +16,7 @@ public class QuizDAO {
 	
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 	
-
-	
+	// 장르 + 랜덤번호를 토대로 퀴즈를 중복되지 않게 랜덤으로 10개 뽑아옴 
 	public List<Map<String, Object>> getQuiz(int genre) { 
 		
 		Set<Integer> quizNumbers = new HashSet<>();
