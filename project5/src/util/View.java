@@ -17,12 +17,15 @@ public interface View {
 	int ADMIN_LOGOUT = 32;		//관리자 로그아웃
 	
 	int QUIZ = 4;
-	int QUIZ_CATEGORY = 41;		 //퀴즈-카테고리 선택
+	int QUIZ_CATEGORY = 41;		 // 퀴즈 - 카테고리 선택
 	int QUIZ_ITEM = 42;          // 퀴즈 - 아이템 사용 여부
 	int QUIZ_START = 43;         // 퀴즈 - 시작
-	int QUIZ_PLAYING = 44;       // 퀴즈 - 게임 진행 중
-	int QUIZ_SCORING = 45;       // 퀴즈 - 정답 확인
-	int QUIZ_END = 46;           // 퀴즈 - 끝
+	int QUIZ_FAIL = 44;          // 퀴즈 - 실패
+	int QUIZ_SUCCESS = 45;		 // 퀴즈 - 성공
+	int QUIZ_NONSENSE = 46;		 // 퀴즈 - 넌센스
+	int QUIZ_KOREAN = 47;		 // 퀴즈 - 우리말
+	int QUIZ_COMMON_SENSE = 48;  // 퀴즈 - 상식
+	int QUIZ_HISTORY = 49;		 // 퀴즈 - 역사
 
 	
 	//게시판 혹은 유저가 관리자에게 요청사항 등  -- 수정필요
@@ -35,6 +38,9 @@ public interface View {
 	int MYPAGE_WRITE_DELETE = 622;	//작성한 글 삭제
 	int MYPAGE_UPDATE = 63;			//유저 정보 수정
 	int MYPAGE_DELETE = 64;			//계정삭제
+	
+	int SHOP = 7;
+	int SHOP_MAIN = 71;
 	
 	int ADMIN_MAIN = 9;			//관리자 메인
 	int ADMIN_QUIZ = 91;		//관리자
