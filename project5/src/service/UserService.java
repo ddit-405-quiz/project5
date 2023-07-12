@@ -12,6 +12,7 @@ import controller.Controller;
 import dao.UserDAO;
 import util.BufferUtil;
 import util.Connect;
+import util.JDBCUtil;
 import util.PrintUtil;
 import util.ScanUtil;
 import util.View;
@@ -30,6 +31,14 @@ public class UserService {
 	}
 	
 	UserDAO userDAO = UserDAO.getInstance();
+	// 유저의 정보를 저장하고, 외부에서 확인할 수 있게 하기 위한 변수와 메소드
+	private Map<String, Object> userInfo = null;
+	public  Map<String, Object> getUserInfo(){
+		return userDAO.getUserInfo(userInfo.get("USER_NO").toString());
+	}
+
+	
+
 	
 	//로그인
 	public int logIn() {
@@ -43,7 +52,7 @@ public class UserService {
 		param.add(memId); 
 		param.add(memPass);
 		
-		Map<String, Object> userInfo = userDAO.login(param);
+		userInfo = userDAO.login(param);
 		
 		if(userInfo != null) { //정상적 로그인 o
 			Controller.sessionStorage.put("loginInfo", userInfo); 
@@ -90,7 +99,6 @@ public class UserService {
 		}
 		
 	}
-	
 	//회원가입
 	public int signUp() {
 		int result = 0;
@@ -122,7 +130,7 @@ public class UserService {
 		}
 	}
 	//비밀번호찾기
-	public static void userPasswordReset() throws Exception{
+	public void userPasswordReset() throws Exception{
 		
 		Connection con = null;
 		Statement stmt = null;
@@ -153,6 +161,7 @@ public class UserService {
 		if(rs.next()) {
 			
 			boolean run = true;
+			
 			while(run) {
 				
 				
@@ -198,7 +207,7 @@ public class UserService {
 		}
 	}
 	//임시비밀번호
-	public static void createRandomPw(String user_id) throws Exception{
+	public void createRandomPw(String user_id) throws Exception{
 	
 		String[] strSet = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m",
 						"1", "2", "3", "4", "5", "6", "7", "8", "9", "~", "!", "@", "#", "$", "%", "^", "&", "*"};
@@ -228,8 +237,39 @@ public class UserService {
 			System.out.println("------------------");
 			System.out.println();		
 		}
-
-
 	}
+	// 유저의 스코어를 매개변수로 입력받은 정수만큼 더함
+	public void setUserScore(int score) {
+		if(score >= 0) {
+			String sql =  "UPDATE USERS" +
+						  " SET USER_SCORE = USER_SCORE + " + score +
+						  " WHERE USER_NO = " + userInfo.get("USER_NO");
 
+			userDAO.setUserScore(sql);
+		} 
+	}
+	// 유저의 게임머니를 매개변수로 입력받은 정수만큼 더함
+	public void setUserGameMoney(int money) {
+		if(money >= 0) {
+			String sql =  "UPDATE USERS" +
+						  " SET USER_GM = USER_GM + " + money +
+						  " WHERE USER_NO = " + userInfo.get("USER_NO");
+
+			userDAO.setUserScore(sql);
+		} 
+	}
+	//	상점에서 아이템 구매 시 금액 체크 후 금액이 맞으면 아이템 구매
+	public boolean purchaseItem(int money) {
+		
+		if (Integer.parseInt(getUserInfo().get("USER_GM").toString()) >= money){
+			String sql =  "UPDATE USERS" +
+					  " SET USER_GM = USER_GM - " + money +
+					  " WHERE USER_NO = " + userInfo.get("USER_NO");
+			
+			userDAO.setUserScore(sql);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
