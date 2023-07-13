@@ -9,10 +9,7 @@ import util.View;
 public class QuizDAO {
 
 	private static QuizDAO instance = null;
-
-	private QuizDAO() {
-	}
-
+	private QuizDAO() {}
 	public static QuizDAO getInstance() {
 		if (instance == null)
 			instance = new QuizDAO();
@@ -21,7 +18,11 @@ public class QuizDAO {
 
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 
-	// 장르 + 랜덤번호를 토대로 퀴즈를 중복되지 않게 랜덤으로 10개 뽑아옴
+	/**
+	 * 입력된 장르를 바탕으로 랜덤으로 10개의 퀴즈를 뽑아오며, 뽑아온 퀴즈들을 테이블 정보를 리턴
+	 * @param 퀴즈의 장르 입력
+	 * @return 뽑아온 퀴즈들을 List<Map<String,Object>> 타입으로 반환
+	 */
 	public List<Map<String, Object>> getQuiz(int genre) {
 		
 		String sql = "SELECT DISTINCT * FROM (SELECT * FROM QUIZ ORDER BY DBMS_RANDOM.VALUE)" +
@@ -30,7 +31,11 @@ public class QuizDAO {
 		return jdbc.selectAll(sql);
 	}
 
-	// 퀴즈 목록 조회
+	/**
+	 * 입력받은 장르를 토대로 해당 장르의 퀴즈를 모두 List에 담은다음 반환
+	 * @param 조회하고 싶은 장르
+	 * @return 해당 장르의 모든 퀴즈를 List<Map<String, Object>> 타입에 담아서 반환
+	 */
 	public List<Map<String, Object>> searchQuiz(int genre) {
 		List<Map<String, Object>> quizList = new ArrayList<>();
 

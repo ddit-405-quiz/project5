@@ -22,8 +22,8 @@ public class Controller {
 	public static void main(String[] args) {
 		new Controller().start();
 	}
-
 	
+	// 화면 이동을 제어하는 메소드, view의 값에 따라 이동하고 싶은 화면을 출력하는걸 무한반복한다
 	private void start() {
 
 		int view = View.HOME;
@@ -167,7 +167,7 @@ public class Controller {
 			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(200 * quantity)){
-				itemService.setUserItem(1, quantity, userService.getUserInfo().get("USER_NO").toString());
+				itemService.setUserItem(View.ITEM_DOUBLE, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
 				PrintUtil.bar3();
@@ -183,7 +183,7 @@ public class Controller {
 			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(100 * quantity)){
-				itemService.setUserItem(2, quantity, userService.getUserInfo().get("USER_NO").toString());
+				itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
 				PrintUtil.bar3();
@@ -201,7 +201,7 @@ public class Controller {
 			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(100 * quantity)){
-				itemService.setUserItem(3, quantity, userService.getUserInfo().get("USER_NO").toString());
+				itemService.setUserItem(View.ITEM_LIFE, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("목숨 +2를 " + quantity + "개 만큼 구매하였습니다");
 				PrintUtil.bar3();
@@ -240,6 +240,8 @@ public class Controller {
 	// 퀴즈선택메뉴
 	private int quizMenu() {
 		PrintUtil.bar();
+		PrintUtil.bar2();
+		PrintUtil.bar2();
 		PrintUtil.centerAlignment("퀴즈 카테고리 선택");
 		PrintUtil.bar2();
 		PrintUtil.centerAlignment("① 상식 퀴즈  ② 우리말 맞추기   ③ 역사 퀴즈   ④ 넌센스 퀴즈  ⑤ 뒤로가기   ");
