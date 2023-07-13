@@ -17,6 +17,8 @@ public class Controller {
 	UserService userService = UserService.getInstance();
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
+	AdminService adminService = AdminService.getInstance();
+	RankService rankService = RankService.getInstance();
 
 	public static void main(String[] args) {
 		new Controller().start();
@@ -53,6 +55,18 @@ public class Controller {
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
+			case View.ADMIN_LOGIN:   
+				view = adminService.adminLogin();
+				break;
+			case View.ADMIN_MAIN:
+				view = adminMain();
+				break;
+			case View.RANKING:
+				view = rankingMain();
+				break;
+			case View.RANKING_ALL:
+				view = rankingMain();
+				break;
 			}
 		}
 	}
@@ -77,7 +91,7 @@ public class Controller {
 		case 2:
 			return View.USER_SIGNUP;
 		case 3:
-			return View.ADMIN_LOGIN;
+			return View.ADMIN_LOGIN; 
 		default:
 			return View.HOME;
 		}
@@ -91,7 +105,7 @@ public class Controller {
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
+		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점 ⑤ 로그아웃  ⑤ 랭킹");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -110,6 +124,8 @@ public class Controller {
 			return View.SHOP_MAIN;
 		case 6:
 			return View.USER_LOGOUT;
+		case 7:
+			return View.RANKING_ALL;
 		default:
 			return View.QUIZ;
 		}
@@ -296,6 +312,27 @@ public class Controller {
 			return View.ADMIN_MAIN;
 		}
 
+	}
+	
+	private int rankingMain() {
+		PrintUtil.bar();
+		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment(" 1. 전체랭킹 2. 문제무한랭킹 3. 뒤로가기   ");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.bar();
+		System.out.print("\n 【  선택  】 ");
+
+		switch (ScanUtil.nextInt()) {
+		case 1:
+			return View.RANKING_ALL;
+
+		case 3:
+			return View.HOME_MAIN;
+		default:
+			return View.QUIZ;
+		}
 	}
 
 }

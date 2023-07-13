@@ -12,21 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dao.AdminDAO;
+
 public class JDBCUtil {
 
 	private static JDBCUtil instance = null;
-
-	private JDBCUtil() {
-	}
-
-	public static JDBCUtil getInstance() {
-		if (instance == null)
+	private JDBCUtil() {}
+	public static JDBCUtil getInstance() {	
+		if(instance == null) {
 			instance = new JDBCUtil();
+		}
 		return instance;
 	}
 
 	private final String url = "jdbc:oracle:thin:@192.168.145.29:1521:xe";
-
 	private final String user = "project5";
 	private final String password = "java";
 
@@ -69,20 +68,24 @@ public class JDBCUtil {
 		return row;
 	}
 
-	// 매개변수로 sql문을 줘서 하나 불러오긴가?
 	public Map<String, Object> selectOne(String sql) {
 
-		Map<String, Object> row = null;
+		Map<String, Object> row = null;		
 		
 		try {
 			
+			// DB랑 연결해주는 코드
 			conn = DriverManager.getConnection(url, user, password);
+			// 질문
 			pstmt = conn.prepareStatement(sql);
+			// 결과를 rs에 넣음
 			rs = pstmt.executeQuery();
+			// rs의 메타데이터를 뽑아옴
 			ResultSetMetaData rsmd = rs.getMetaData();
 			
 			int columnCount = rsmd.getColumnCount();
 			
+			// 행의 개수만큼 각 행의 key(컬럼의 이름), value(해당 컬럼의 데이터)를 구해서 각각 map에 넣어줌
 			while (rs.next()) {
 				if (row == null)
 					row = new HashMap<>();
@@ -105,6 +108,11 @@ public class JDBCUtil {
 	public List<Map<String, Object>> selectAll(String sql) {
 
 		List<Map<String, Object>> list = new ArrayList<>();
+
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).get("RANK"));
+			System.out.println(list.get(i).get("SCORE"));
+		}
 		
 		try {
 			

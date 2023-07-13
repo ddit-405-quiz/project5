@@ -28,6 +28,7 @@ public class QuizService {
 	UserService userService = UserService.getInstance();
 	QuizDAO quizDAO = QuizDAO.getInstance();
 
+	
 	// 퀴즈 10개를 얻어오는 메소드
 	public List<Map<String, Object>> getQuiz(int genre) {
 
