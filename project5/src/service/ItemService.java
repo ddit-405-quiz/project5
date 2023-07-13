@@ -11,6 +11,7 @@ import util.GameManager;;
 public class ItemService {
 
 	static ItemService instance = null;
+
 	private ItemService() {
 	}
 
@@ -22,7 +23,6 @@ public class ItemService {
 
 	GameManager gameManager = GameManager.getInstance();
 	ItemDAO itemDAO = ItemDAO.getInstance();
-	
 
 	// itemNo의 아이템의 수량을 체크해주는 메소드
 	public Map<String, Object> checkItem(String userNo) {
@@ -30,8 +30,9 @@ public class ItemService {
 		return itemDAO.checkItem(sql);
 	}
 
-	/** 
+	/**
 	 * 매개변수 4개를 입력받고 userNo의 itemNo의 아이템을 quantity만큼 increase를 통해 더하거나 뺌
+	 * 
 	 * @param itemNo
 	 * @param quantity
 	 * @param userNo
@@ -53,9 +54,9 @@ public class ItemService {
 		}
 
 		String operator = increase ? "+" : "-";
-		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + operator + quantity + " WHERE USER_NO = "
-				+ userNo;
-		
+		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + operator + quantity
+				+ " WHERE USER_NO = " + userNo;
+
 		itemDAO.setUserItem(sql);
 	}
 
@@ -75,54 +76,6 @@ public class ItemService {
 		PrintUtil.bar2();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
-
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			// 아이템의 개수가 부족하면 if문 실행
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				PrintUtil.bar3();
-				return;
-			}
-			// 부족하지 않으면 아이템 사용
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
-			PrintUtil.bar3();
-			gameManager.useItem(View.ITEM_DOUBLE);
-			setUserItem(View.ITEM_DOUBLE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
-			break;
-		case 2:
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				PrintUtil.bar3();
-				return;
-			}
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
-			PrintUtil.bar3();
-			gameManager.useItem(View.ITEM_HINT);
-			setUserItem(View.ITEM_HINT, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
-			break;
-		case 3:
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				PrintUtil.bar3();
-				return;
-			}
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
-			PrintUtil.bar3();
-			gameManager.useItem(View.ITEM_LIFE);
-			setUserItem(View.ITEM_LIFE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
-			break;
-		case 4:
-			return;
-		default:
-			return;
 
 		try {
 			switch (ScanUtil.nextInt()) {
@@ -134,7 +87,7 @@ public class ItemService {
 				}
 				PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
 				gameManager.useItem(View.ITEM_DOUBLE);
-				itemDAO.decreaseItem(View.ITEM_DOUBLE);
+				setUserItem(View.ITEM_DOUBLE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 				break;
 			case 2:
 				if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
@@ -143,7 +96,7 @@ public class ItemService {
 				}
 				PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
 				gameManager.useItem(View.ITEM_HINT);
-				itemDAO.decreaseItem(View.ITEM_HINT);
+				setUserItem(View.ITEM_HINT, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 				break;
 			case 3:
 				if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
@@ -152,7 +105,7 @@ public class ItemService {
 				}
 				PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
 				gameManager.useItem(View.ITEM_LIFE);
-				itemDAO.decreaseItem(View.ITEM_LIFE);
+				setUserItem(View.ITEM_LIFE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 				break;
 			case 4:
 				PrintUtil.bar3();
@@ -166,7 +119,9 @@ public class ItemService {
 				return;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
+			PrintUtil.bar3();
+	        PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
 	        useItem(); // 예외 발생 시 홈 메인으로 돌아감
 
 		}

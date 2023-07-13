@@ -22,7 +22,7 @@ public class Controller {
 	public static void main(String[] args) {
 		new Controller().start();
 	}
-	
+
 	// 화면 이동을 제어하는 메소드, view의 값에 따라 이동하고 싶은 화면을 출력하는걸 무한반복한다
 	private void start() {
 
@@ -57,15 +57,15 @@ public class Controller {
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
-			case View.ADMIN_LOGIN:   
+			case View.ADMIN_LOGIN:
 				view = adminService.adminLogin();
 				break;
 			case View.ADMIN_MAIN:
 				view = adminMain();
 				break;
 			}
-			
 		}
+
 	}
 
 	// 홈메뉴
@@ -81,8 +81,8 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
-		try {			
+
+		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				return View.USER_LOGIN;
@@ -94,9 +94,11 @@ public class Controller {
 				return View.HOME;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");	        
-	        return View.HOME; // 예외 발생 시 홈 메인으로 돌아감
-	    }
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.HOME; // 예외 발생 시 홈 메인으로 돌아감
+		}
 	}
 
 	// 메인메뉴
@@ -112,7 +114,7 @@ public class Controller {
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
 
-		try {			
+		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				return View.QUIZ_START;
@@ -129,14 +131,16 @@ public class Controller {
 //				return View.USER_LOGOUT;
 			default:
 				return View.QUIZ;
-			
-	        }		
+
+			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.HOME_MAIN; // 예외 발생 시 홈 메인으로 돌아감
-	    }		
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.HOME_MAIN; // 예외 발생 시 홈 메인으로 돌아감
+		}
 	}
-	
+
 	// 상점 이용
 	private int shopMain() {
 		PrintUtil.bar();
@@ -151,89 +155,99 @@ public class Controller {
 		PrintUtil.bar2();
 		String userNo = userService.getUserInfo().get("USER_NO").toString();
 		PrintUtil.centerAlignment("보유중인 아이템 ");
-		PrintUtil.centerAlignment("점수2배 : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") 
-						 + "    초성힌트 : " + itemService.checkItem(userNo).get("ITEM_HINT")  
-						 + "    목숨 +2 : " + itemService.checkItem(userNo).get("ITEM_LIFE"));
+		PrintUtil.centerAlignment("점수2배 : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") + "    초성힌트 : "
+				+ itemService.checkItem(userNo).get("ITEM_HINT") + "    목숨 +2 : "
+				+ itemService.checkItem(userNo).get("ITEM_LIFE"));
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
+
 		int quantity = 0;
-		
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			System.out.println("몇개를 구매하시겠습니까?");
-			System.out.print("\n 【  선택  】 ");
-			quantity = ScanUtil.nextInt();
-			
-			if(userService.purchaseItem(200 * quantity)){
-				itemService.setUserItem(View.ITEM_DOUBLE, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
+
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				System.out.println("몇개를 구매하시겠습니까?");
+				System.out.print("\n 【  선택  】 ");
+				quantity = ScanUtil.nextInt();
+
+				if (userService.purchaseItem(200 * quantity)) {
+					itemService.setUserItem(View.ITEM_DOUBLE, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.bar3();
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("금액이 부족합니다");
+					PrintUtil.bar3();
+				}
+				break;
+			case 2:
+				System.out.println("몇개를 구매하시겠습니까?");
+				System.out.print("\n 【  선택  】 ");
+				quantity = ScanUtil.nextInt();
+
+				if (userService.purchaseItem(100 * quantity)) {
+					itemService.setUserItem(View.ITEM_HINT, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.bar3();
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("금액이 부족합니다");
+					PrintUtil.bar3();
+				}
+				break;
+			case 3:
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
+				PrintUtil.centerAlignment("몇개를 구매하시겠습니까?");
 				PrintUtil.bar3();
-			} else {
+				System.out.print("\n 【  선택  】 ");
+				quantity = ScanUtil.nextInt();
+
+				if (userService.purchaseItem(100 * quantity)) {
+					itemService.setUserItem(View.ITEM_LIFE, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("목숨 +2를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.bar3();
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("금액이 부족합니다");
+					PrintUtil.bar3();
+				}
+				break;
+			case 4:
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("금액이 부족합니다");
+				PrintUtil.centerAlignment("아이템은 게임당 1번만 사용할 수 있으며 다음과 같은 효과를 가집니다");
+				System.out.println("\t\t점수 2배 : 게임이 끝날시 얻는 점수를 2배로 얻습니다");
+				System.out.println("\t\t초성힌트 : 사용시 해당 게임내내 초성 힌트를 얻습니다");
+				System.out.println("\t\t목숨 +2 : 시작하는 목숨의 개수가 2개 늘어납니다");
 				PrintUtil.bar3();
-			}
-			break;
-		case 2:
-			System.out.println("몇개를 구매하시겠습니까?");
-			System.out.print("\n 【  선택  】 ");
-			quantity = ScanUtil.nextInt();
-			
-			if(userService.purchaseItem(100 * quantity)){
-				itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
-				PrintUtil.bar3();
-			} else {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("금액이 부족합니다");
-				PrintUtil.bar3();
-			}
-			break;
-		case 3:
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("몇개를 구매하시겠습니까?");
-			PrintUtil.bar3();
-			System.out.print("\n 【  선택  】 ");
-			quantity = ScanUtil.nextInt();
-			
-			if(userService.purchaseItem(100 * quantity)){
-				itemService.setUserItem(View.ITEM_LIFE, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("목숨 +2를 " + quantity + "개 만큼 구매하였습니다");
-				PrintUtil.bar3();
-			} else {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("금액이 부족합니다");
-				PrintUtil.bar3();
-			}
-			break;
-		case 4:
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("아이템은 게임당 1번만 사용할 수 있으며 다음과 같은 효과를 가집니다");
-			PrintUtil.centerAlignment("점수2배 : 게임이 끝날시 얻는 점수를 2배로 얻습니다");
-			PrintUtil.centerAlignment("초성힌트 : 사용시 해당 게임내내 초성 힌트를 얻습니다");
-			PrintUtil.centerAlignment("목숨 +2 : 시작하는 목숨의 개수가 2개 늘어납니다");
-			PrintUtil.bar3();
-			break;
-		case 5:
-			return View.HOME_MAIN;
-		default:
-			return View.HOME_MAIN;
-		}
-		PrintUtil.bar3();
-		PrintUtil.centerAlignment("계속 구매 하시겠습니까? (y/n)");
-		PrintUtil.bar3();
-		switch (ScanUtil.nextLine()) {
-		case "y":
-			return View.SHOP_MAIN;
-		case "n":
-			return View.HOME_MAIN;
+				break;
+			case 5:
+				return View.HOME_MAIN;
 			default:
-		return View.HOME_MAIN;
+				return View.HOME_MAIN;
+			}
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("계속 구매 하시겠습니까? (y/n)");
+			PrintUtil.bar3();
+			switch (ScanUtil.nextLine()) {
+			case "y":
+				return View.SHOP_MAIN;
+			case "n":
+				return View.HOME_MAIN;
+			default:
+				return View.HOME_MAIN;
+			}
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.SHOP_MAIN;
 		}
 	}
 
@@ -249,8 +263,8 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
-		try {			
+
+		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				return quizService.startQuiz(1);
@@ -266,11 +280,13 @@ public class Controller {
 				return View.QUIZ;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.QUIZ_START; // 예외 발생 시 홈 메인으로 돌아감
-	    }				
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.QUIZ_START; // 예외 발생 시 홈 메인으로 돌아감
+		}
 	}
-	
+
 	// 관리자 로그인시 출력되는 화면
 	private int adminMain() {
 		PrintUtil.bar();
@@ -281,7 +297,7 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
+
 		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
@@ -297,10 +313,12 @@ public class Controller {
 				return View.ADMIN_MAIN;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.ADMIN_MAIN; // 예외 발생 시 홈 메인으로 돌아감
-	    }		
-		
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.ADMIN_MAIN; // 예외 발생 시 홈 메인으로 돌아감
+		}
+
 	}
 
 	// 문제 조회시 출력되는 화면
@@ -312,7 +330,7 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
+
 		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
@@ -332,10 +350,12 @@ public class Controller {
 			default:
 				return View.ADMIN_MAIN;
 			}
-		}	catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.QUIZ_MANAGE; // 예외 발생 시 홈 메인으로 돌아감
-	    }
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.QUIZ_MANAGE; // 예외 발생 시 홈 메인으로 돌아감
+		}
 
 	}
 
