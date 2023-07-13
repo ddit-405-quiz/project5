@@ -85,4 +85,14 @@ public class BoardDAO {
 	        return 0;
 	    }
 	}
+	
+	// 관리자 댓글 생성
+    public int createReply(Map<String, Object> reply) {
+        String sql = "INSERT INTO REPLY (REQ_NO, REQ_RESP) "
+                + "VALUES (?, ?)";
+        List<Object> params = new ArrayList<>();
+        params.add(reply.get("REQ_NO"));
+        params.add(reply.get("REQ_RESP"));
+        return jdbc.update(sql, params);
+    }
 }

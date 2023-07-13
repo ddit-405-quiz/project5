@@ -84,7 +84,7 @@ public class BoardService {
                 break;
             case 3:
                 return View.BOARD;
-            //관리자 전용 댓글 작성
+//            //관리자 전용 댓글 작성
 //            case 999:
 //            	if (SessionUtil.isAdmin()) {
 //                    return createReply(reqNo);
@@ -103,6 +103,7 @@ public class BoardService {
         return View.BOARD;
     }
     
+    //게시글 수정
     public int update(int reqNo) {
     	Map<String, Object> board = boardDAO.selectBoard(reqNo);
     	if (board == null) {
