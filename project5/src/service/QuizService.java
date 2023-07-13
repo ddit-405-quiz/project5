@@ -28,8 +28,7 @@ public class QuizService {
 	UserService userService = UserService.getInstance();
 	QuizDAO quizDAO = QuizDAO.getInstance();
 
-	
-	// ÄûÁî 10°³¸¦ ¾ò¾î¿À´Â ¸Ş¼Òµå
+	// í€´ì¦ˆ 10ê°œë¥¼ ì–»ì–´ì˜¤ëŠ” ë©”ì†Œë“œ
 	public List<Map<String, Object>> getQuiz(int genre) {
 
 		List<Map<String, Object>> quizList = new ArrayList<>();
@@ -39,71 +38,71 @@ public class QuizService {
 		return quizList;
 	}
 
-	// ÄûÁî½ÃÀÛ
+	// í€´ì¦ˆì‹œì‘
 	public int startQuiz(int genre) {
 
-		// ÄûÁî ½ÃÀÛ½Ã ¾ÆÀÌÅÛÀ» »ç¿ë
+		// í€´ì¦ˆ ì‹œì‘ì‹œ ì•„ì´í…œì„ ì‚¬ìš©
 		ItemService.getInstance().useItem();
 
-		// ³»°¡ ¸ÂÃá Á¤´äÀÇ °³¼ö, °ÔÀÓ ½ÃÀÛ½Ã 0À¸·Î ÃÊ±âÈ­ µÇ¸é¼­ Á¤´äÀ» ¸ÂÃâ¼ö·Ï 1¾¿ Áõ°¡
+		// ë‚´ê°€ ë§ì¶˜ ì •ë‹µì˜ ê°œìˆ˜, ê²Œì„ ì‹œì‘ì‹œ 0ìœ¼ë¡œ ì´ˆê¸°í™” ë˜ë©´ì„œ ì •ë‹µì„ ë§ì¶œìˆ˜ë¡ 1ì”© ì¦ê°€
 		gameManager.resetCorrectCount();
 
-		// ¸ñ¼ûÀº ÀÏ´Ü °ÔÀÓ ½ÃÀÛ½Ã 0À¸·Î ÃÊ±âÈ­ÇÏ°í
+		// ëª©ìˆ¨ì€ ì¼ë‹¨ ê²Œì„ ì‹œì‘ì‹œ 0ìœ¼ë¡œ ì´ˆê¸°í™”í•˜ê³ 
 		int life;
 
-		// useLife = booleanÅ¸ÀÔ ÀÎµ¥ useItem()¸Ş¼Òµå¿¡¼­ ¸ñ¼û+2 ¾ÆÀÌÅÛÀ» »ç¿ëÇÏ±â·Î Çß´Ù¸é ¸ñ¼ûÀÌ 4°³·Î, ¾Æ´Ï¸é 2°³·Î
-		// °ªÀ»ÁÜ
+		// useLife = booleaníƒ€ì… ì¸ë° useItem()ë©”ì†Œë“œì—ì„œ ëª©ìˆ¨+2 ì•„ì´í…œì„ ì‚¬ìš©í•˜ê¸°ë¡œ í–ˆë‹¤ë©´ ëª©ìˆ¨ì´ 4ê°œë¡œ, ì•„ë‹ˆë©´ 2ê°œë¡œ
+		// ê°’ì„ì¤Œ
 		if (gameManager.hasItem(View.ITEM_LIFE)) {
 			life = 4;
 		} else {
 			life = 2;
 		}
 
-		// quizList¶ó´Â ¸®½ºÆ®¸¦ ÇÏ³ª ¸¸µé°í
+		// quizListë¼ëŠ” ë¦¬ìŠ¤íŠ¸ë¥¼ í•˜ë‚˜ ë§Œë“¤ê³ 
 		List<Map<String, Object>> quizList = new ArrayList<>();
-		// quizList¿¡ getQuiz¸Ş¼Òµå·Î Àå¸£¸¦ Àü´ŞÇØÁÖ°í ÄûÁî 10°³¸¦ ¹Ş¾Æ¿È
+		// quizListì— getQuizë©”ì†Œë“œë¡œ ì¥ë¥´ë¥¼ ì „ë‹¬í•´ì£¼ê³  í€´ì¦ˆ 10ê°œë¥¼ ë°›ì•„ì˜´
 		quizList = getQuiz(genre);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 10; i++) {
 
-			// 2¹ø Æ²¸®¸é °ÔÀÓ¿À¹ö
+			// 2ë²ˆ í‹€ë¦¬ë©´ ê²Œì„ì˜¤ë²„
 			if (life <= 0) {
 				return View.QUIZ_FAIL;
 			}
 
 			PrintUtil.bar();
-			System.out.println("\t        Q" + (i + 1));
+			PrintUtil.centerAlignment("Q" + (i + 1));
 			PrintUtil.bar2();
-			System.out.println(quizList.get(i).get("QUIZ_DETAIL"));
+			PrintUtil.centerAlignment(quizList.get(i).get("QUIZ_DETAIL").toString());
 			if (gameManager.hasItem(View.ITEM_HINT)) {
-				PrintUtil.bar2();
-				System.out.println("ÃÊ¼ºÈùÆ® : " + quizList.get(i).get("QUIZ_HINT"));
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ : " + quizList.get(i).get("QUIZ_HINT"));
 			}
 			PrintUtil.bar();
-			System.out.print("\n ¡¼  Á¤´äÀÔ·Â ¡½ ");
+			System.out.print("\n ã€  ì •ë‹µì…ë ¥ ã€‘ ");
 			String answer = ScanUtil.nextLine();
 
 			if (answer.equals(quizList.get(i).get("QUIZ_ANSWER"))) {
-				PrintUtil.bar2();
-				System.out.println("\t          Á¤´äÀÔ´Ï´Ù!");
-				PrintUtil.bar2();
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("ì •ë‹µì…ë‹ˆë‹¤!");
+				PrintUtil.bar3();
 				gameManager.setCorrectCount();
 			} else {
-				PrintUtil.bar2();
-				System.out.println("\t          ¿À´äÀÔ´Ï´Ù!");
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("ì˜¤ë‹µì…ë‹ˆë‹¤!");
 				life--;
-				System.out.println("\t ³²Àº¸ñ¼û : " + life);
-				PrintUtil.bar2();
+				PrintUtil.centerAlignment("ë‚¨ì€ëª©ìˆ¨ : " + life);
+				PrintUtil.bar3();
 			}
 		}
 
 		return View.QUIZ_SUCCESS;
 	}
 
-	// ½ÇÆĞ½Ã ½ÇÇàµÇ´Â ¸Ş¼Òµå
+	// ì‹¤íŒ¨ì‹œ ì‹¤í–‰ë˜ëŠ” ë©”ì†Œë“œ
 	public int failMenu() {
 		PrintUtil.bar();
-		System.out.println("\t  ÄûÁî Ç®±â¿¡ ½ÇÆĞÇÏ¼Ì½À´Ï´Ù!");
+		PrintUtil.centerAlignment("í€´ì¦ˆ í’€ê¸°ì— ì‹¤íŒ¨í•˜ì…¨ìŠµë‹ˆë‹¤!");
 		PrintUtil.bar2();
 		if (gameManager.hasItem(View.ITEM_DOUBLE)) {
 			userService.setUserScore(gameManager.getCorrectCount() * 2);
@@ -112,28 +111,34 @@ public class QuizService {
 		}
 		userService.setUserGameMoney(gameManager.getCorrectCount() * 10);
 		Object score = userService.getUserInfo().get("USER_SCORE");
-		System.out.println("    ¸ÂÃá¹®Á¦   " + gameManager.getCorrectCount() + " / 10" + "       ³» Á¡¼ö : " + score);
+		PrintUtil.centerAlignment("ë§ì¶˜ë¬¸ì œ   " + gameManager.getCorrectCount() + " / 10" + "       ë‚´ ì ìˆ˜ : " + score);
 		PrintUtil.bar2();
-		System.out.println("\t¨ç ÄûÁîÇ®±â   ¨è ¸ŞÀÎ¸Ş´º   ");
+		PrintUtil.centerAlignment("â‘  í€´ì¦ˆí’€ê¸°   â‘¡ ë©”ì¸ë©”ë‰´   ");
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ ã€‘ ");
 
 		gameManager.resetItem();
 
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-		case 2:
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.QUIZ_START;
+			case 2:
+				return View.HOME_MAIN;
+			default:
+				return View.HOME_MAIN;
+			}
+		} catch (NumberFormatException e) {
+
 			return View.HOME_MAIN;
-		default:
-			return View.HOME_MAIN;
+			
 		}
 	}
 
-	// ¼º°ø½Ã ½ÇÇàµÇ´Â ¸Ş¼Òµå
+	// ì„±ê³µì‹œ ì‹¤í–‰ë˜ëŠ” ë©”ì†Œë“œ
 	public int success() {
 		PrintUtil.bar();
-		System.out.println("\t  ÄûÁî Ç®±â¿¡ ¼º°øÇÏ¼Ì½À´Ï´Ù!");
+		PrintUtil.centerAlignment("í€´ì¦ˆ í’€ê¸°ì— ì„±ê³µí•˜ì…¨ìŠµë‹ˆë‹¤!");
 		PrintUtil.bar2();
 		if (gameManager.hasItem(View.ITEM_DOUBLE)) {
 			userService.setUserScore(gameManager.getCorrectCount() * 2);
@@ -142,41 +147,45 @@ public class QuizService {
 		}
 		userService.setUserGameMoney(gameManager.getCorrectCount() * 10);
 		Object score = userService.getUserInfo().get("USER_SCORE");
-		System.out.println("    ¸ÂÃá¹®Á¦   " + gameManager.getCorrectCount() + " / 10" + "       ³» Á¡¼ö : " + score);
+		PrintUtil.centerAlignment("ë§ì¶˜ë¬¸ì œ   " + gameManager.getCorrectCount() + " / 10" + "       ë‚´ ì ìˆ˜ : " + score);
 		PrintUtil.bar2();
-		System.out.println("\t¨ç ÄûÁîÇ®±â   ¨è ¸ŞÀÎ¸Ş´º   ");
+		PrintUtil.centerAlignment("â‘  í€´ì¦ˆí’€ê¸°   â‘¡ ë©”ì¸ë©”ë‰´   ");
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ ã€‘ ");
 
 		gameManager.resetItem();
 
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-		case 2:
-			return View.HOME_MAIN;
-		default:
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.QUIZ_START;
+			case 2:
+				return View.HOME_MAIN;
+			default:
+				return View.HOME_MAIN;
+			}
+		} catch (NumberFormatException e) {
 			return View.HOME_MAIN;
 		}
 	}
 
-	// ¼±ÅÃÇÑ Àå¸£ÀÇ ¹®Á¦ º¸¿©ÁÖ±â
+	// ì„ íƒí•œ ì¥ë¥´ì˜ ë¬¸ì œ ë³´ì—¬ì£¼ê¸°
 	public void searchQuiz(int genre) {
 
 		List<Map<String, Object>> quizList = quizDAO.searchQuiz(genre);
 
 		switch (genre) {
 		case View.QUIZ_COMMON_SENSE:
-			System.out.println("»ó½Ä ÄûÁî ¸ñ·Ï");
+			PrintUtil.centerAlignment("ìƒì‹ í€´ì¦ˆ ëª©ë¡");
 			break;
 		case View.QUIZ_KOREAN:
-			System.out.println("¿ì¸®¸» ÄûÁî ¸ñ·Ï");
+			PrintUtil.centerAlignment("ìš°ë¦¬ë§ í€´ì¦ˆ ëª©ë¡");
 			break;
 		case View.QUIZ_HISTORY:
-			System.out.println("¿ª»ç ÄûÁî ¸ñ·Ï");
+			PrintUtil.centerAlignment("ì—­ì‚¬ í€´ì¦ˆ ëª©ë¡");
 			break;
 		case View.QUIZ_NONSENSE:
-			System.out.println("³Í¼¾½º ÄûÁî ¸ñ·Ï");
+			PrintUtil.centerAlignment("ë„Œì„¼ìŠ¤ í€´ì¦ˆ ëª©ë¡");
 			break;
 		}
 
@@ -186,9 +195,9 @@ public class QuizService {
 			int quizId = Integer.parseInt(quiz.get("QUIZ_NO").toString());
 			String question = (String) quiz.get("QUIZ_DETAIL");
 			String answer = (String) quiz.get("QUIZ_ANSWER");
-			System.out.println("¹®Á¦ ID: " + quizId);
-			System.out.println(" Áú¹®   : " + question);
-			System.out.println(" Á¤´ä   : " + answer);
+			PrintUtil.centerAlignment("ë¬¸ì œ ID : " + quizId);
+			PrintUtil.centerAlignment("ì§ˆë¬¸ : " + question);
+			PrintUtil.centerAlignment("ì •ë‹µ : " + answer);
 			System.out.println();
 		}
 	}

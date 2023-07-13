@@ -17,33 +17,13 @@ public class ItemDAO {
 	GameManager gameManager = GameManager.getInstance();
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 	
-	// itemNoÀÇ ¾ÆÀÌÅÛÀÇ ¼ö·®À» Ã¼Å©ÇØÁÖ´Â ¸Ş¼Òµå
+	// ì•„ì´í…œ ìˆ˜ëŸ‰ ì²´í¬ ì¿¼ë¦¬ ì§ˆë¬¸
 	public Map<String, Object> checkItem(String sql) {
 		return jdbc.selectOne(sql);
 	}
 	
-	public int increaseItem(String sql) {
-		return jdbc.update(sql);
-	}
-	
-	public int decreaseItem(int itemCode) {
-		
-		String itemName = "";
-		switch(itemCode) {
-		case View.ITEM_DOUBLE:
-			itemName = "ITEM_DOUBLE";
-			break;
-		case View.ITEM_HINT:
-			itemName = "ITEM_HINT";
-			break;
-		case View.ITEM_LIFE:
-			itemName = "ITEM_LIFE";
-			break;
-		}
-		
-		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " - 1 WHERE USER_NO = "
-				    + gameManager.getUserInfo().get("USER_NO");
-		
+	// ì•„ì´í…œ ìˆ˜ëŸ‰ ì¦ê°€ ì—…ë°ì´íŠ¸
+	public int setUserItem(String sql) {
 		return jdbc.update(sql);
 	}
 }

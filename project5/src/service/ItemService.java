@@ -10,7 +10,7 @@ import util.GameManager;;
 
 public class ItemService {
 
-	private static ItemService instance = null;
+	static ItemService instance = null;
 
 	private ItemService() {
 	}
@@ -23,83 +23,107 @@ public class ItemService {
 
 	GameManager gameManager = GameManager.getInstance();
 	ItemDAO itemDAO = ItemDAO.getInstance();
-	
 
-	// itemNoÀÇ ¾ÆÀÌÅÛÀÇ ¼ö·®À» Ã¼Å©ÇØÁÖ´Â ¸Ş¼Òµå
+	// itemNoì˜ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ì„ ì²´í¬í•´ì£¼ëŠ” ë©”ì†Œë“œ
 	public Map<String, Object> checkItem(String userNo) {
 		String sql = "SELECT * FROM ITEM " + "WHERE USER_NO = " + userNo;
 		return itemDAO.checkItem(sql);
 	}
 
-	// ¸Å°³º¯¼ö 2°³¸¦ ÀÔ·Â¹Ş°í itemNoÀÇ ¾ÆÀÌÅÛÀ» quantity¸¸Å­ ´õÇÔ
-	public void setUserItem(int itemNo, int quantity, String userNo) {
+	/**
+	 * ë§¤ê°œë³€ìˆ˜ 4ê°œë¥¼ ì…ë ¥ë°›ê³  userNoì˜ itemNoì˜ ì•„ì´í…œì„ quantityë§Œí¼ increaseë¥¼ í†µí•´ ë”í•˜ê±°ë‚˜ ëºŒ
+	 * 
+	 * @param itemNo
+	 * @param quantity
+	 * @param userNo
+	 * @param increase
+	 */
+	public void setUserItem(int itemNo, int quantity, String userNo, boolean increase) {
 
 		String itemName = "";
 		switch (itemNo) {
-		case 1:
+		case View.ITEM_DOUBLE:
 			itemName = "ITEM_DOUBLE";
 			break;
-		case 2:
+		case View.ITEM_HINT:
 			itemName = "ITEM_HINT";
 			break;
-		case 3:
+		case View.ITEM_LIFE:
 			itemName = "ITEM_LIFE";
 			break;
 		}
 
-		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + quantity + " WHERE USER_NO = "
-				+ userNo;
-		itemDAO.increaseItem(sql);
+		int operator = increase ? 1 : -1;
+		String sql = "UPDATE ITEM "
+				   + " SET " + itemName + "  =  " + itemName + " + " + quantity
+				   + " WHERE USER_NO = " + gameManager.getUserInfo().get("USER_NO");
+		itemDAO.setUserItem(sql);
 	}
 
-	// ¾ÆÀÌÅÛ »ç¿ëÇÏ´Â ¸Ş¼Òµå
+	/**
+	 * ì•„ì´í…œ ì‚¬ìš© ë©”ì†Œë“œ, ì‹¤í–‰ì‹œ ì•„ì´í…œì„ ì‚¬ìš©í• ê±´ì§€ ë¬¼ì–´ë³´ê³ , ì•„ì´í…œì¤‘ í•˜ë‚˜ë¥¼ ì‚¬ìš©í•˜ë©´ í•´ë‹¹ ì•„ì´í…œì˜ useItemì„ trueë¡œ ë³€ê²½í•œë‹¤
+	 */
 	public void useItem() {
 		PrintUtil.bar();
-		System.out.println("\t     ¾ÆÀÌÅÛ 1°³ ¼±ÅÃ");
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("ì•„ì´í…œ 1ê°œ ì„ íƒ");
 		PrintUtil.bar2();
 		String userNo = UserService.getInstance().getUserInfo().get("USER_NO").toString();
-		System.out.println("\t¨ç Á¡¼ö2¹è  : " + checkItem(userNo).get("ITEM_DOUBLE") + " °³ º¸À¯Áß ");
-		System.out.println("\t¨ç ÃÊ¼ºÈùÆ® : " + checkItem(userNo).get("ITEM_HINT") + " °³ º¸À¯Áß ");
-		System.out.println("\t¨ç ¸ñ¼û +2 : " + checkItem(userNo).get("ITEM_LIFE") + " °³ º¸À¯Áß ");
-		System.out.println("\t     ¨ç »ç¿ëÇÏÁö¾ÊÀ½");
+		System.out.println("\t\t     1.ì ìˆ˜2ë°°  : " + checkItem(userNo).get("ITEM_DOUBLE") + " ê°œ ë³´ìœ ì¤‘ ");
+		System.out.println("\t\t     2.ì´ˆì„±íŒíŠ¸ : " + checkItem(userNo).get("ITEM_HINT") + " ê°œ ë³´ìœ ì¤‘ ");
+		System.out.println("\t\t     3.ëª©ìˆ¨ +2 : " + checkItem(userNo).get("ITEM_LIFE") + " ê°œ ë³´ìœ ì¤‘ ");
+		System.out.println("\t\t     4.ì‚¬ìš©í•˜ì§€ì•ŠìŒ");
 		PrintUtil.bar2();
-		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			// ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÏ¸é
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
-				System.out.println("Á¡¼ö2¹è ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù, ¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê°í ½ÃÀÛÇÕ´Ï´Ù");
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				// ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•˜ë©´
+				if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
+					PrintUtil.centerAlignment("ì ìˆ˜2ë°° ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤, ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì‹œì‘í•©ë‹ˆë‹¤");
+					return;
+				}
+				PrintUtil.centerAlignment("ì ìˆ˜2ë°°ë¥¼ ì‚¬ìš©í•˜ì…¨ìŠµë‹ˆë‹¤!");
+				gameManager.useItem(View.ITEM_DOUBLE);
+				setUserItem(View.ITEM_DOUBLE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
+				break;
+			case 2:
+				if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
+					PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤, ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì‹œì‘í•©ë‹ˆë‹¤");
+					return;
+				}
+				PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ë¥¼ ì‚¬ìš©í•˜ì…¨ìŠµë‹ˆë‹¤!");
+				gameManager.useItem(View.ITEM_HINT);
+				setUserItem(View.ITEM_HINT, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
+				break;
+			case 3:
+				if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
+					PrintUtil.centerAlignment("ëª©ìˆ¨ +2 ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤, ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì‹œì‘í•©ë‹ˆë‹¤");
+					return;
+				}
+				PrintUtil.centerAlignment("ëª©ìˆ¨ +2ë¥¼ ì‚¬ìš©í•˜ì…¨ìŠµë‹ˆë‹¤!");
+				gameManager.useItem(View.ITEM_LIFE);
+				setUserItem(View.ITEM_LIFE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
+				break;
+			case 4:
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤");
+				PrintUtil.bar3();
+				return;
+			default:
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤");
+				PrintUtil.bar3();
 				return;
 			}
-			System.out.println("Á¡¼ö2¹è¸¦ »ç¿ëÇÏ¼Ì½À´Ï´Ù!");
-			gameManager.useItem(View.ITEM_DOUBLE);
-			itemDAO.decreaseItem(View.ITEM_DOUBLE);
-			break;
-		case 2:
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
-				System.out.println("ÃÊ¼ºÈùÆ® ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù, ¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê°í ½ÃÀÛÇÕ´Ï´Ù");
-				return;
-			}
-			System.out.println("ÃÊ¼ºÈùÆ®¸¦ »ç¿ëÇÏ¼Ì½À´Ï´Ù!");
-			gameManager.useItem(View.ITEM_HINT);
-			itemDAO.decreaseItem(View.ITEM_HINT);
-			break;
-		case 3:
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
-				System.out.println("¸ñ¼û +2 ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù, ¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê°í ½ÃÀÛÇÕ´Ï´Ù");
-				return;
-			}
-			System.out.println("¸ñ¼û +2¸¦ »ç¿ëÇÏ¼Ì½À´Ï´Ù!");
-			gameManager.useItem(View.ITEM_LIFE);
-			itemDAO.decreaseItem(View.ITEM_LIFE);
-			break;
-		case 4:
-			return;
-		default:
-			return;
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+	        PrintUtil.centerAlignment("ì˜¬ë°”ë¥¸ ìˆ«ìë¥¼ ì…ë ¥í•˜ì„¸ìš”");
+			PrintUtil.bar3();
+	        useItem(); // ì˜ˆì™¸ ë°œìƒ ì‹œ í™ˆ ë©”ì¸ìœ¼ë¡œ ëŒì•„ê°
+
 		}
 	}
 }
