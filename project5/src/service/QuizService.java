@@ -14,7 +14,10 @@ import util.GameManager;
 public class QuizService {
 
 	private static QuizService instance = null;
-	private QuizService() {}
+
+	private QuizService() {
+	}
+
 	public static QuizService getInstance() {
 		if (instance == null)
 			instance = new QuizService();
@@ -24,7 +27,6 @@ public class QuizService {
 	GameManager gameManager = GameManager.getInstance();
 	UserService userService = UserService.getInstance();
 	QuizDAO quizDAO = QuizDAO.getInstance();
-	
 
 	// 퀴즈 10개를 얻어오는 메소드
 	public List<Map<String, Object>> getQuiz(int genre) {
@@ -157,4 +159,36 @@ public class QuizService {
 		}
 	}
 
+	// 선택한 장르의 문제 보여주기
+	public void searchQuiz(int genre) {
+
+		List<Map<String, Object>> quizList = quizDAO.searchQuiz(genre);
+
+		switch (genre) {
+		case View.QUIZ_COMMON_SENSE:
+			System.out.println("상식 퀴즈 목록");
+			break;
+		case View.QUIZ_KOREAN:
+			System.out.println("우리말 퀴즈 목록");
+			break;
+		case View.QUIZ_HISTORY:
+			System.out.println("역사 퀴즈 목록");
+			break;
+		case View.QUIZ_NONSENSE:
+			System.out.println("넌센스 퀴즈 목록");
+			break;
+		}
+
+		quizList = quizDAO.searchQuiz(genre);
+
+		for (Map<String, Object> quiz : quizList) {
+			int quizId = Integer.parseInt(quiz.get("QUIZ_NO").toString());
+			String question = (String) quiz.get("QUIZ_DETAIL");
+			String answer = (String) quiz.get("QUIZ_ANSWER");
+			System.out.println("문제 ID: " + quizId);
+			System.out.println(" 질문   : " + question);
+			System.out.println(" 정답   : " + answer);
+			System.out.println();
+		}
+	}
 }

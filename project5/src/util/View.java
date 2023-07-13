@@ -10,6 +10,7 @@ public interface View {
 	int USER_LOGIN = 22;		//유저로그인
 	int USER_UPDATE = 23;		//유저 정보수정
 	int USER_LOGOUT = 24;		//로그아웃
+	int USER_MANAGE = 29;
 
 	
 	int ADMIN = 3;			
@@ -26,7 +27,7 @@ public interface View {
 	int QUIZ_KOREAN = 47;		 // 퀴즈 - 우리말
 	int QUIZ_COMMON_SENSE = 48;  // 퀴즈 - 상식
 	int QUIZ_HISTORY = 49;		 // 퀴즈 - 역사
-
+	int QUIZ_MANAGE = 499;		//퀴즈 - 문제조회 및 관리자 접근
 	
 	//게시판 혹은 유저가 관리자에게 요청사항 등  -- 수정필요
 	int BOARD = 5;
