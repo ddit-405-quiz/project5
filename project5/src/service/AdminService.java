@@ -44,13 +44,17 @@ public class AdminService {
 		
 		if(adminInfo != null) { //정상적 로그인 o
 			Controller.sessionStorage.put("adminInfo", adminInfo); 
+			PrintUtil.bar3();
 			PrintUtil.centerAlignment(adminInfo.get("ADMIN_NAME") + " 관리자님 환영합니다.");
 			PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
+			PrintUtil.bar3();
 			ScanUtil.nextLine();
 			return View.ADMIN_MAIN;
 
 		}  else { // 로그인x
-			System.out.println("관리자 로그인에 실패했습니다.");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("관리자 로그인에 실패했습니다.");
+			PrintUtil.bar3();
 
 			System.out.println();
 			return View.HOME;

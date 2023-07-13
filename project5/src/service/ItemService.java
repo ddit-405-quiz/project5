@@ -53,9 +53,9 @@ public class ItemService {
 			break;
 		}
 
-		int operator = increase ? 1 : -1;
+		String operator = increase ? "+": "-";
 		String sql = "UPDATE ITEM "
-				   + " SET " + itemName + "  =  " + itemName + " + " + quantity
+				   + " SET " + itemName + "  =  " + itemName + operator + quantity
 				   + " WHERE USER_NO = " + gameManager.getUserInfo().get("USER_NO");
 		itemDAO.setUserItem(sql);
 	}

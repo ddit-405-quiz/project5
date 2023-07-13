@@ -294,9 +294,11 @@ public class Controller {
 	// 관리자 로그인시 출력되는 화면
 	private int adminMain() {
 		PrintUtil.bar();
-		System.out.println("\t\tADMIN MAIN");
 		PrintUtil.bar2();
-		System.out.println("\t① 문제관리   ② 게시판   ③ 유저   ④ 로그아웃 ");
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("ADMIN MAIN");
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("1.문제관리   2.게시판   3.유저   4.로그아웃 ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -329,8 +331,11 @@ public class Controller {
 	public int questionList() {
 		System.out.println();
 		PrintUtil.bar();
-		System.out.println("\t\t퀴즈 목록");
-		System.out.println("  1. 상식 퀴즈 조회   2. 우리말 맞추기 문제 조회   3. 역사 퀴즈 조회    4. 넌센스 퀴즈 조회   5. 뒤로가기   ");
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("퀴즈 목록");
+		PrintUtil.bar2();
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("1.상식 퀴즈 조회   2.우리말 맞추기 문제 조회   3.역사 퀴즈 조회    4.넌센스 퀴즈 조회   5.뒤로가기");
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
