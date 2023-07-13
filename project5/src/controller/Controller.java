@@ -69,6 +69,9 @@ public class Controller {
 			case View.BOARD:
 				view = list();
 				break;
+			case View.MYPAGE:
+				view = mypage();
+				break;
 			}
 		}
 
@@ -128,8 +131,8 @@ public class Controller {
 				return View.BOARD;
 			case 3:
 				return View.QUIZ_MANAGE;
-//			case 4:
-//				return View.;
+			case 4:
+				return View.MYPAGE;
 			case 5:
 				return View.SHOP_MAIN;
 			case 6:
@@ -327,7 +330,7 @@ public class Controller {
 
 	}
 
-	// 문제 조회시 출력되는 화면
+	// 관리자 문제 조회시 출력되는 화면
 	public int questionList() {
 		System.out.println();
 		PrintUtil.bar();
@@ -478,4 +481,42 @@ public class Controller {
 	        }
 	    }
 	}
+	
+	//마이페이지 이용
+	public int mypage() {
+		System.out.println();
+		PrintUtil.bar();
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment(" MY PAGE ");
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("1. 회원 정보 수정  2. 회원 탈퇴  3. 뒤로가기");
+		System.out.println();
+		PrintUtil.bar();
+		System.out.print("\n 【  선택  】 ");
+		
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				userService.update();
+				return View.ADMIN_MAIN;
+			case 2:
+//				userService.searchQuiz(View.QUIZ_KOREAN);
+//				return View.ADMIN_MAIN;
+			case 3:
+				return View.HOME_MAIN;
+			default:
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+				PrintUtil.bar3();
+				return View.MYPAGE;
+			}
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.MYPAGE; // 예외 발생 시 홈 메인으로 돌아감
+		}
+	}
+	
+	
 }	            

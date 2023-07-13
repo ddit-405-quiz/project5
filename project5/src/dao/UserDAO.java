@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import service.LoginService;
+import service.UserService;
 import util.JDBCUtil;
+import util.ScanUtil;
 
 public class UserDAO {
 	
@@ -64,4 +67,17 @@ public class UserDAO {
 	public void setUserGameMoney(String sql) {
 		jdbc.update(sql);
 	}
+	
+	public int update(String str, String userid) {
+		String sql = "UPDATE tbl_member SET ";
+		sql = sql + str;
+		sql = sql + "WHERE MID = " + "'" + userid + "'";
+	}
+	
+		
+		
+//		USER_ID
+//		USER_PW
+//		USER_PH
+//		USER_NAME
 }

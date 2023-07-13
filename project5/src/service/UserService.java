@@ -64,8 +64,8 @@ public class UserService {
 
 		userInfo = userDAO.login(param);
 
-		if (userInfo != null) { // ������ �α��� o
-			// ���� �α��ε� ȸ���� USER_NO ����
+		if (userInfo != null) { //로그인o
+			
 			String userNo = (String) userInfo.get("USER_NO");
 			SessionUtil.setCurrentUserNo(userNo);
 
@@ -314,4 +314,58 @@ public class UserService {
 			return false;
 		}
 	}
+
+	//회원정보수정
+	public int update() {
+
+		Map<String, Object> userInfo = (Map<String, Object>) Controller.sessionStorage.get("loginInfo");
+		System.out.print("아이디를 입력하시오: ");
+		String userid = ScanUtil.nextLine();
+		
+		if(userInfo.get("USER_ID") != userid) {
+			System.out.println("변경 안돼 돌아가");
+			return View.MYPAGE_UPDATE;
+		} 
+		
+		//로그인 아이디랑 입력받은 아이디가 같으면 아래가 진행된다. 
+		
+		String userpw = "";
+		String name = "";
+		String telNum = "";
+		String str = "";
+		
+		System.out.println("<< 회원 정보 수정 >>");
+		
+		System.out.print("이름을 변경하겠습니까? ( y / n ) : ");
+		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
+			System.out.print("변경할 이름: ");
+			name = ScanUtil.nextLine();
+			str = str + " USER_NAME = '" + name + "' ,";
+		}
+		System.out.print("비밀번호를 변경하겠습니까? ( y / n ) : ");
+		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
+			System.out.print("변경할 비밀번호: ");
+			userpw = ScanUtil.nextLine();
+			str = str + " USER_PW = '" + userpw + "' ,";
+		}
+		System.out.print("전화번호를 변경하겠습니까? ( y / n ) : ");
+		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
+			System.out.print("변경할 전화번호: ");
+			telNum = ScanUtil.nextLine();
+			str = str + " USER_PH = '" + telNum + "' ,";
+		}
+		
+		int length = str.length();
+		if(length != 0) {
+			str = str.substring(0, length-2);
+		}
+		
+		return 0;
+	}
+	
+	//회원 탈퇴
+	
+	
+
+	
 }
