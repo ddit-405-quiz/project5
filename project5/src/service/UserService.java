@@ -43,6 +43,14 @@ public class UserService {
 		PrintUtil.loginScreen();
 		System.out.print("ID >> ");
 		String memId = ScanUtil.nextLine();
+		
+		//id확인
+		if(memId == null || !userDAO.checkId(memId)) {
+			System.out.println("해당 ID는 존재하지 않습니다.");
+			System.out.println();
+			return View.HOME;
+		}
+		
 		System.out.print("비밀번호 >> ");
 		String memPass = ScanUtil.nextLine();
 		

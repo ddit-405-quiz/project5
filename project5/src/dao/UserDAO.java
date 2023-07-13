@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,14 @@ public class UserDAO {
 							  "WHERE USER_NO = " + user_NO);
 	}
 
+	//id확인
+	public boolean checkId(String memId) {
+		String sql = "SELECT USER_NAME FROM USERS WHERE USER_ID = ?";
+		Map<String, Object> result = jdbc.selectOne(sql, Collections.singletonList(memId));
+		
+		return result != null;
+	}
+	
 	//로그인
 	public Map<String, Object> login(List<Object> param) { 
 		String sql = "SELECT * FROM USERS "

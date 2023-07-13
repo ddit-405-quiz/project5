@@ -17,6 +17,7 @@ public class Controller {
 	UserService userService = UserService.getInstance();
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
+	AdminService adminService = AdminService.getInstance();
 
 	public static void main(String[] args) {
 		new Controller().start();
@@ -41,6 +42,9 @@ public class Controller {
 			case View.USER_SIGNUP:
 				view = userService.signUp();
 				break;
+			case View.QUIZ_MANAGE:
+				view = questionList();
+				break;
 			case View.QUIZ_START:
 				view = quizMenu();
 				break;
@@ -53,6 +57,11 @@ public class Controller {
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
+			case View.ADMIN_LOGIN:   
+				view = adminService.adminLogin();
+				break;
+			case View.ADMIN_MAIN:
+				view = adminMain();
 			}
 		}
 	}
