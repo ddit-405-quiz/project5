@@ -63,7 +63,7 @@ public class QuizService {
 		// quizList에 getQuiz메소드로 장르를 전달해주고 퀴즈 10개를 받아옴
 		quizList = getQuiz(genre);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 10; i++) {
 
 			// 2번 틀리면 게임오버
 			if (life <= 0) {
@@ -71,12 +71,12 @@ public class QuizService {
 			}
 
 			PrintUtil.bar();
-			System.out.println("\t        Q" + (i + 1));
+			PrintUtil.centerAlignment("Q" + (i + 1));
 			PrintUtil.bar2();
-			System.out.println(quizList.get(i).get("QUIZ_DETAIL"));
+			PrintUtil.centerAlignment(quizList.get(i).get("QUIZ_DETAIL").toString());
 			if (gameManager.hasItem(View.ITEM_HINT)) {
 				PrintUtil.bar2();
-				System.out.println("초성힌트 : " + quizList.get(i).get("QUIZ_HINT"));
+				PrintUtil.centerAlignment("초성힌트 : " + quizList.get(i).get("QUIZ_HINT"));
 			}
 			PrintUtil.bar();
 			System.out.print("\n 【  정답입력 】 ");
@@ -84,14 +84,14 @@ public class QuizService {
 
 			if (answer.equals(quizList.get(i).get("QUIZ_ANSWER"))) {
 				PrintUtil.bar2();
-				System.out.println("\t          정답입니다!");
+				PrintUtil.centerAlignment("정답입니다!");
 				PrintUtil.bar2();
 				gameManager.setCorrectCount();
 			} else {
 				PrintUtil.bar2();
-				System.out.println("\t          오답입니다!");
+				PrintUtil.centerAlignment("오답입니다!");
 				life--;
-				System.out.println("\t 남은목숨 : " + life);
+				PrintUtil.centerAlignment("남은목숨 : " + life);
 				PrintUtil.bar2();
 			}
 		}
@@ -102,7 +102,7 @@ public class QuizService {
 	// 실패시 실행되는 메소드
 	public int failMenu() {
 		PrintUtil.bar();
-		System.out.println("\t  퀴즈 풀기에 실패하셨습니다!");
+		PrintUtil.centerAlignment("퀴즈 풀기에 실패하셨습니다!");
 		PrintUtil.bar2();
 		if (gameManager.hasItem(View.ITEM_DOUBLE)) {
 			userService.setUserScore(gameManager.getCorrectCount() * 2);
@@ -111,9 +111,9 @@ public class QuizService {
 		}
 		userService.setUserGameMoney(gameManager.getCorrectCount() * 10);
 		Object score = userService.getUserInfo().get("USER_SCORE");
-		System.out.println("    맞춘문제   " + gameManager.getCorrectCount() + " / 10" + "       내 점수 : " + score);
+		PrintUtil.centerAlignment("맞춘문제   " + gameManager.getCorrectCount() + " / 10" + "       내 점수 : " + score);
 		PrintUtil.bar2();
-		System.out.println("\t① 퀴즈풀기   ② 메인메뉴   ");
+		PrintUtil.centerAlignment("① 퀴즈풀기   ② 메인메뉴   ");
 		PrintUtil.bar();
 		System.out.print("\n 【  선택 】 ");
 
@@ -132,7 +132,7 @@ public class QuizService {
 	// 성공시 실행되는 메소드
 	public int success() {
 		PrintUtil.bar();
-		System.out.println("\t  퀴즈 풀기에 성공하셨습니다!");
+		PrintUtil.centerAlignment("퀴즈 풀기에 성공하셨습니다!");
 		PrintUtil.bar2();
 		if (gameManager.hasItem(View.ITEM_DOUBLE)) {
 			userService.setUserScore(gameManager.getCorrectCount() * 2);
@@ -141,9 +141,9 @@ public class QuizService {
 		}
 		userService.setUserGameMoney(gameManager.getCorrectCount() * 10);
 		Object score = userService.getUserInfo().get("USER_SCORE");
-		System.out.println("    맞춘문제   " + gameManager.getCorrectCount() + " / 10" + "       내 점수 : " + score);
+		PrintUtil.centerAlignment("맞춘문제   " + gameManager.getCorrectCount() + " / 10" + "       내 점수 : " + score);
 		PrintUtil.bar2();
-		System.out.println("\t① 퀴즈풀기   ② 메인메뉴   ");
+		PrintUtil.centerAlignment("① 퀴즈풀기   ② 메인메뉴   ");
 		PrintUtil.bar();
 		System.out.print("\n 【  선택 】 ");
 
@@ -166,16 +166,16 @@ public class QuizService {
 
 		switch (genre) {
 		case View.QUIZ_COMMON_SENSE:
-			System.out.println("상식 퀴즈 목록");
+			PrintUtil.centerAlignment("상식 퀴즈 목록");
 			break;
 		case View.QUIZ_KOREAN:
-			System.out.println("우리말 퀴즈 목록");
+			PrintUtil.centerAlignment("우리말 퀴즈 목록");
 			break;
 		case View.QUIZ_HISTORY:
-			System.out.println("역사 퀴즈 목록");
+			PrintUtil.centerAlignment("역사 퀴즈 목록");
 			break;
 		case View.QUIZ_NONSENSE:
-			System.out.println("넌센스 퀴즈 목록");
+			PrintUtil.centerAlignment("넌센스 퀴즈 목록");
 			break;
 		}
 
@@ -185,9 +185,9 @@ public class QuizService {
 			int quizId = Integer.parseInt(quiz.get("QUIZ_NO").toString());
 			String question = (String) quiz.get("QUIZ_DETAIL");
 			String answer = (String) quiz.get("QUIZ_ANSWER");
-			System.out.println("문제 ID: " + quizId);
-			System.out.println(" 질문   : " + question);
-			System.out.println(" 정답   : " + answer);
+			PrintUtil.centerAlignment("문제 ID : " + quizId);
+			PrintUtil.centerAlignment("질문 : " + question);
+			PrintUtil.centerAlignment("정답 : " + answer);
 			System.out.println();
 		}
 	}
