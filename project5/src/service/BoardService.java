@@ -93,7 +93,6 @@ public class BoardService {
         return View.BOARD;
     }
     
-    // �Խñ� ����
     public int update(int reqNo) {
         Map<String, Object> board = boardDAO.selectBoard(reqNo);
         	if (board == null) {

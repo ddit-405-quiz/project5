@@ -14,6 +14,7 @@ public class Controller {
 
 	public static Map<String, Object> sessionStorage = new HashMap<>();
 
+	GameManager gameManager = GameManager.getInstance();
 	UserService userService = UserService.getInstance();
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
@@ -177,8 +178,7 @@ public class Controller {
 				quantity = ScanUtil.nextInt();
 
 				if (userService.purchaseItem(200 * quantity)) {
-					itemService.setUserItem(View.ITEM_DOUBLE, quantity,
-							userService.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_DOUBLE, quantity, gameManager.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
@@ -194,8 +194,7 @@ public class Controller {
 				quantity = ScanUtil.nextInt();
 
 				if (userService.purchaseItem(100 * quantity)) {
-					itemService.setUserItem(View.ITEM_HINT, quantity,
-							userService.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();

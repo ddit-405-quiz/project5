@@ -15,7 +15,8 @@ public class QuizService {
 
 	private static QuizService instance = null;
 
-	private QuizService() {}
+	private QuizService() {
+	}
 
 	public static QuizService getInstance() {
 		if (instance == null)
@@ -118,13 +119,19 @@ public class QuizService {
 
 		gameManager.resetItem();
 
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-		case 2:
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.QUIZ_START;
+			case 2:
+				return View.HOME_MAIN;
+			default:
+				return View.HOME_MAIN;
+			}
+		} catch (NumberFormatException e) {
+
 			return View.HOME_MAIN;
-		default:
-			return View.HOME_MAIN;
+			
 		}
 	}
 
@@ -148,12 +155,16 @@ public class QuizService {
 
 		gameManager.resetItem();
 
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-		case 2:
-			return View.HOME_MAIN;
-		default:
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.QUIZ_START;
+			case 2:
+				return View.HOME_MAIN;
+			default:
+				return View.HOME_MAIN;
+			}
+		} catch (NumberFormatException e) {
 			return View.HOME_MAIN;
 		}
 	}

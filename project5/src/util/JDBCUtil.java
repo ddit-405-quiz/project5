@@ -44,7 +44,7 @@ public class JDBCUtil {
 			for (int i = 0; i < param.size(); i++) {
 				pstmt.setObject(i + 1, param.get(i));
 			}
-			rs = pstmt.executeQuery(); // �ϼ��� ���� ����
+			rs = pstmt.executeQuery(); 
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
 			while (rs.next()) {
