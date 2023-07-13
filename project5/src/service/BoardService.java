@@ -60,7 +60,7 @@ public class BoardService {
         System.out.println("내용: " + board.get("REQ_DETAIL"));
         System.out.println("작성자: " + board.get("REQ_WRITER"));
         PrintUtil.bar2();
-        System.out.println("① 수정 ② 삭제 ③ 뒤로가기");
+        PrintUtil.centerAlignment("1. 수정  2. 삭제  3. 뒤로가기");
         System.out.print("\n 【  선택  】");
 
         switch (ScanUtil.nextInt()) {
@@ -84,6 +84,16 @@ public class BoardService {
                 break;
             case 3:
                 return View.BOARD;
+            //관리자 전용 댓글 작성
+//            case 999:
+//            	if (SessionUtil.isAdmin()) {
+//                    return createReply(reqNo);
+//                } else {
+//                    PrintUtil.bar3();
+//                    PrintUtil.centerAlignment("관리자만 댓글 작성이 가능합니다.");
+//                    PrintUtil.bar3();
+//                }
+//                break;
             default:
             	PrintUtil.bar3();
     			PrintUtil.centerAlignment("잘못된 입력입니다.");
