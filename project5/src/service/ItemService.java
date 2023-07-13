@@ -10,8 +10,7 @@ import util.GameManager;;
 
 public class ItemService {
 
-	private static ItemService instance = null;
-
+	static ItemService instance = null;
 	private ItemService() {
 	}
 
@@ -66,40 +65,51 @@ public class ItemService {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			// 아이템의 개수가 부족하면
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
-				PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+		
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				// 아이템의 개수가 부족하면
+				if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
+					PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+					return;
+				}
+				PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
+				gameManager.useItem(View.ITEM_DOUBLE);
+				itemDAO.decreaseItem(View.ITEM_DOUBLE);
+				break;
+			case 2:
+				if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
+					PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+					return;
+				}
+				PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
+				gameManager.useItem(View.ITEM_HINT);
+				itemDAO.decreaseItem(View.ITEM_HINT);
+				break;
+			case 3:
+				if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
+					PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+					return;
+				}
+				PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
+				gameManager.useItem(View.ITEM_LIFE);
+				itemDAO.decreaseItem(View.ITEM_LIFE);
+				break;
+			case 4:
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("아이템을 사용하지 않습니다");
+				PrintUtil.bar3();
+				return;
+			default:
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("아이템을 사용하지 않습니다");
+				PrintUtil.bar3();
 				return;
 			}
-			PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
-			gameManager.useItem(View.ITEM_DOUBLE);
-			itemDAO.decreaseItem(View.ITEM_DOUBLE);
-			break;
-		case 2:
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
-				PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				return;
-			}
-			PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
-			gameManager.useItem(View.ITEM_HINT);
-			itemDAO.decreaseItem(View.ITEM_HINT);
-			break;
-		case 3:
-			if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
-				PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
-				return;
-			}
-			PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
-			gameManager.useItem(View.ITEM_LIFE);
-			itemDAO.decreaseItem(View.ITEM_LIFE);
-			break;
-		case 4:
-			return;
-		default:
-			return;
+		} catch (NumberFormatException e) {
+	        System.out.println("올바른 숫자를 입력하세요.");
+	        useItem(); // 예외 발생 시 홈 메인으로 돌아감
 		}
 	}
 }
