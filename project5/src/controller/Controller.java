@@ -18,11 +18,12 @@ public class Controller {
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
 	AdminService adminService = AdminService.getInstance();
+	BoardService boardService = BoardService.getInstance();
 
 	public static void main(String[] args) {
 		new Controller().start();
 	}
-	
+
 	// 화면 이동을 제어하는 메소드, view의 값에 따라 이동하고 싶은 화면을 출력하는걸 무한반복한다
 	private void start() {
 
@@ -57,15 +58,19 @@ public class Controller {
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
-			case View.ADMIN_LOGIN:   
+			case View.ADMIN_LOGIN:
 				view = adminService.adminLogin();
 				break;
 			case View.ADMIN_MAIN:
 				view = adminMain();
+			case View.USER_LOGOUT:
+				break;
+			case View.BOARD:
+				view = list();
 				break;
 			}
-			
 		}
+
 	}
 
 	// 홈메뉴
@@ -81,8 +86,8 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
-		try {			
+
+		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				return View.USER_LOGIN;
@@ -94,9 +99,11 @@ public class Controller {
 				return View.HOME;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");	        
-	        return View.HOME; // 예외 발생 시 홈 메인으로 돌아감
-	    }
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.HOME; // 예외 발생 시 홈 메인으로 돌아감
+		}
 	}
 
 	// 메인메뉴
@@ -112,12 +119,12 @@ public class Controller {
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
 
-		try {			
+		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				return View.QUIZ_START;
-//			case 2:
-//				return View.;
+			case 2:
+				return View.BOARD;
 //			case 3:
 //				return View.;
 //			case 4:
@@ -129,14 +136,16 @@ public class Controller {
 //				return View.USER_LOGOUT;
 			default:
 				return View.QUIZ;
-			
-	        }		
+
+			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.HOME_MAIN; // 예외 발생 시 홈 메인으로 돌아감
-	    }		
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.HOME_MAIN; // 예외 발생 시 홈 메인으로 돌아감
+		}
 	}
-	
+
 	// 상점 이용
 	private int shopMain() {
 		PrintUtil.bar();
@@ -151,89 +160,99 @@ public class Controller {
 		PrintUtil.bar2();
 		String userNo = userService.getUserInfo().get("USER_NO").toString();
 		PrintUtil.centerAlignment("보유중인 아이템 ");
-		PrintUtil.centerAlignment("점수2배 : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") 
-						 + "    초성힌트 : " + itemService.checkItem(userNo).get("ITEM_HINT")  
-						 + "    목숨 +2 : " + itemService.checkItem(userNo).get("ITEM_LIFE"));
+		PrintUtil.centerAlignment("점수2배 : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") + "    초성힌트 : "
+				+ itemService.checkItem(userNo).get("ITEM_HINT") + "    목숨 +2 : "
+				+ itemService.checkItem(userNo).get("ITEM_LIFE"));
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
+
 		int quantity = 0;
-		
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			System.out.println("몇개를 구매하시겠습니까?");
-			System.out.print("\n 【  선택  】 ");
-			quantity = ScanUtil.nextInt();
-			
-			if(userService.purchaseItem(200 * quantity)){
-				itemService.setUserItem(View.ITEM_DOUBLE, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
+
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				System.out.println("몇개를 구매하시겠습니까?");
+				System.out.print("\n 【  선택  】 ");
+				quantity = ScanUtil.nextInt();
+
+				if (userService.purchaseItem(200 * quantity)) {
+					itemService.setUserItem(View.ITEM_DOUBLE, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.bar3();
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("금액이 부족합니다");
+					PrintUtil.bar3();
+				}
+				break;
+			case 2:
+				System.out.println("몇개를 구매하시겠습니까?");
+				System.out.print("\n 【  선택  】 ");
+				quantity = ScanUtil.nextInt();
+
+				if (userService.purchaseItem(100 * quantity)) {
+					itemService.setUserItem(View.ITEM_HINT, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.bar3();
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("금액이 부족합니다");
+					PrintUtil.bar3();
+				}
+				break;
+			case 3:
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
+				PrintUtil.centerAlignment("몇개를 구매하시겠습니까?");
 				PrintUtil.bar3();
-			} else {
+				System.out.print("\n 【  선택  】 ");
+				quantity = ScanUtil.nextInt();
+
+				if (userService.purchaseItem(100 * quantity)) {
+					itemService.setUserItem(View.ITEM_LIFE, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("목숨 +2를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.bar3();
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("금액이 부족합니다");
+					PrintUtil.bar3();
+				}
+				break;
+			case 4:
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("금액이 부족합니다");
+				PrintUtil.centerAlignment("아이템은 게임당 1번만 사용할 수 있으며 다음과 같은 효과를 가집니다");
+				System.out.println("\t\t점수 2배 : 게임이 끝날시 얻는 점수를 2배로 얻습니다");
+				System.out.println("\t\t초성힌트 : 사용시 해당 게임내내 초성 힌트를 얻습니다");
+				System.out.println("\t\t목숨 +2 : 시작하는 목숨의 개수가 2개 늘어납니다");
 				PrintUtil.bar3();
-			}
-			break;
-		case 2:
-			System.out.println("몇개를 구매하시겠습니까?");
-			System.out.print("\n 【  선택  】 ");
-			quantity = ScanUtil.nextInt();
-			
-			if(userService.purchaseItem(100 * quantity)){
-				itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
-				PrintUtil.bar3();
-			} else {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("금액이 부족합니다");
-				PrintUtil.bar3();
-			}
-			break;
-		case 3:
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("몇개를 구매하시겠습니까?");
-			PrintUtil.bar3();
-			System.out.print("\n 【  선택  】 ");
-			quantity = ScanUtil.nextInt();
-			
-			if(userService.purchaseItem(100 * quantity)){
-				itemService.setUserItem(View.ITEM_LIFE, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("목숨 +2를 " + quantity + "개 만큼 구매하였습니다");
-				PrintUtil.bar3();
-			} else {
-				PrintUtil.bar3();
-				PrintUtil.centerAlignment("금액이 부족합니다");
-				PrintUtil.bar3();
-			}
-			break;
-		case 4:
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("아이템은 게임당 1번만 사용할 수 있으며 다음과 같은 효과를 가집니다");
-			PrintUtil.centerAlignment("점수2배 : 게임이 끝날시 얻는 점수를 2배로 얻습니다");
-			PrintUtil.centerAlignment("초성힌트 : 사용시 해당 게임내내 초성 힌트를 얻습니다");
-			PrintUtil.centerAlignment("목숨 +2 : 시작하는 목숨의 개수가 2개 늘어납니다");
-			PrintUtil.bar3();
-			break;
-		case 5:
-			return View.HOME_MAIN;
-		default:
-			return View.HOME_MAIN;
-		}
-		PrintUtil.bar3();
-		PrintUtil.centerAlignment("계속 구매 하시겠습니까? (y/n)");
-		PrintUtil.bar3();
-		switch (ScanUtil.nextLine()) {
-		case "y":
-			return View.SHOP_MAIN;
-		case "n":
-			return View.HOME_MAIN;
+				break;
+			case 5:
+				return View.HOME_MAIN;
 			default:
-		return View.HOME_MAIN;
+				return View.HOME_MAIN;
+			}
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("계속 구매 하시겠습니까? (y/n)");
+			PrintUtil.bar3();
+			switch (ScanUtil.nextLine()) {
+			case "y":
+				return View.SHOP_MAIN;
+			case "n":
+				return View.HOME_MAIN;
+			default:
+				return View.HOME_MAIN;
+			}
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.SHOP_MAIN;
 		}
 	}
 
@@ -249,8 +268,8 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
-		try {			
+
+		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				return quizService.startQuiz(1);
@@ -266,11 +285,13 @@ public class Controller {
 				return View.QUIZ;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.QUIZ_START; // 예외 발생 시 홈 메인으로 돌아감
-	    }				
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.QUIZ_START; // 예외 발생 시 홈 메인으로 돌아감
+		}
 	}
-	
+
 	// 관리자 로그인시 출력되는 화면
 	private int adminMain() {
 		PrintUtil.bar();
@@ -281,7 +302,7 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
+
 		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
@@ -297,10 +318,12 @@ public class Controller {
 				return View.ADMIN_MAIN;
 			}
 		} catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.ADMIN_MAIN; // 예외 발생 시 홈 메인으로 돌아감
-	    }		
-		
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.ADMIN_MAIN; // 예외 발생 시 홈 메인으로 돌아감
+		}
+
 	}
 
 	// 문제 조회시 출력되는 화면
@@ -312,7 +335,7 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-		
+
 		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
@@ -332,11 +355,116 @@ public class Controller {
 			default:
 				return View.ADMIN_MAIN;
 			}
-		}	catch (NumberFormatException e) {
-	        System.out.println("올바른 숫자를 입력하세요.");
-	        return View.QUIZ_MANAGE; // 예외 발생 시 홈 메인으로 돌아감
-	    }
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return View.QUIZ_MANAGE; // 예외 발생 시 홈 메인으로 돌아감
+		}
 
 	}
+	
+	//커뮤니티 이용
+	public int list() {
+	    int currentPage = 1; // 현재 페이지
+	    int totalPage = boardService.getTotalPage(); // 전체 페이지 수
+	    while (true) {
+	        PrintUtil.bar();
+	        PrintUtil.centerAlignment(" 【 게시물 목록 】 ");
+	        System.out.println("no\t\ttitle\t\twriter");
+	        
+	        List<Map<String, Object>> boardList = BoardService.getInstance().getBoardListByPage(currentPage);
+	        for (int i = 0; i < boardList.size(); i++) {
+	            Map<String, Object> map = boardList.get(i);
+	            System.out.print(map.get("REQ_NO")
+	                    + "\t\t" + map.get("REQ_TITLE")
+	                    + "\t\t" + map.get("REQ_WRITER"));
+	            System.out.println();
+	        }
+	        System.out.println();
+	        PrintUtil.bar();
+	        System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
+	        System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ⑥ 나의글보기  ");
+	        System.out.print("\n 【  선택  】 ");
 
-}
+	        switch (ScanUtil.nextInt()) {
+	            case 1:
+	                System.out.print("게시물 번호 입력: ");
+	                int reqNo = ScanUtil.nextInt();
+	                return boardService.read(reqNo);
+	            case 2:
+	                return boardService.create();
+	            case 3:
+	                return View.HOME_MAIN;
+	            case 4:
+	            	if(currentPage==1) {
+	            		PrintUtil.bar3();
+	        			PrintUtil.centerAlignment("이전 페이지가 없습니다");
+	        			PrintUtil.bar3();
+	            	}else {
+	            		currentPage--;
+	            	}
+	            	break;
+	            case 5:
+	            	if(currentPage==totalPage) {
+	            		PrintUtil.bar3();
+	        			PrintUtil.centerAlignment("다음 페이지가 없습니다");
+	        			PrintUtil.bar3();
+	            	}else {
+	            		currentPage++;
+	            	}
+	            	break;
+	            case 6:
+	            	int savedCurrentPage = currentPage;
+	                int savedTotalPage = totalPage;
+	            	
+	                currentPage=1;
+	                List<Map<String, Object>> myBoardList = new ArrayList<>();
+	            	String currentUserNo = SessionUtil.getCurrentUserNo();
+
+	            	for (int page = 1; page <= totalPage; page++) {
+	                    // 현재 페이지 정보 업데이트
+	                    currentPage = page;
+	                    boardList = boardService.getBoardListByPage(currentPage);
+
+	                    // 각 페이지의 글을 순회하면서 나의 글인지 확인하여 저장
+	                    for (Map<String, Object> board : boardList) {
+	                        String writerUserNo = board.get("USER_NO").toString();
+	                        if (currentUserNo.equals(writerUserNo)) {
+	                            myBoardList.add(board);
+	                        }
+	                    }
+	                }
+	            	PrintUtil.bar();
+	                System.out.println("【 나의 글 목록 】");
+	                System.out.println("no\t\ttitle\t\twriter");
+
+	                for (int i = 0; i < myBoardList.size(); i++) {
+	                    Map<String, Object> map = myBoardList.get(i);
+	                    System.out.print(map.get("REQ_NO")
+	                            + "\t\t" + map.get("REQ_TITLE")
+	                            + "\t\t" + map.get("REQ_WRITER"));
+	                    System.out.println();
+	                }
+	                System.out.println();
+	                PrintUtil.bar();
+	                System.out.println("① 뒤로가기");
+	                System.out.print("\n 【  선택  】  ");
+	                int choice = ScanUtil.nextInt();
+	                if (choice == 1) {
+	                    return View.BOARD;
+	                } else {
+	                	PrintUtil.bar3();
+	        			PrintUtil.centerAlignment("잘못된 입력입니다.");
+	        			PrintUtil.bar3();
+	                }
+	                break;
+	            default:
+	            	PrintUtil.bar3();
+        			PrintUtil.centerAlignment("잘못된 입력입니다.");
+        			PrintUtil.bar3();
+	                break;
+	        }
+	    }
+	}
+}	            

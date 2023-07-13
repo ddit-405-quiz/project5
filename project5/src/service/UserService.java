@@ -15,6 +15,7 @@ import util.Connect;
 import util.JDBCUtil;
 import util.PrintUtil;
 import util.ScanUtil;
+import util.SessionUtil;
 import util.View;
 
 
@@ -61,7 +62,11 @@ public class UserService {
 		
 		userInfo = userDAO.login(param);
 		
-		if(userInfo != null) { //정상적 로그인 o
+		if(userInfo != null) { //������ �α��� o
+			// ���� �α��ε� ȸ���� USER_NO ����
+			String userNo = (String) userInfo.get("USER_NO");
+            SessionUtil.setCurrentUserNo(userNo);
+			
 			Controller.sessionStorage.put("loginInfo", userInfo); 
 			PrintUtil.bar3();
 			PrintUtil.centerAlignment(userInfo.get("USER_NAME") + "님 환영합니다.");
