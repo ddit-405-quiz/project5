@@ -65,11 +65,10 @@ public class ItemService {
 		String operator = increase ? "+": "-";
 
 		String sql = "UPDATE ITEM "
-
-				   + " SET " + itemName + "  =  " + itemName + " + " + quantity
+				   + " SET " + itemName + "  =  " + itemName + operator + quantity
 				   + " WHERE USER_NO = " + gameManager.getUserInfo().get("USER_NO");
+		System.out.println();
 
-		itemDAO.setUserItem(sql);
 	}
 
 	/**
@@ -94,28 +93,40 @@ public class ItemService {
 			case 1:
 				// 아이템의 개수가 부족하면
 				if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
+					PrintUtil.bar3();
 					PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+					PrintUtil.bar3();
 					return;
 				}
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
+				PrintUtil.bar3();
 				gameManager.useItem(View.ITEM_DOUBLE);
 				setUserItem(View.ITEM_DOUBLE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 				break;
 			case 2:
 				if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
+					PrintUtil.bar3();
 					PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+					PrintUtil.bar3();
 					return;
 				}
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
+				PrintUtil.bar3();
 				gameManager.useItem(View.ITEM_HINT);
 				setUserItem(View.ITEM_HINT, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 				break;
 			case 3:
 				if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
+					PrintUtil.bar3();
 					PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+					PrintUtil.bar3();
 					return;
 				}
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
+				PrintUtil.bar3();
 				gameManager.useItem(View.ITEM_LIFE);
 				setUserItem(View.ITEM_LIFE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 				break;
