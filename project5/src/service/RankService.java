@@ -5,6 +5,8 @@ import java.util.Map;
 
 import dao.RankDAO;
 import util.PrintUtil;
+import util.ScanUtil;
+import util.View;
 
 
 public class RankService {
@@ -20,23 +22,26 @@ public class RankService {
 	RankDAO rankDAO = RankDAO.getInstance();
 	
 	
-	public void rankingPage() {
+	public int rankingPage() {
 		
-		List<Map<String, Object>> quizList = rankDAO.getRank();
+		List<Map<String, Object>> rankList = rankDAO.getRank();
 		
 		PrintUtil.bar();
-		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
+		System.out.println();
+		PrintUtil.centerAlignment("\t R  A  N  K  I  N  G");
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment("      ����          ����          ����      ");
+		PrintUtil.centerAlignment("\t\t\t    순위                           유저                         총점");
 		
-		for (Map<String, Object> quiz : quizList) {
-			int rank = Integer.parseInt(quiz.get("RANK").toString());
-			String ranker = (String) quiz.get("USER_NO");
-			int score = Integer.parseInt(quiz.get("USER_SCORE").toString());
-			System.out.print("\t" + rank + "\t");
-			System.out.print(ranker+ "\t");
-			System.out.println(score+ "\t");
+		for (Map<String, Object> ranking : rankList) {
+			int rank = Integer.parseInt(ranking.get("RANK").toString());
+			String ranker = (String) ranking.get("USER_NAME");
+			int score = Integer.parseInt(ranking.get("USER_SCORE").toString());
+			PrintUtil.centerAlignment(rank + "\t\t" + ranker + "\t\t" + score);
 			System.out.println();
 		}
+		System.out.println();
+		PrintUtil.centerAlignment("이전 화면으로 이동하려면 Enter 키를 입력하세요.");
+		ScanUtil.nextLine();
+		return View.RANKING;
 	}
 }

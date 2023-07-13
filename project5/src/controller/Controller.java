@@ -70,7 +70,7 @@ public class Controller {
 				view = rankingMain();
 				break;
 			case View.RANKING_ALL:
-				view = rankingMain();
+				view = rankService.rankingPage();
 				break;
 			case View.USER_LOGOUT:
 				break;
@@ -143,6 +143,8 @@ public class Controller {
 			case 6:
 				return View.HOME;
 //				return View.USER_LOGOUT;
+			case 7:
+				return View.RANKING;
 			default:
 				return View.QUIZ;
 
@@ -373,13 +375,16 @@ public class Controller {
 	
 	private int rankingMain() {
 		PrintUtil.bar();
+		System.out.println();
+		System.out.println();
 		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment(" 1. ��ü��ŷ 2. �������ѷ�ŷ 3. �ڷΰ���   ");
+		System.out.println();
+		PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ��  ����  �� ");
+		System.out.print("\n 【  선택  】 ");
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
