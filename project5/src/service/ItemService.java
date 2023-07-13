@@ -55,13 +55,13 @@ public class ItemService {
 	// 아이템 사용하는 메소드
 	public void useItem() {
 		PrintUtil.bar();
-		System.out.println("\t     아이템 1개 선택");
+		PrintUtil.centerAlignment("아이템 1개 선택");
 		PrintUtil.bar2();
 		String userNo = UserService.getInstance().getUserInfo().get("USER_NO").toString();
-		System.out.println("\t① 점수2배  : " + checkItem(userNo).get("ITEM_DOUBLE") + " 개 보유중 ");
-		System.out.println("\t① 초성힌트 : " + checkItem(userNo).get("ITEM_HINT") + " 개 보유중 ");
-		System.out.println("\t① 목숨 +2 : " + checkItem(userNo).get("ITEM_LIFE") + " 개 보유중 ");
-		System.out.println("\t     ① 사용하지않음");
+		PrintUtil.centerAlignment("점수2배  : " + checkItem(userNo).get("ITEM_DOUBLE") + " 개 보유중 ");
+		PrintUtil.centerAlignment("초성힌트 : " + checkItem(userNo).get("ITEM_HINT") + " 개 보유중 ");
+		PrintUtil.centerAlignment("목숨 +2 : " + checkItem(userNo).get("ITEM_LIFE") + " 개 보유중 ");
+		PrintUtil.centerAlignment("사용하지않음");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -71,28 +71,28 @@ public class ItemService {
 		case 1:
 			// 아이템의 개수가 부족하면
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
-				System.out.println("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+				PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
 				return;
 			}
-			System.out.println("점수2배를 사용하셨습니다!");
+			PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
 			gameManager.useItem(View.ITEM_DOUBLE);
 			itemDAO.decreaseItem(View.ITEM_DOUBLE);
 			break;
 		case 2:
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
-				System.out.println("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+				PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
 				return;
 			}
-			System.out.println("초성힌트를 사용하셨습니다!");
+			PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
 			gameManager.useItem(View.ITEM_HINT);
 			itemDAO.decreaseItem(View.ITEM_HINT);
 			break;
 		case 3:
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
-				System.out.println("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+				PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
 				return;
 			}
-			System.out.println("목숨 +2를 사용하셨습니다!");
+			PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
 			gameManager.useItem(View.ITEM_LIFE);
 			itemDAO.decreaseItem(View.ITEM_LIFE);
 			break;
