@@ -13,25 +13,38 @@ public class GameManager {
 		return instance;
 	}
 	
-	// ÇöÀç ·Î±×ÀÎÇÑ À¯Àú Á¤º¸¸¦ ¹İÈ¯
+	/**
+	 * í˜„ì¬ ë¡œê·¸ì¸í•œ ì‚¬ìš©ìì˜ ì •ë³´ë“¤ì„ Map<String,Object>ë¡œ ë°˜í™˜
+	 * @return ì‚¬ìš©ìì˜ ì •ë³´ë“¤
+	 */
 	public Map<String, Object> getUserInfo(){
 		return UserService.getInstance().getUserInfo();
 	}
 
-	// ÇöÀç Á¤´ä °³¼ö È®ÀÎ º¯¼ö ¹× get, set ¸Ş¼Òµå
+	// í˜„ì¬ ì •ë‹µ ê°œìˆ˜ í™•ì¸ ë³€ìˆ˜ ë° get, set ë©”ì†Œë“œ
 	private int correctCount = 0;
+	/**
+	 * í˜„ì¬ ì •ë‹µì˜ ê°œìˆ˜ë¥¼ +1ì‹œí‚´
+	 */
 	public void setCorrectCount() {
 		correctCount++;
 	}
+	/**
+	 * í˜„ì¬ ì •ë‹µì˜ ê°œìˆ˜ë¥¼ ë°˜í™˜í•¨
+	 * @return correctCount
+	 */
 	public int getCorrectCount() {
 		return correctCount;
 	}
+	/**
+	 * í˜„ì¬ ì •ë‹µì˜ ê°œìˆ˜ë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”ì‹œí‚´
+	 */
 	public void resetCorrectCount() {
 		correctCount = 0;
 	}
 	
 	
-	// ÇöÀç ¾ÆÀÌÅÛ »ç¿ë À¯¹« È®ÀÎ º¯¼ö ¹× get, set ¸Ş¼Òµå
+	// í˜„ì¬ ì•„ì´í…œ ì‚¬ìš© ìœ ë¬´ í™•ì¸ ë³€ìˆ˜ ë° get, set ë©”ì†Œë“œ
 	private boolean useDouble = false;
 	private boolean useHint = false;
 	private boolean useLife = false;
@@ -47,7 +60,7 @@ public class GameManager {
 			useLife = true;
 			return;
 		default :
-			System.out.println("¿À·ù! ¾ÆÀÌÅÛ ¼±ÅÃ ¿À·ù");
+			System.out.println("ì˜¤ë¥˜! ì•„ì´í…œ ì„ íƒ ì˜¤ë¥˜");
 		}
 	}
 	public boolean hasItem(int itemCode) {
@@ -59,7 +72,7 @@ public class GameManager {
 		case View.ITEM_LIFE:
 			return useLife;
 		default :
-			System.out.println("¿À·ù! ¾ÆÀÌÅÛ ¼±ÅÃ ¿À·ù");
+			System.out.println("ì˜¤ë¥˜! ì•„ì´í…œ ì„ íƒ ì˜¤ë¥˜");
 			return false;
 		}
 	}

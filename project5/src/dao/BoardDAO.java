@@ -23,9 +23,9 @@ public class BoardDAO {
 		return jdbc.selectList(sql);				
 	}
 	
-	//°Ô½ÃÆÇ ¸®½ºÆ®
+	//ê²Œì‹œíŒ ë¦¬ìŠ¤íŠ¸
 	public Map<String, Object> selectBoard(int reqNo) {
-	    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER FROM REQUEST WHERE REQ_NO = ?";
+	    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER, USER_NO FROM REQUEST WHERE REQ_NO = ?";
 	    List<Object> params = new ArrayList<>();
 	    params.add(reqNo);
 	    List<Map<String, Object>> result = jdbc.selectList(sql, params);
@@ -36,7 +36,7 @@ public class BoardDAO {
 	    }
 	}
 	
-	//°Ô½Ã¹° ¼öÁ¤
+	//ê²Œì‹œë¬¼ ìˆ˜ì •
 	public int updateBoard(Map<String, Object> board) {
 		String sql = "UPDATE REQUEST SET REQ_TITLE=?, REQ_DETAIL=?, REQ_WRITER=? WHERE REQ_NO=?";
 		List<Object> params = new ArrayList<>();
@@ -47,7 +47,7 @@ public class BoardDAO {
 		return jdbc.update(sql, params);
 	}
 	
-	//°Ô½Ã¹° »èÁ¦
+	//ê²Œì‹œë¬¼ ì‚­ì œ
 	public int deleteBoard(int reqNo) {
 		String sql= "DELETE FROM REQUEST WHERE REQ_NO=?";
 		List<Object> params = new ArrayList<>();
@@ -55,7 +55,7 @@ public class BoardDAO {
 		return jdbc.update(sql, params);
 	}
 	
-	//°Ô½Ã±Û »ı¼º
+	//ê²Œì‹œê¸€ ìƒì„±
 	public int createBoard(Map<String, Object> board) {
 	    String sql = "INSERT INTO REQUEST (REQ_NO, REQ_TITLE, REQ_DETAIL, USER_NO, REQ_WRITER) "
 	            + "VALUES (fn_create_no, ?, ?, ?, ?)";
@@ -67,7 +67,6 @@ public class BoardDAO {
 	    return jdbc.update(sql, params);
 	}
 	
-	////////////////////////////////////////////////
 	public List<Map<String, Object>> getBoardListByPage(int start, int end) {
 	    String sql = "SELECT * FROM (SELECT ROWNUM AS rnum, A.* FROM (SELECT * FROM REQUEST ORDER BY REQ_NO ASC) A WHERE ROWNUM <= ?) WHERE rnum >= ?";
 	    List<Object> params = new ArrayList<>();
@@ -76,7 +75,7 @@ public class BoardDAO {
 	    return jdbc.selectList(sql, params);
 	}
 	
-	// °Ô½ÃÆÇÀÇ ·¹ÄÚµå ¼ö ¹İÈ¯
+	//ê²Œì‹œíŒì˜ ë ˆì½”ë“œ ìˆ˜ ë°˜í™˜
 	public int getTotalBoardCount() {
 	    String sql = "SELECT COUNT(*) FROM REQUEST";
 	    Map<String, Object> result = jdbc.selectOne(sql);

@@ -5,14 +5,11 @@ import java.util.*;
 import util.JDBCUtil;
 import util.View;
 
-// DB ÄûÁîÇ®¿¡ ¿¬µ¿ÇØ¼­ ÄûÁî ºĞ¾ßº°·Î ºÒ·¯¿À±â, Á¤´ä ºñ±³, ÈùÆ® Á¦°ø
+// DB í€´ì¦ˆí’€ì— ì—°ë™í•´ì„œ í€´ì¦ˆ ë¶„ì•¼ë³„ë¡œ ë¶ˆëŸ¬ì˜¤ê¸°, ì •ë‹µ ë¹„êµ, íŒíŠ¸ ì œê³µ
 public class QuizDAO {
 
 	private static QuizDAO instance = null;
-
-	private QuizDAO() {
-	}
-
+	private QuizDAO() {}
 	public static QuizDAO getInstance() {
 		if (instance == null)
 			instance = new QuizDAO();
@@ -21,30 +18,24 @@ public class QuizDAO {
 
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 
-	// Àå¸£ + ·£´ı¹øÈ£¸¦ Åä´ë·Î ÄûÁî¸¦ Áßº¹µÇÁö ¾Ê°Ô ·£´ıÀ¸·Î 10°³ »Ì¾Æ¿È
+	/**
+	 * ì…ë ¥ëœ ì¥ë¥´ë¥¼ ë°”íƒ•ìœ¼ë¡œ ëœë¤ìœ¼ë¡œ 10ê°œì˜ í€´ì¦ˆë¥¼ ë½‘ì•„ì˜¤ë©°, ë½‘ì•„ì˜¨ í€´ì¦ˆë“¤ì„ í…Œì´ë¸” ì •ë³´ë¥¼ ë¦¬í„´
+	 * @param í€´ì¦ˆì˜ ì¥ë¥´ ì…ë ¥
+	 * @return ë½‘ì•„ì˜¨ í€´ì¦ˆë“¤ì„ List<Map<String,Object>> íƒ€ì…ìœ¼ë¡œ ë°˜í™˜
+	 */
 	public List<Map<String, Object>> getQuiz(int genre) {
-
-		Set<Integer> quizNumbers = new HashSet<>();
-		List<Map<String, Object>> quizList = new ArrayList<>();
-
-		// °ãÄ¡Áö ¾Ê´Â ¹øÈ£ n°³ »ı¼º
-		while (quizNumbers.size() < 5) {
-			int number = (int) (Math.random() * 5) + 1;
-			quizNumbers.add(number);
-		}
-
-		// À§¿¡¼­ »ı¼ºµÈ ·£´ı ¹øÈ£¸¸Å­ ÄûÁî¸¦ °¡Á®¿È
-		for (Integer element : quizNumbers) {
-
-			String sql = "SELECT * FROM QUIZ " + "WHERE QUIZ_NO = " + genre + "000" + element;
-
-			quizList.add(jdbc.selectOne(sql));
-		}
-
-		return quizList;
+		
+		String sql = "SELECT DISTINCT * FROM (SELECT * FROM QUIZ ORDER BY DBMS_RANDOM.VALUE)" +
+					 " WHERE ROWNUM <= 10 AND SUBSTR(QUIZ_NO, 1, 1) = " + genre;
+		
+		return jdbc.selectAll(sql);
 	}
 
-	// ÄûÁî ¸ñ·Ï Á¶È¸
+	/**
+	 * ì…ë ¥ë°›ì€ ì¥ë¥´ë¥¼ í† ëŒ€ë¡œ í•´ë‹¹ ì¥ë¥´ì˜ í€´ì¦ˆë¥¼ ëª¨ë‘ Listì— ë‹´ì€ë‹¤ìŒ ë°˜í™˜
+	 * @param ì¡°íšŒí•˜ê³  ì‹¶ì€ ì¥ë¥´
+	 * @return í•´ë‹¹ ì¥ë¥´ì˜ ëª¨ë“  í€´ì¦ˆë¥¼ List<Map<String, Object>> íƒ€ì…ì— ë‹´ì•„ì„œ ë°˜í™˜
+	 */
 	public List<Map<String, Object>> searchQuiz(int genre) {
 		List<Map<String, Object>> quizList = new ArrayList<>();
 

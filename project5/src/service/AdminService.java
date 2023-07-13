@@ -22,7 +22,7 @@ public class AdminService {
 	
 	AdminDAO adminDAO = AdminDAO.getInstance();
 	
-	// À¯ÀúÀÇ Á¤º¸¸¦ ÀúÀåÇÏ°í, ¿ÜºÎ¿¡¼­ È®ÀÎÇÒ ¼ö ÀÖ°Ô ÇÏ±â À§ÇÑ º¯¼ö¿Í ¸Ş¼Òµå
+	// ìœ ì €ì˜ ì •ë³´ë¥¼ ì €ì¥í•˜ê³ , ì™¸ë¶€ì—ì„œ í™•ì¸í•  ìˆ˜ ìˆê²Œ í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ì™€ ë©”ì†Œë“œ
 		private Map<String, Object> adminInfo = null;
 		public Map<String, Object> getAdminInfo(){
 			return adminDAO.getAdminInfo(adminInfo.get("ADMIN_NO").toString());
@@ -33,7 +33,7 @@ public class AdminService {
 		PrintUtil.bar2();
 		System.out.print("ID >> ");
 		String adminId = ScanUtil.nextLine();
-		System.out.print("ºñ¹Ğ¹øÈ£ >> ");
+		System.out.print("ë¹„ë°€ë²ˆí˜¸ >> ");
 		String adminPass = ScanUtil.nextLine();
 		
 		List<Object> param = new ArrayList<>(); 
@@ -42,14 +42,16 @@ public class AdminService {
 		
 		adminInfo = adminDAO.adminlogin(param);
 		
-		if(adminInfo != null) { //Á¤»óÀû ·Î±×ÀÎ o
+		if(adminInfo != null) { //ì •ìƒì  ë¡œê·¸ì¸ o
 			Controller.sessionStorage.put("adminInfo", adminInfo); 
-			System.out.println(adminInfo.get("ADMIN_NAME") + " °ü¸®ÀÚ´Ô È¯¿µÇÕ´Ï´Ù.");
-			System.out.println("´ÙÀ½ È­¸éÀ¸·Î ÀÌµ¿ÇÏ·Á¸é Enter Å°¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			PrintUtil.centerAlignment(adminInfo.get("ADMIN_NAME") + " ê´€ë¦¬ìë‹˜ í™˜ì˜í•©ë‹ˆë‹¤.");
+			PrintUtil.centerAlignment("ë‹¤ìŒ í™”ë©´ìœ¼ë¡œ ì´ë™í•˜ë ¤ë©´ Enter í‚¤ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			ScanUtil.nextLine();
 			return View.ADMIN_MAIN;
-		} else { // ·Î±×ÀÎx
-			System.out.println("°ü¸®ÀÚ ·Î±×ÀÎ¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+
+		}  else { // ë¡œê·¸ì¸x
+			System.out.println("ê´€ë¦¬ì ë¡œê·¸ì¸ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+
 			System.out.println();
 			return View.HOME;
 		}

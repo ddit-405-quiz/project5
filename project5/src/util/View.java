@@ -2,44 +2,44 @@ package util;
 
 public interface View { 
 
-	int HOME = 1;				//°ÔÀÓÁ¢¼ÓÈ­¸é
-	int HOME_MAIN = 11;			//¸ÞÀÎÈ­¸é
+	int HOME = 1;				//ê²Œìž„ì ‘ì†í™”ë©´
+	int HOME_MAIN = 11;			//ë©”ì¸í™”ë©´
 	
 	int USER = 2;
-	int USER_SIGNUP = 21;		//È¸¿ø°¡ÀÔ
-	int USER_LOGIN = 22;		//À¯Àú·Î±×ÀÎ
-	int USER_UPDATE = 23;		//À¯Àú Á¤º¸¼öÁ¤
-	int USER_LOGOUT = 24;		//·Î±×¾Æ¿ô
+	int USER_SIGNUP = 21;		//íšŒì›ê°€ìž…
+	int USER_LOGIN = 22;		//ìœ ì €ë¡œê·¸ì¸
+	int USER_UPDATE = 23;		//ìœ ì € ì •ë³´ìˆ˜ì •
+	int USER_LOGOUT = 24;		//ë¡œê·¸ì•„ì›ƒ
 	int USER_MANAGE = 29;
 
 	
 	int ADMIN = 3;			
-	int ADMIN_LOGIN = 31;		//°ü¸®ÀÚ ·Î±×ÀÎ
-	int ADMIN_LOGOUT = 32;		//°ü¸®ÀÚ ·Î±×¾Æ¿ô
+	int ADMIN_LOGIN = 31;		//ê´€ë¦¬ìž ë¡œê·¸ì¸
+	int ADMIN_LOGOUT = 32;		//ê´€ë¦¬ìž ë¡œê·¸ì•„ì›ƒ
 	
 	int QUIZ = 4;
-	int QUIZ_CATEGORY = 41;		 // ÄûÁî - Ä«Å×°í¸® ¼±ÅÃ
-	int QUIZ_ITEM = 42;          // ÄûÁî - ¾ÆÀÌÅÛ »ç¿ë ¿©ºÎ
-	int QUIZ_START = 43;         // ÄûÁî - ½ÃÀÛ
-	int QUIZ_FAIL = 44;          // ÄûÁî - ½ÇÆÐ
-	int QUIZ_SUCCESS = 45;		 // ÄûÁî - ¼º°ø
-	int QUIZ_NONSENSE = 46;		 // ÄûÁî - ³Í¼¾½º
-	int QUIZ_KOREAN = 47;		 // ÄûÁî - ¿ì¸®¸»
-	int QUIZ_COMMON_SENSE = 48;  // ÄûÁî - »ó½Ä
-	int QUIZ_HISTORY = 49;		 // ÄûÁî - ¿ª»ç
-	int QUIZ_MANAGE = 499;		//ÄûÁî - ¹®Á¦Á¶È¸ ¹× °ü¸®ÀÚ Á¢±Ù
+	int QUIZ_CATEGORY = 41;		 // í€´ì¦ˆ - ì¹´í…Œê³ ë¦¬ ì„ íƒ
+	int QUIZ_ITEM = 42;          // í€´ì¦ˆ - ì•„ì´í…œ ì‚¬ìš© ì—¬ë¶€
+	int QUIZ_START = 43;         // í€´ì¦ˆ - ì‹œìž‘
+	int QUIZ_FAIL = 44;          // í€´ì¦ˆ - ì‹¤íŒ¨
+	int QUIZ_SUCCESS = 45;		 // í€´ì¦ˆ - ì„±ê³µ
+	int QUIZ_NONSENSE = 46;		 // í€´ì¦ˆ - ë„Œì„¼ìŠ¤
+	int QUIZ_KOREAN = 47;		 // í€´ì¦ˆ - ìš°ë¦¬ë§
+	int QUIZ_COMMON_SENSE = 48;  // í€´ì¦ˆ - ìƒì‹
+	int QUIZ_HISTORY = 49;		 // í€´ì¦ˆ - ì—­ì‚¬
+	int QUIZ_MANAGE = 499;		//í€´ì¦ˆ - ë¬¸ì œì¡°íšŒ ë° ê´€ë¦¬ìž ì ‘ê·¼
 	
-	//°Ô½ÃÆÇ È¤Àº À¯Àú°¡ °ü¸®ÀÚ¿¡°Ô ¿äÃ»»çÇ× µî  -- ¼öÁ¤ÇÊ¿ä
+	//ê²Œì‹œíŒ í˜¹ì€ ìœ ì €ê°€ ê´€ë¦¬ìžì—ê²Œ ìš”ì²­ì‚¬í•­ ë“±  -- ìˆ˜ì •í•„ìš”
 	int BOARD = 5;
 	
 	
 	int MYPAGE = 6;
-	int MYPAGE_FIND = 61;			//Ä£±¸Ã£±â
-	int MYPAGE_WRITE = 62;			//³»°¡ ÀÛ¼ºÇÑ ±Û
-	int MYPAGE_WRITE_UPDATE = 621;	//ÀÛ¼ºÇÑ ±Û ¼öÁ¤
-	int MYPAGE_WRITE_DELETE = 622;	//ÀÛ¼ºÇÑ ±Û »èÁ¦
-	int MYPAGE_UPDATE = 63;			//À¯Àú Á¤º¸ ¼öÁ¤
-	int MYPAGE_DELETE = 64;			//°èÁ¤»èÁ¦
+	int MYPAGE_FIND = 61;			//ì¹œêµ¬ì°¾ê¸°
+	int MYPAGE_WRITE = 62;			//ë‚´ê°€ ìž‘ì„±í•œ ê¸€
+	int MYPAGE_WRITE_UPDATE = 621;	//ìž‘ì„±í•œ ê¸€ ìˆ˜ì •
+	int MYPAGE_WRITE_DELETE = 622;	//ìž‘ì„±í•œ ê¸€ ì‚­ì œ
+	int MYPAGE_UPDATE = 63;			//ìœ ì € ì •ë³´ ìˆ˜ì •
+	int MYPAGE_DELETE = 64;			//ê³„ì •ì‚­ì œ
 	
 	int SHOP = 7;
 	int SHOP_MAIN = 71;
@@ -49,11 +49,11 @@ public interface View {
 	int ITEM_HINT = 82;
 	int ITEM_LIFE = 83;
 	
-	int ADMIN_MAIN = 9;			//°ü¸®ÀÚ ¸ÞÀÎ
-	int ADMIN_QUIZ = 91;		//°ü¸®ÀÚ
+	int ADMIN_MAIN = 9;			//ê´€ë¦¬ìž ë©”ì¸
+	int ADMIN_QUIZ = 91;		//ê´€ë¦¬ìž
 	int ADMIN_QUIZ_INSERT = 91;
 	
-	//°áÁ¦ °ü·ÃµÈ »óÁ¡ÀÌ³ª ¾ÆÀÌÅÛ
+	//ê²°ì œ ê´€ë ¨ëœ ìƒì ì´ë‚˜ ì•„ì´í…œ
 
 }
  

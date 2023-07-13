@@ -44,7 +44,7 @@ public class JDBCUtil {
 			for (int i = 0; i < param.size(); i++) {
 				pstmt.setObject(i + 1, param.get(i));
 			}
-			rs = pstmt.executeQuery(); // ¿Ï¼ºµÈ Äõ¸® ½ÇÇà
+			rs = pstmt.executeQuery(); // ï¿½Ï¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
 			while (rs.next()) {
@@ -67,7 +67,7 @@ public class JDBCUtil {
 		return row;
 	}
 
-	// ¸Å°³º¯¼ö·Î sql¹®À» Áà¼­ ÇÏ³ª ºÒ·¯¿À±ä°¡?
+	//ë§¤ê°œë³€ìˆ˜ë¡œ sqlë¬¸ì„ ì¤˜ì„œ í•˜ë‚˜ ë¶ˆëŸ¬ì˜¤ê¸´ê°€?
 	public Map<String, Object> selectOne(String sql) {
 		Map<String, Object> row = null;
 		

@@ -3,12 +3,12 @@ package util;
 public class SessionUtil {
     private static String currentUserNo;
 
-    // ÇöÀç ·Î±×ÀÎµÈ È¸¿øÀÇ USER_NO ¼³Á¤
+    // í˜„ì¬ ë¡œê·¸ì¸ëœ íšŒì›ì˜ USER_NO ì„¤ì •
     public static void setCurrentUserNo(String userNo) {
         currentUserNo = userNo;
     }
 
-    // ÇöÀç ·Î±×ÀÎµÈ È¸¿øÀÇ USER_NO ¹İÈ¯
+    // í˜„ì¬ ë¡œê·¸ì¸ëœ íšŒì›ì˜ USER_NO ë°˜í™˜
     public static String getCurrentUserNo() {
         return currentUserNo;
     }

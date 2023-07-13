@@ -23,89 +23,99 @@ public class BoardService {
 
     private BoardDAO boardDAO = BoardDAO.getInstance();
        
-    // ÀüÃ¼ ÆäÀÌÁö ¼ö °è»ê
+    // ì „ì²´ í˜ì´ì§€ ìˆ˜ ê³„ì‚°
     public int getTotalPage() {
         int totalCount = BoardService.getInstance().getTotalBoardCount();
-        int pageSize = 5; // ÆäÀÌÁö´ç °Ô½Ã±Û ¼ö
+        int pageSize = 5; // í˜ì´ì§€ë‹¹ ê²Œì‹œê¸€ ìˆ˜
         return (int) Math.ceil((double) totalCount / pageSize);
     }     
     
-    // ÆäÀÌÁöº°·Î °Ô½Ã±Û ¸®½ºÆ® °¡Á®¿À±â
+    // í˜ì´ì§€ë³„ë¡œ ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
     public List<Map<String, Object>> getBoardListByPage(int page) {
-        int pageSize = 5; // ÆäÀÌÁö´ç °Ô½Ã±Û ¼ö
+        int pageSize = 5; // í˜ì´ì§€ë‹¹ ê²Œì‹œê¸€ ìˆ˜
         int start = (page - 1) * pageSize + 1;
         int end = start + pageSize - 1;
         return boardDAO.getBoardListByPage(start, end);
     }
 
-    // ÀüÃ¼ °Ô½Ã±Û ¼ö °¡Á®¿À±â
+    // ì „ì²´ ê²Œì‹œê¸€ ìˆ˜ ê°€ì ¸ì˜¤ê¸°
     public int getTotalBoardCount() {
         return boardDAO.getTotalBoardCount();
     }
     
-    //°Ô½Ã±Û »ó¼¼Á¶È¸
+    // ê²Œì‹œê¸€ ìƒì„¸ì¡°íšŒ
     public int read(int reqNo) {
         Map<String, Object> board = boardDAO.selectBoard(reqNo);
         if (board == null) {
-            System.out.println("Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+        	PrintUtil.bar3();
+			PrintUtil.centerAlignment("ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+			PrintUtil.bar3();
             return View.BOARD;
         }
 
         PrintUtil.bar();
-        System.out.println("[°Ô½Ã¹° Á¤º¸]");
-        System.out.println("¹øÈ£: " + board.get("REQ_NO"));
-        System.out.println("Á¦¸ñ: " + board.get("REQ_TITLE"));
-        System.out.println("³»¿ë: " + board.get("REQ_DETAIL"));
-        System.out.println("ÀÛ¼ºÀÚ: " + board.get("REQ_WRITER"));
+        System.out.println("ã€ ê²Œì‹œë¬¼ ì •ë³´ ã€‘");
+        System.out.println("ë²ˆí˜¸: " + board.get("REQ_NO"));
+        System.out.println("ì œëª©: " + board.get("REQ_TITLE"));
+        System.out.println("ë‚´ìš©: " + board.get("REQ_DETAIL"));
+        System.out.println("ì‘ì„±ì: " + board.get("REQ_WRITER"));
         PrintUtil.bar2();
-        System.out.println("¨ç ¼öÁ¤ ¨è »èÁ¦ ¨é µÚ·Î°¡±â");
-        System.out.print("¼±ÅÃ : ");
+        System.out.println("â‘  ìˆ˜ì • â‘¡ ì‚­ì œ â‘¢ ë’¤ë¡œê°€ê¸°");
+        System.out.print("\n ã€  ì„ íƒ  ã€‘");
 
         switch (ScanUtil.nextInt()) {
             case 1:
                 if (currentUser(reqNo)) {
                     return update(reqNo);
                 } else {
-                    System.out.println("º»ÀÎÀÌ ÀÛ¼ºÇÑ °Ô½Ã¹°ÀÌ ¾Æ´Õ´Ï´Ù.");
+                	PrintUtil.bar3();
+        			PrintUtil.centerAlignment("ë³¸ì¸ì´ ì‘ì„±í•œ ê²Œì‹œë¬¼ì´ ì•„ë‹™ë‹ˆë‹¤.");
+        			PrintUtil.bar3();
                 }
                 break;
             case 2:
                 if (currentUser(reqNo)) {
                     return delete(reqNo);
                 } else {
-                    System.out.println("º»ÀÎÀÌ ÀÛ¼ºÇÑ °Ô½Ã¹°ÀÌ ¾Æ´Õ´Ï´Ù.");
+                	PrintUtil.bar3();
+        			PrintUtil.centerAlignment("ë³¸ì¸ì´ ì‘ì„±í•œ ê²Œì‹œë¬¼ì´ ì•„ë‹™ë‹ˆë‹¤.");
+        			PrintUtil.bar3();
                 }
                 break;
             case 3:
                 return View.BOARD;
             default:
-                System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+            	PrintUtil.bar3();
+    			PrintUtil.centerAlignment("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.");
+    			PrintUtil.bar3();
                 break;
         }
         return View.BOARD;
     }
     
-    // °Ô½Ã±Û ¼öÁ¤
+    // ê²Œì‹œê¸€ ìˆ˜ì •
     public int update(int reqNo) {
-        Map<String, Object> board = boardDAO.selectBoard(reqNo);
-        	if (board == null) {
-        		System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â °Ô½Ã±ÛÀÔ´Ï´Ù.");
-        		return View.BOARD;
-        	}
+    	Map<String, Object> board = boardDAO.selectBoard(reqNo);
+    	if (board == null) {
+    	    PrintUtil.bar3();
+    	    PrintUtil.centerAlignment("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²Œì‹œê¸€ì…ë‹ˆë‹¤.");
+    	    PrintUtil.bar3();
+    	    return View.BOARD;
+    	}
 
         PrintUtil.bar();
-        System.out.println("[°Ô½Ã¹° ¼öÁ¤]");
+        System.out.println(" ã€ ê²Œì‹œë¬¼ ìˆ˜ì • ã€‘ ");
         PrintUtil.bar2();
-        System.out.print("¼öÁ¤ÇÒ Á¦¸ñ ÀÔ·Â: ");
+        System.out.print("ìˆ˜ì •í•  ì œëª© ì…ë ¥: ");
         String newTitle = ScanUtil.nextLine();
-        System.out.print("¼öÁ¤ÇÒ ³»¿ë ÀÔ·Â: ");
+        System.out.print("ìˆ˜ì •í•  ë‚´ìš© ì…ë ¥: ");
         String newContent = ScanUtil.nextLine();
-        System.out.print("¼öÁ¤ÇÒ ÀÛ¼ºÀÚ ÀÔ·Â: ");
+        System.out.print("ìˆ˜ì •í•  ì‘ì„±ì ì…ë ¥: ");
         String newWriter = ScanUtil.nextLine();
         PrintUtil.bar2();
         
-        System.out.println("Á¤¸»·Î ¼öÁ¤ÇÏ½Ã°Ú½À´Ï±î? (y / n)");
-    	System.out.print("ÀÔ·Â : ");
+        System.out.println("ì •ë§ë¡œ ìˆ˜ì •í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y / n)");
+    	System.out.print("\n ã€  ì„ íƒ  ã€‘");
     	String confirm=ScanUtil.nextLine();
         if(confirm.equalsIgnoreCase("y")) {
         	board.put("REQ_TITLE", newTitle);
@@ -114,52 +124,73 @@ public class BoardService {
         	
         	int result = boardDAO.updateBoard(board);
         	if (result > 0) {
-        		System.out.println("°Ô½Ã±ÛÀÌ ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+        		PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ì´ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
         	} else {
-        		System.out.println("°Ô½Ã±Û ¼öÁ¤¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+        		PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ ìˆ˜ì •ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
         	}
         	}else {
-        		System.out.println("°Ô½Ã±Û ¼öÁ¤À» Ãë¼ÒÇÏ¿´½À´Ï´Ù.");
+        		PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ ìˆ˜ì •ì„ ì·¨ì†Œí•˜ì˜€ìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
         	}
         	return View.BOARD;
     }
-    // °Ô½Ã±Û »èÁ¦
+    //ê²Œì‹œê¸€ ì‚­ì œ
     public int delete(int reqNo) {
-    	System.out.println("Á¤¸»·Î »èÁ¦ÇÏ½Ã°Ú½À´Ï±î? (y / n)");
-    	System.out.print("ÀÔ·Â : ");
+    	///////////
+    	Map<String, Object> board = boardDAO.selectBoard(reqNo);
+    	if (board == null) {
+    	    PrintUtil.bar3();
+    	    PrintUtil.centerAlignment("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²Œì‹œê¸€ì…ë‹ˆë‹¤.");
+    	    PrintUtil.bar3();
+    	    return View.BOARD;
+    	}    	
+    	////////////
+    	System.out.println("ì •ë§ë¡œ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y / n)");
+    	System.out.print("\n ã€  ì„ íƒ  ã€‘");
     	String confirm=ScanUtil.nextLine();
     	if(confirm.equalsIgnoreCase("y")) {
     		int result = boardDAO.deleteBoard(reqNo);
     		if (result > 0) {
-    			System.out.println("°Ô½Ã±ÛÀÌ »èÁ¦µÇ¾ú½À´Ï´Ù.");
+    			PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ì´ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
     		} else {
-    			System.out.println("°Ô½Ã±Û »èÁ¦¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+    			PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ ì‚­ì œì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
     		}
     		} else {
-    			System.out.println("°Ô½Ã±Û »èÁ¦°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù");
+    			PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ ì‚­ì œê°€ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤");
+        		PrintUtil.bar3();
     		}
     		return View.BOARD;
     }
-    // °Ô½Ã±Û »ı¼º
+    //ê²Œì‹œê¸€ ìƒì„±
     public int create() {
         PrintUtil.bar();
-        System.out.println("[°Ô½Ã¹° »ı¼º]");
+        System.out.println(" ã€ ê²Œì‹œë¬¼ ìƒì„± ã€‘");
         PrintUtil.bar2();
 
-        // ÇöÀç ·Î±×ÀÎµÈ È¸¿øÀÇ USER_NO °¡Á®¿À±â
+        // í˜„ì¬ ë¡œê·¸ì¸ëœ íšŒì›ì˜ USER_NO ê°€ì ¸ì˜¤ê¸°
         String userNo = SessionUtil.getCurrentUserNo();
 
-        // Á¦¸ñ ÀÔ·Â ¹Ş±â
-        System.out.print("Á¦¸ñ ÀÔ·Â : ");
+        // ì œëª© ì…ë ¥ ë°›ê¸°
+        System.out.print("ì œëª© ì…ë ¥ : ");
         String title = ScanUtil.nextLine();
-        // ³»¿ë ÀÔ·Â ¹Ş±â
-        System.out.print("³»¿ë ÀÔ·Â : ");
+        // ë‚´ìš© ì…ë ¥ ë°›ê¸°
+        System.out.print("ë‚´ìš© ì…ë ¥ : ");
         String detail = ScanUtil.nextLine();
-        // ÀÛ¼ºÀÚ ÀÔ·Â ¹Ş±â
-        System.out.print("ÀÛ¼ºÀÚ ÀÔ·Â : ");
+        // ì‘ì„±ì ì…ë ¥ ë°›ê¸°
+        System.out.print("ì‘ì„±ì ì…ë ¥ : ");
         String writer = ScanUtil.nextLine();
         
-        // °Ô½Ã±Û »ı¼º
+        // ê²Œì‹œê¸€ ìƒì„±
         Map<String, Object> board = new HashMap<>();
         	board.put("REQ_TITLE", title);
         	board.put("REQ_DETAIL", detail);
@@ -168,23 +199,27 @@ public class BoardService {
         	int result = boardDAO.createBoard(board);
 
         	if (result > 0) {
-        		System.out.println("°Ô½Ã±ÛÀÌ »ı¼ºµÇ¾ú½À´Ï´Ù.");
+        		PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ì´ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
         	} else {
-        		System.out.println("°Ô½Ã±Û »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+        		PrintUtil.bar3();
+        		PrintUtil.centerAlignment("ê²Œì‹œê¸€ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+        		PrintUtil.bar3();
         	}
         	return View.BOARD;
     }
         
-    // °Ô½Ã±Û ÀÛ¼ºÀÚ°¡ ÇöÀç À¯ÀúÀÎÁö È®ÀÎ
+    //ê²Œì‹œê¸€ ì‘ì„±ìê°€ í˜„ì¬ ìœ ì €ì¸ì§€ í™•ì¸
     public boolean currentUser(int reqNo) {
         String currentUserNo = SessionUtil.getCurrentUserNo();
         Map<String, Object> board = boardDAO.selectBoard(reqNo);
         if (board == null) {
             return false;
         }
-        // ÀÛ¼ºÀÚÀÇ È¸¿ø¹øÈ£ °¡Á®¿À±â
-        String writerUserNo = board.get("REQ_WRITER").toString();
-        // ºñ±³
+        // ì‘ì„±ìì˜ íšŒì›ë²ˆí˜¸ ê°€ì ¸ì˜¤ê¸°
+        String writerUserNo = board.get("USER_NO").toString();
+        // ë¹„êµ
         return currentUserNo.equals(writerUserNo);
     }
 }
