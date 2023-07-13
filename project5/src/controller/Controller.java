@@ -390,8 +390,9 @@ public class Controller {
 	        System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
 	        System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ⑥ 나의글보기  ");
 	        System.out.print("\n 【  선택  】 ");
-
-	        switch (ScanUtil.nextInt()) {
+	        
+	        try {
+	        	switch (ScanUtil.nextInt()) {
 	            case 1:
 	                System.out.print("게시물 번호 입력: ");
 	                int reqNo = ScanUtil.nextInt();
@@ -468,6 +469,12 @@ public class Controller {
         			PrintUtil.centerAlignment("잘못된 입력입니다.");
         			PrintUtil.bar3();
 	                break;
+	        	}
+	        } catch (NumberFormatException e) {
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+				PrintUtil.bar3();
+				return View.BOARD; // 예외 발생 시 홈 메인으로 돌아감
 	        }
 	    }
 	}
