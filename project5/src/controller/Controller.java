@@ -42,9 +42,6 @@ public class Controller {
 			case View.USER_SIGNUP:
 				view = userService.signUp();
 				break;
-			case View.QUIZ_MANAGE:
-				view = questionList();
-				break;
 			case View.QUIZ_START:
 				view = quizMenu();
 				break;
