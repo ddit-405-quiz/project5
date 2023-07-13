@@ -18,8 +18,6 @@ import util.ScanUtil;
 import util.SessionUtil;
 import util.View;
 
-
-
 public class UserService {
 
 	private static UserService instance = null;
@@ -66,8 +64,8 @@ public class UserService {
 			// ���� �α��ε� ȸ���� USER_NO ����
 			String userNo = (String) userInfo.get("USER_NO");
             SessionUtil.setCurrentUserNo(userNo);
-			
-			Controller.sessionStorage.put("loginInfo", userInfo); 
+            
+			Controller.sessionStorage.put("loginInfo", userInfo);
 			PrintUtil.bar3();
 			PrintUtil.centerAlignment(userInfo.get("USER_NAME") + "님 환영합니다.");
 			PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");

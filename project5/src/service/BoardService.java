@@ -195,7 +195,7 @@ public class BoardService {
         	} else {
         		PrintUtil.bar3();
         		PrintUtil.centerAlignment("게시글 생성에 실패했습니다.");
-        		PrintUtil.bar3();
+        		PrintUtil.bar3(); 
         	}
         	return View.BOARD;
     }
