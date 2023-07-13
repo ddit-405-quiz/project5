@@ -215,7 +215,7 @@ public class BoardService {
         	return View.BOARD;
     }
         
-    //게시글 작성자가 현재 유저인지 확인
+  //게시글 작성자가 현재 유저인지 확인
     public boolean currentUser(int reqNo) {
         String currentUserNo = SessionUtil.getCurrentUserNo();
         Map<String, Object> board = boardDAO.selectBoard(reqNo);
