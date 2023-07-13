@@ -19,8 +19,10 @@ public class Controller {
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
 	AdminService adminService = AdminService.getInstance();
+	AdminBoardService adminBoardService = AdminBoardService.getInstance();
 	BoardService boardService = BoardService.getInstance();
-
+	
+	
 	public static void main(String[] args) {
 		new Controller().start();
 	}
@@ -69,6 +71,9 @@ public class Controller {
 			case View.BOARD:
 				view = list();
 				break;
+			case View.ADMIN_BOARD:
+				view= adminlist();
+                break;
 			}
 		}
 
@@ -309,7 +314,7 @@ public class Controller {
 			case 1:
 				return View.QUIZ_MANAGE;
 			case 2:
-				return View.BOARD;
+				return View.ADMIN_BOARD;
 			case 3:
 				return View.USER_MANAGE;
 			case 4:
@@ -327,6 +332,8 @@ public class Controller {
 
 	}
 
+	
+	
 	// 문제 조회시 출력되는 화면
 	public int questionList() {
 		System.out.println();
@@ -470,5 +477,38 @@ public class Controller {
 	                break;
 	        }
 	    }
+	}
+	
+	public int adminlist() {
+		while(true) {
+	        PrintUtil.bar();
+	        PrintUtil.centerAlignment(" 【 게시물 목록 】 ");
+	        System.out.println("no\t\ttitle\t\twriter");
+
+	        List<Map<String, Object>> boardList = adminBoardService.boardList();
+	        for (Map<String, Object> map : boardList) {
+	            System.out.print(map.get("REQ_NO") + "\t\t" + map.get("REQ_TITLE") + "\t\t" + map.get("REQ_WRITER"));
+	            System.out.println();
+	        }
+	        
+	        System.out.println();
+	        PrintUtil.bar();
+	        System.out.println("① 읽기 ② 생성 ③ 뒤로가기");
+	        System.out.print("\n 【  선택  】 ");
+
+	        switch (ScanUtil.nextInt()) {
+	            case 1:
+	                System.out.print("게시물 번호 입력: ");
+	                int reqNo = ScanUtil.nextInt();
+	                return adminBoardService.read(reqNo);
+	            case 2:
+	                return adminBoardService.create();
+	            case 3:
+	                return View.ADMIN_MAIN;
+	            default:
+	                System.out.println("올바른 숫자를 입력하세요.");
+	                break;
+	        }
+		}   
 	}
 }	            

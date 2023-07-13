@@ -171,6 +171,27 @@ public class JDBCUtil {
 		return result;
 	}
 	
+	public int update1(String sql,Object[] params){
+		int result=0;
+
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql);
+			for(int i=0; i<params.length; i++){
+				pstmt.setObject(i+1, params.length);
+			}
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if(rs != null) try{ rs.close(); } catch(Exception e){}
+			if(pstmt != null) try{ pstmt.close(); } catch(Exception e){}
+			if(conn != null) try{ conn.close(); } catch(Exception e){}
+		}
+
+		return result;
+	}
 	public List<Map<String, Object>> selectList(String sql, List<Object> param){
 		List<Map<String, Object>> list = new ArrayList<>();
 
@@ -241,4 +262,5 @@ public class JDBCUtil {
 		return list;
 
 	}
+	
 }
