@@ -36,7 +36,6 @@ public class JDBCUtil {
 	private Statement stmt = null;
 
 	public Map<String, Object> selectOne(String sql, List<Object> param) {
-
 		Map<String, Object> row = null;
 
 		try {
@@ -49,8 +48,7 @@ public class JDBCUtil {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnCount = rsmd.getColumnCount();
 			while (rs.next()) {
-				if (row == null)
-					row = new HashMap<>();
+				row = new HashMap<>();
 				for (int i = 1; i <= columnCount; i++) {
 					String key = rsmd.getColumnLabel(i);
 					Object value = rs.getObject(i);
@@ -71,7 +69,6 @@ public class JDBCUtil {
 
 	// 매개변수로 sql문을 줘서 하나 불러오긴가?
 	public Map<String, Object> selectOne(String sql) {
-
 		Map<String, Object> row = null;
 		
 		try {
@@ -172,5 +169,76 @@ public class JDBCUtil {
 			if (conn != null) try {conn.close();} catch (Exception e) {}
 		}
 		return result;
+	}
+	
+	public List<Map<String, Object>> selectList(String sql, List<Object> param){
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql);
+
+			for(int i=0; i<param.size(); i++){
+				pstmt.setObject(i+1, param.get(i));
+			}
+
+			rs = pstmt.executeQuery();
+			ResultSetMetaData md = rs.getMetaData();
+			int columnCount = md.getColumnCount();
+
+			while(rs.next()){
+				Map<String, Object> row = new HashMap<>();
+				for(int i=1; i<= columnCount; i++){
+					String key =md.getColumnName(i);
+					Object value = rs.getObject(key);
+					row.put(key, value);
+				}
+				list.add(row);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if(rs != null) try{ rs.close(); } catch(Exception e){}
+			if(pstmt != null) try{ pstmt.close(); } catch(Exception e){}
+			if(conn != null) try{ conn.close(); } catch(Exception e){}
+		}
+
+		return list;
+
+	}
+	
+	public List<Map<String, Object>> selectList(String sql){	
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			ResultSetMetaData md = rs.getMetaData();
+
+			int columnCount = md.getColumnCount();
+
+			while(rs.next()){
+				Map<String, Object> row = new HashMap<>();
+				for(int i=1; i<= columnCount; i++){
+					String key =md.getColumnName(i);
+					Object value = rs.getObject(key);
+					row.put(key, value);
+				}
+				list.add(row);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if(rs != null) try{ rs.close(); } catch(Exception e){}
+			if(pstmt != null) try{ pstmt.close(); } catch(Exception e){}
+			if(conn != null) try{ conn.close(); } catch(Exception e){}
+		}
+
+		return list;
+
 	}
 }

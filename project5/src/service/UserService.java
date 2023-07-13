@@ -15,6 +15,7 @@ import util.Connect;
 import util.JDBCUtil;
 import util.PrintUtil;
 import util.ScanUtil;
+import util.SessionUtil;
 import util.View;
 
 
@@ -53,6 +54,10 @@ public class UserService {
 		userInfo = userDAO.login(param);
 		
 		if(userInfo != null) { //정상적 로그인 o
+			// 현재 로그인된 회원의 USER_NO 설정
+			String userNo = (String) userInfo.get("USER_NO");
+            SessionUtil.setCurrentUserNo(userNo);
+			
 			Controller.sessionStorage.put("loginInfo", userInfo); 
 			System.out.println(userInfo.get("USER_NAME") + "님 환영합니다.");
 			System.out.println("다음 화면으로 이동하려면 Enter 키를 입력하세요.");

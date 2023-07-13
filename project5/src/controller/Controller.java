@@ -17,6 +17,7 @@ public class Controller {
 	UserService userService = UserService.getInstance();
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
+	BoardService boardService = BoardService.getInstance();
 
 	public static void main(String[] args) {
 		new Controller().start();
@@ -52,6 +53,11 @@ public class Controller {
 				break;
 			case View.SHOP_MAIN:
 				view = shopMain();
+				break;
+			case View.USER_LOGOUT:
+				break;
+			case View.BOARD:
+				view = list();
 				break;
 			}
 		}
@@ -91,7 +97,7 @@ public class Controller {
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
+		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점  ⑥ 로그아웃");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -100,8 +106,8 @@ public class Controller {
 		switch (ScanUtil.nextInt()) {
 		case 1:
 			return View.QUIZ_START;
-//		case 2:
-//			return View.;
+		case 2:
+			return View.BOARD;
 //		case 3:
 //			return View.;
 //		case 4:
@@ -296,6 +302,58 @@ public class Controller {
 			return View.ADMIN_MAIN;
 		}
 
+	}
+	
+	public int list() {
+	    int currentPage = 1; // 현재 페이지
+	    int totalPage = boardService.getTotalPage(); // 전체 페이지 수
+	    while (true) {
+	        PrintUtil.bar();
+	        System.out.println("[게시물 목록]");
+	        System.out.println("no\t\ttitle\t\twriter");
+	        
+	        List<Map<String, Object>> boardList = BoardService.getInstance().getBoardListByPage(currentPage);
+	        for (int i = 0; i < boardList.size(); i++) {
+	            Map<String, Object> map = boardList.get(i);
+	            System.out.print(map.get("REQ_NO")
+	                    + "\t\t" + map.get("REQ_TITLE")
+	                    + "\t\t" + map.get("REQ_WRITER"));
+	            System.out.println();
+	        }
+	        System.out.println();
+	        PrintUtil.bar();
+	        System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
+	        System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ");
+	        System.out.print("선택  : ");
+
+	        switch (ScanUtil.nextInt()) {
+	            case 1:
+	                System.out.print("게시물 번호 입력: ");
+	                int reqNo = ScanUtil.nextInt();
+	                return boardService.read(reqNo);
+	            case 2:
+	                return boardService.create();
+	            case 3:
+	                return View.HOME_MAIN;
+	            case 4:
+	            	if(currentPage==1) {
+	            		System.out.println("이전 페이지가 없습니다");
+	            	}else {
+	            		currentPage--;
+	            	}
+	            	break;
+	            case 5:
+	            	if(currentPage==totalPage) {
+	            		System.out.println("다음 페이지가 없습니다");
+	            	}else {
+	            		currentPage++;
+	            	}
+	            	break;
+	            default:
+	                System.out.println("잘못된 입력입니다.");
+	                break;
+	        }
+	    }
 	}
 
 }
