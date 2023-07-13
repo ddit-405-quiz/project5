@@ -5,7 +5,7 @@ import java.util.*;
 import util.JDBCUtil;
 import util.View;
 
-// DB ÄûÁîÇ®¿¡ ¿¬µ¿ÇØ¼­ ÄûÁî ºĞ¾ßº°·Î ºÒ·¯¿À±â, Á¤´ä ºñ±³, ÈùÆ® Á¦°ø
+// DB í€´ì¦ˆí’€ì— ì—°ë™í•´ì„œ í€´ì¦ˆ ë¶„ì•¼ë³„ë¡œ ë¶ˆëŸ¬ì˜¤ê¸°, ì •ë‹µ ë¹„êµ, íŒíŠ¸ ì œê³µ
 public class QuizDAO {
 
 	private static QuizDAO instance = null;
@@ -21,27 +21,8 @@ public class QuizDAO {
 
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 
-	// Àå¸£ + ·£´ı¹øÈ£¸¦ Åä´ë·Î ÄûÁî¸¦ Áßº¹µÇÁö ¾Ê°Ô ·£´ıÀ¸·Î 10°³ »Ì¾Æ¿È
+	// ì¥ë¥´ + ëœë¤ë²ˆí˜¸ë¥¼ í† ëŒ€ë¡œ í€´ì¦ˆë¥¼ ì¤‘ë³µë˜ì§€ ì•Šê²Œ ëœë¤ìœ¼ë¡œ 10ê°œ ë½‘ì•„ì˜´
 	public List<Map<String, Object>> getQuiz(int genre) {
-
-//		Set<Integer> quizNumbers = new HashSet<>();
-//		List<Map<String, Object>> quizList = new ArrayList<>();
-//
-//		// °ãÄ¡Áö ¾Ê´Â ¹øÈ£ n°³ »ı¼º
-//		while (quizNumbers.size() < 10) {
-//			int number = (int) (Math.random() * 30) + 1;
-//			quizNumbers.add(number);
-//		}
-//
-//		// À§¿¡¼­ »ı¼ºµÈ ·£´ı ¹øÈ£¸¸Å­ ÄûÁî¸¦ °¡Á®¿È
-//		for (Integer element : quizNumbers) {
-//
-//			String sql = "SELECT * FROM QUIZ " + "WHERE QUIZ_NO = " + genre + "00" + element;
-//
-//			quizList.add(jdbc.selectOne(sql));
-//		}
-//
-//		return quizList;
 		
 		String sql = "SELECT DISTINCT * FROM (SELECT * FROM QUIZ ORDER BY DBMS_RANDOM.VALUE)" +
 					 " WHERE ROWNUM <= 10 AND SUBSTR(QUIZ_NO, 1, 1) = " + genre;
@@ -49,7 +30,7 @@ public class QuizDAO {
 		return jdbc.selectAll(sql);
 	}
 
-	// ÄûÁî ¸ñ·Ï Á¶È¸
+	// í€´ì¦ˆ ëª©ë¡ ì¡°íšŒ
 	public List<Map<String, Object>> searchQuiz(int genre) {
 		List<Map<String, Object>> quizList = new ArrayList<>();
 

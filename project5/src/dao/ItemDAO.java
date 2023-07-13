@@ -17,7 +17,7 @@ public class ItemDAO {
 	GameManager gameManager = GameManager.getInstance();
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 	
-	// itemNoÀÇ ¾ÆÀÌÅÛÀÇ ¼ö·®À» Ã¼Å©ÇØÁÖ´Â ¸Ş¼Òµå
+	// itemNoì˜ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ì„ ì²´í¬í•´ì£¼ëŠ” ë©”ì†Œë“œ
 	public Map<String, Object> checkItem(String sql) {
 		return jdbc.selectOne(sql);
 	}

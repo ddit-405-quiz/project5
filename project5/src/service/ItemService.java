@@ -25,13 +25,13 @@ public class ItemService {
 	ItemDAO itemDAO = ItemDAO.getInstance();
 	
 
-	// itemNoÀÇ ¾ÆÀÌÅÛÀÇ ¼ö·®À» Ã¼Å©ÇØÁÖ´Â ¸Ş¼Òµå
+	// itemNoì˜ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ì„ ì²´í¬í•´ì£¼ëŠ” ë©”ì†Œë“œ
 	public Map<String, Object> checkItem(String userNo) {
 		String sql = "SELECT * FROM ITEM " + "WHERE USER_NO = " + userNo;
 		return itemDAO.checkItem(sql);
 	}
 
-	// ¸Å°³º¯¼ö 2°³¸¦ ÀÔ·Â¹Ş°í itemNoÀÇ ¾ÆÀÌÅÛÀ» quantity¸¸Å­ ´õÇÔ
+	// ë§¤ê°œë³€ìˆ˜ 2ê°œë¥¼ ì…ë ¥ë°›ê³  itemNoì˜ ì•„ì´í…œì„ quantityë§Œí¼ ë”í•¨
 	public void setUserItem(int itemNo, int quantity, String userNo) {
 
 		String itemName = "";
@@ -52,47 +52,47 @@ public class ItemService {
 		itemDAO.increaseItem(sql);
 	}
 
-	// ¾ÆÀÌÅÛ »ç¿ëÇÏ´Â ¸Ş¼Òµå
+	// ì•„ì´í…œ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œ
 	public void useItem() {
 		PrintUtil.bar();
-		PrintUtil.centerAlignment("¾ÆÀÌÅÛ 1°³ ¼±ÅÃ");
+		PrintUtil.centerAlignment("ì•„ì´í…œ 1ê°œ ì„ íƒ");
 		PrintUtil.bar2();
 		String userNo = UserService.getInstance().getUserInfo().get("USER_NO").toString();
-		PrintUtil.centerAlignment("Á¡¼ö2¹è  : " + checkItem(userNo).get("ITEM_DOUBLE") + " °³ º¸À¯Áß ");
-		PrintUtil.centerAlignment("ÃÊ¼ºÈùÆ® : " + checkItem(userNo).get("ITEM_HINT") + " °³ º¸À¯Áß ");
-		PrintUtil.centerAlignment("¸ñ¼û +2 : " + checkItem(userNo).get("ITEM_LIFE") + " °³ º¸À¯Áß ");
-		PrintUtil.centerAlignment("»ç¿ëÇÏÁö¾ÊÀ½");
+		PrintUtil.centerAlignment("ì ìˆ˜2ë°°  : " + checkItem(userNo).get("ITEM_DOUBLE") + " ê°œ ë³´ìœ ì¤‘ ");
+		PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ : " + checkItem(userNo).get("ITEM_HINT") + " ê°œ ë³´ìœ ì¤‘ ");
+		PrintUtil.centerAlignment("ëª©ìˆ¨ +2 : " + checkItem(userNo).get("ITEM_LIFE") + " ê°œ ë³´ìœ ì¤‘ ");
+		PrintUtil.centerAlignment("ì‚¬ìš©í•˜ì§€ì•ŠìŒ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
-			// ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÏ¸é
+			// ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•˜ë©´
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
-				PrintUtil.centerAlignment("Á¡¼ö2¹è ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù, ¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê°í ½ÃÀÛÇÕ´Ï´Ù");
+				PrintUtil.centerAlignment("ì ìˆ˜2ë°° ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤, ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì‹œì‘í•©ë‹ˆë‹¤");
 				return;
 			}
-			PrintUtil.centerAlignment("Á¡¼ö2¹è¸¦ »ç¿ëÇÏ¼Ì½À´Ï´Ù!");
+			PrintUtil.centerAlignment("ì ìˆ˜2ë°°ë¥¼ ì‚¬ìš©í•˜ì…¨ìŠµë‹ˆë‹¤!");
 			gameManager.useItem(View.ITEM_DOUBLE);
 			itemDAO.decreaseItem(View.ITEM_DOUBLE);
 			break;
 		case 2:
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
-				PrintUtil.centerAlignment("ÃÊ¼ºÈùÆ® ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù, ¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê°í ½ÃÀÛÇÕ´Ï´Ù");
+				PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤, ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì‹œì‘í•©ë‹ˆë‹¤");
 				return;
 			}
-			PrintUtil.centerAlignment("ÃÊ¼ºÈùÆ®¸¦ »ç¿ëÇÏ¼Ì½À´Ï´Ù!");
+			PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ë¥¼ ì‚¬ìš©í•˜ì…¨ìŠµë‹ˆë‹¤!");
 			gameManager.useItem(View.ITEM_HINT);
 			itemDAO.decreaseItem(View.ITEM_HINT);
 			break;
 		case 3:
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
-				PrintUtil.centerAlignment("¸ñ¼û +2 ¾ÆÀÌÅÛÀÇ °³¼ö°¡ ºÎÁ·ÇÕ´Ï´Ù, ¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê°í ½ÃÀÛÇÕ´Ï´Ù");
+				PrintUtil.centerAlignment("ëª©ìˆ¨ +2 ì•„ì´í…œì˜ ê°œìˆ˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤, ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì‹œì‘í•©ë‹ˆë‹¤");
 				return;
 			}
-			PrintUtil.centerAlignment("¸ñ¼û +2¸¦ »ç¿ëÇÏ¼Ì½À´Ï´Ù!");
+			PrintUtil.centerAlignment("ëª©ìˆ¨ +2ë¥¼ ì‚¬ìš©í•˜ì…¨ìŠµë‹ˆë‹¤!");
 			gameManager.useItem(View.ITEM_LIFE);
 			itemDAO.decreaseItem(View.ITEM_LIFE);
 			break;

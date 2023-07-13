@@ -20,7 +20,7 @@ import util.View;
 
 
 public class UserService {
-	// ÇÊ¿äÇÑ µ¥ÀÌÅÍ¸¦ ¼öÁıÇÏ´Â Å¬·¡½º
+	// í•„ìš”í•œ ë°ì´í„°ë¥¼ ìˆ˜ì§‘í•˜ëŠ” í´ë˜ìŠ¤
 	private static UserService instance = null;
 	private UserService () {}
 	public static UserService getInstance() {
@@ -32,26 +32,26 @@ public class UserService {
 	
 	UserDAO userDAO = UserDAO.getInstance();
 	
-	// À¯ÀúÀÇ Á¤º¸¸¦ ÀúÀåÇÏ°í, ¿ÜºÎ¿¡¼­ È®ÀÎÇÒ ¼ö ÀÖ°Ô ÇÏ±â À§ÇÑ º¯¼ö¿Í ¸Ş¼Òµå
+	// ìœ ì €ì˜ ì •ë³´ë¥¼ ì €ì¥í•˜ê³ , ì™¸ë¶€ì—ì„œ í™•ì¸í•  ìˆ˜ ìˆê²Œ í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ì™€ ë©”ì†Œë“œ
 	private Map<String, Object> userInfo = null;
 	public Map<String, Object> getUserInfo(){
 		return userDAO.getUserInfo(userInfo.get("USER_NO").toString());
 	}
 	
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	public int logIn() {
 		PrintUtil.loginScreen();
 		System.out.print("ID >> ");
 		String memId = ScanUtil.nextLine();
 		
-		//idÈ®ÀÎ
+		//idí™•ì¸
 		if(memId == null || !userDAO.checkId(memId)) {
-			System.out.println("ÇØ´ç ID´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			System.out.println("í•´ë‹¹ IDëŠ” ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			System.out.println();
 			return View.HOME;
 		}
 		
-		System.out.print("ºñ¹Ğ¹øÈ£ >> ");
+		System.out.print("ë¹„ë°€ë²ˆí˜¸ >> ");
 		String memPass = ScanUtil.nextLine();
 		
 		List<Object> param = new ArrayList<>(); 
@@ -60,21 +60,21 @@ public class UserService {
 		
 		userInfo = userDAO.login(param);
 		
-		if(userInfo != null) { //Á¤»óÀû ·Î±×ÀÎ o
+		if(userInfo != null) { //ì •ìƒì  ë¡œê·¸ì¸ o
 			Controller.sessionStorage.put("loginInfo", userInfo); 
-			System.out.println(userInfo.get("USER_NAME") + "´Ô È¯¿µÇÕ´Ï´Ù.");
-			System.out.println("´ÙÀ½ È­¸éÀ¸·Î ÀÌµ¿ÇÏ·Á¸é Enter Å°¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			System.out.println(userInfo.get("USER_NAME") + "ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤.");
+			System.out.println("ë‹¤ìŒ í™”ë©´ìœ¼ë¡œ ì´ë™í•˜ë ¤ë©´ Enter í‚¤ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			ScanUtil.nextLine();
 			return View.HOME_MAIN;
-		} else { // ·Î±×ÀÎx
+		} else { // ë¡œê·¸ì¸x
 			boolean run = true;
 			while(run) {
 				PrintUtil.bar();
-				System.out.println("ºñ¹Ğ¹øÈ£°¡ Æ²·È½À´Ï´Ù");
-				System.out.println("»õ ºñ¹Ğ¹øÈ£¸¦ ¸¸µå½Ã°Ú½À´Ï±î?");
+				System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤");
+				System.out.println("ìƒˆ ë¹„ë°€ë²ˆí˜¸ë¥¼ ë§Œë“œì‹œê² ìŠµë‹ˆê¹Œ?");
 				PrintUtil.bar();
-				System.out.println("¨ç ¿¹    ¨è ¾Æ´Ï¿À");
-				System.out.printf("ÀÔ·Â ¢Ñ ");
+				System.out.println("â‘  ì˜ˆ    â‘¡ ì•„ë‹ˆì˜¤");
+				System.out.printf("ì…ë ¥ â˜ ");
 				int select = ScanUtil.nextInt();
 			
 				switch(select) {
@@ -89,13 +89,13 @@ public class UserService {
 						break;
 					case 2:
 						System.out.println("------------------");
-						System.out.println("¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù");
+						System.out.println("ë©”ì¸ ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
 						System.out.println("------------------");
 						System.out.println();
 						run = false;
 						break;
 					default:
-						System.out.print("\"¿¹\" ¶Ç´Â \"¾Æ´Ï¿À\"¸¦ ¼±ÅÃÇÏ¼¼¿ä");
+						System.out.print("\"ì˜ˆ\" ë˜ëŠ” \"ì•„ë‹ˆì˜¤\"ë¥¼ ì„ íƒí•˜ì„¸ìš”");
 						System.out.println();
 						break;
 				}
@@ -105,37 +105,37 @@ public class UserService {
 		}
 		
 	}
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	public int signUp() {
 		int result = 0;
-		System.out.println("<< È¸ ¿ø °¡ ÀÔ >>");
+		System.out.println("<< íšŒ ì› ê°€ ì… >>");
 		
-		System.out.print("ÀÌ¸§: ");
+		System.out.print("ì´ë¦„: ");
 		String name = ScanUtil.nextLine();
 		
-		System.out.print("¾ÆÀÌµğ: ");
+		System.out.print("ì•„ì´ë””: ");
 		String userId = ScanUtil.nextLine();
 		
-		System.out.print("ºñ¹Ğ¹øÈ£: ");
+		System.out.print("ë¹„ë°€ë²ˆí˜¸: ");
 		String userPw = ScanUtil.nextLine();
 		
-		System.out.print("ÀüÈ­¹øÈ£: ");
+		System.out.print("ì „í™”ë²ˆí˜¸: ");
 		String userTel = ScanUtil.nextLine();
 		
-		System.out.println("Á¤º¸¸¦ ÀúÀåÇÏ°Ú½À´Ï±î?  (y / n)");
+		System.out.println("ì •ë³´ë¥¼ ì €ì¥í•˜ê² ìŠµë‹ˆê¹Œ?  (y / n)");
 		String flag = ScanUtil.nextLine();
 		if(flag.equalsIgnoreCase("y")) {
 			result = userDAO.signUp(name, userId, userPw, userTel);
 		}
 		if(result != 0) {
-			System.out.println(name + "È¸¿ø´ÔÀÇ ÀÚ·á ÀÔ·ÂÀÌ Á¤»ó Ã³¸®µÇ¾ú½À´Ï´Ù.");
+			System.out.println(name + "íšŒì›ë‹˜ì˜ ìë£Œ ì…ë ¥ì´ ì •ìƒ ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			return View.USER_LOGIN;
 		} else {
-			System.out.println(name + "È¸¿ø´ÔÀÇ ÀÚ·á ÀÔ·ÂÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+			System.out.println(name + "íšŒì›ë‹˜ì˜ ìë£Œ ì…ë ¥ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			return View.HOME;
 		}
 	}
-	//ºñ¹Ğ¹øÈ£Ã£±â
+	//ë¹„ë°€ë²ˆí˜¸ì°¾ê¸°
 	public void userPasswordReset() throws Exception{
 		
 		Connection con = null;
@@ -146,14 +146,14 @@ public class UserService {
 		stmt = con.createStatement();
 		
 		System.out.println("------------------");
-        System.out.println("¾Æ·¡ÀÇ È¸¿ø Á¤º¸¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+        System.out.println("ì•„ë˜ì˜ íšŒì› ì •ë³´ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
         System.out.println("------------------");
         System.out.println();
-        System.out.println("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä ¢Ñ ");
+        System.out.println("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš” â˜ ");
 		String user_id = ScanUtil.nextLine();
-		System.out.println("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä ¢Ñ ");
+		System.out.println("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš” â˜ ");
 		String user_name = ScanUtil.nextLine();
-		System.out.println("ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä ¢Ñ ");
+		System.out.println("ì „í™”ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” â˜ ");
 		String user_ph = ScanUtil.nextLine();
 		
 		String sql = "SELECT USER_ID, USER_NAME, USER_PH"+
@@ -172,12 +172,12 @@ public class UserService {
 				
 				
 			System.out.println("------------------");
-			System.out.println("È¸¿ø¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù");
-			System.out.println("ÀÓ½Ã·Î ºñ¹Ğ¹øÈ£¸¦ »ı¼ºÇÏ½Ã°Ú½À´Ï±î?");
-			System.out.println("¨ç ¿¹    ¨è ¾Æ´Ï¿À");
+			System.out.println("íšŒì›ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤");
+			System.out.println("ì„ì‹œë¡œ ë¹„ë°€ë²ˆí˜¸ë¥¼ ìƒì„±í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+			System.out.println("â‘  ì˜ˆ    â‘¡ ì•„ë‹ˆì˜¤");
 			System.out.println("------------------");
 				
-			System.out.println("ÀÔ·Â ¢Ñ ");
+			System.out.println("ì…ë ¥ â˜ ");
 			
 			int select = ScanUtil.nextInt();
 			
@@ -187,14 +187,14 @@ public class UserService {
 					run = false;
 				case 2:
 					System.out.println("------------------");
-					System.out.println("¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù");
+					System.out.println("ë©”ì¸ ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
 					System.out.println("------------------");
 					System.out.println();
 					run = false;
 					break;
 				default:
 					System.out.println("------------------");
-					System.out.print("\"¿¹\" ¶Ç´Â \"¾Æ´Ï¿À\"¸¦ ¼±ÅÃÇÏ¼¼¿ä");
+					System.out.print("\"ì˜ˆ\" ë˜ëŠ” \"ì•„ë‹ˆì˜¤\"ë¥¼ ì„ íƒí•˜ì„¸ìš”");
 					System.out.println("------------------");
 					System.out.println();
 					break;
@@ -206,13 +206,13 @@ public class UserService {
 			
 		}else {
 			System.out.println("------------------");
-	        System.out.println("È¸¿øÁ¤º¸°¡ Æ²·È½À´Ï´Ù");
-	        System.out.println("¸ŞÀÎ ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù");
+	        System.out.println("íšŒì›ì •ë³´ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤");
+	        System.out.println("ë©”ì¸ ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
 	        System.out.println("------------------");
 	        System.out.println();
 		}
 	}
-	//ÀÓ½Ãºñ¹Ğ¹øÈ£
+	//ì„ì‹œë¹„ë°€ë²ˆí˜¸
 	public void createRandomPw(String user_id) throws Exception{
 	
 		String[] strSet = {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m",
@@ -237,14 +237,14 @@ public class UserService {
 	
 		if(rs !=0 ) {
 			System.out.println("------------------");
-			System.out.println("ÀÓ½Ã ºñ¹Ğ¹øÈ£°¡ »ı¼ºµÇ¾ú½À´Ï´Ù");
-			System.out.println("ÀÓ½Ã ºñ¹Ğ¹øÈ£ : "+randomPw);
-			System.out.println("¸¶ÀÌÆäÀÌÁö¿¡¼­ ²À º¯°æÇÏ¼¼¿ä");
+			System.out.println("ì„ì‹œ ë¹„ë°€ë²ˆí˜¸ê°€ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤");
+			System.out.println("ì„ì‹œ ë¹„ë°€ë²ˆí˜¸ : "+randomPw);
+			System.out.println("ë§ˆì´í˜ì´ì§€ì—ì„œ ê¼­ ë³€ê²½í•˜ì„¸ìš”");
 			System.out.println("------------------");
 			System.out.println();		
 		}
 	}
-	// À¯ÀúÀÇ ½ºÄÚ¾î¸¦ ¸Å°³º¯¼ö·Î ÀÔ·Â¹ŞÀº Á¤¼ö¸¸Å­ ´õÇÔ
+	// ìœ ì €ì˜ ìŠ¤ì½”ì–´ë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ì…ë ¥ë°›ì€ ì •ìˆ˜ë§Œí¼ ë”í•¨
 	public void setUserScore(int score) {
 		if(score >= 0) {
 			String sql =  "UPDATE USERS" +
@@ -254,7 +254,7 @@ public class UserService {
 			userDAO.setUserScore(sql);
 		} 
 	}
-	// À¯ÀúÀÇ °ÔÀÓ¸Ó´Ï¸¦ ¸Å°³º¯¼ö·Î ÀÔ·Â¹ŞÀº Á¤¼ö¸¸Å­ ´õÇÔ
+	// ìœ ì €ì˜ ê²Œì„ë¨¸ë‹ˆë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ì…ë ¥ë°›ì€ ì •ìˆ˜ë§Œí¼ ë”í•¨
 	public void setUserGameMoney(int money) {
 		if(money >= 0) {
 			String sql =  "UPDATE USERS" +
@@ -264,7 +264,7 @@ public class UserService {
 			userDAO.setUserScore(sql);
 		} 
 	}
-	//	»óÁ¡¿¡¼­ ¾ÆÀÌÅÛ ±¸¸Å ½Ã ±İ¾× Ã¼Å© ÈÄ ±İ¾×ÀÌ ¸ÂÀ¸¸é ¾ÆÀÌÅÛ ±¸¸Å
+	//	ìƒì ì—ì„œ ì•„ì´í…œ êµ¬ë§¤ ì‹œ ê¸ˆì•¡ ì²´í¬ í›„ ê¸ˆì•¡ì´ ë§ìœ¼ë©´ ì•„ì´í…œ êµ¬ë§¤
 	public boolean purchaseItem(int money) {
 		
 		if (Integer.parseInt(getUserInfo().get("USER_GM").toString()) >= money){
