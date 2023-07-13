@@ -498,7 +498,7 @@ public class Controller {
 			switch (ScanUtil.nextInt()) {
 			case 1:
 				userService.update();
-				return View.ADMIN_MAIN;
+				return View.HOME_MAIN;
 			case 2:
 //				userService.searchQuiz(View.QUIZ_KOREAN);
 //				return View.ADMIN_MAIN;

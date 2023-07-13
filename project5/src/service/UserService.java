@@ -328,15 +328,16 @@ public class UserService {
 		}
 		
 		//로그인 아이디랑 입력받은 아이디가 같으면 아래가 진행된다. 
-		
 		int result = 0;
 		String userpw = "";
 		String name = "";
 		String telNum = "";
-		String str = "";
+		String str = null;
 		
+		try {	
+			
 		System.out.println("<< 회원 정보 수정 >>");
-		
+				
 		System.out.print("이름을 변경하겠습니까? ( y / n ) : ");
 		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
 			System.out.print("변경할 이름: ");
@@ -362,6 +363,14 @@ public class UserService {
 		}
 		
 		result = userDAO.update(str, userid);
+		
+		} catch (NullPointerException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("입력된 정보가 없어 메인 화면으로 돌아갑니다.");
+			PrintUtil.bar3();
+			return View.HOME_MAIN;
+		}
+		
 		
 		if(result != 0) {
 			PrintUtil.bar3();
