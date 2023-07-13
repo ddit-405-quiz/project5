@@ -322,13 +322,14 @@ public class UserService {
 		System.out.print("아이디를 입력하시오: ");
 		String userid = ScanUtil.nextLine();
 		
-		if(userInfo.get("USER_ID") != userid) {
+		if(!userInfo.get("USER_ID").equals(userid)) {
 			System.out.println("변경 안돼 돌아가");
 			return View.MYPAGE_UPDATE;
-		} 
+		}
 		
 		//로그인 아이디랑 입력받은 아이디가 같으면 아래가 진행된다. 
 		
+		int result = 0;
 		String userpw = "";
 		String name = "";
 		String telNum = "";
@@ -360,7 +361,19 @@ public class UserService {
 			str = str.substring(0, length-2);
 		}
 		
-		return 0;
+		result = userDAO.update(str, userid);
+		
+		if(result != 0) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("정보가 정상적으로 수정되었습니다.");
+			PrintUtil.bar3();
+		} else {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("정보 변경이 취소 되었습니다.");
+			PrintUtil.bar3();
+		}
+		
+		return View.HOME_MAIN;
 	}
 	
 	//회원 탈퇴
