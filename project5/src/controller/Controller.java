@@ -323,7 +323,7 @@ public class Controller {
 	        System.out.println();
 	        PrintUtil.bar();
 	        System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
-	        System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ");
+	        System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ⑥ 나의글보기 ");
 	        System.out.print("선택  : ");
 
 	        switch (ScanUtil.nextInt()) {
@@ -349,11 +349,54 @@ public class Controller {
 	            		currentPage++;
 	            	}
 	            	break;
+	            case 6:
+	            	// 내가쓴글보기
+	            	int savedCurrentPage = currentPage;
+	                int savedTotalPage = totalPage;
+	            	
+	                currentPage=1;
+	                List<Map<String, Object>> myBoardList = new ArrayList<>();
+	            	String currentUserNo = SessionUtil.getCurrentUserNo();
+
+	            	for (int page = 1; page <= totalPage; page++) {
+	                    // 현재 페이지 정보 업데이트
+	                    currentPage = page;
+	                    boardList = boardService.getBoardListByPage(currentPage);
+
+	                    // 각 페이지의 글을 순회하면서 나의 글인지 확인하여 저장
+	                    for (Map<String, Object> board : boardList) {
+	                        String writerUserNo = board.get("USER_NO").toString();
+	                        if (currentUserNo.equals(writerUserNo)) {
+	                            myBoardList.add(board);
+	                        }
+	                    }
+	                }
+	            	PrintUtil.bar();
+	                System.out.println("[나의 글 목록]");
+	                System.out.println("no\t\ttitle\t\twriter");
+
+	                for (int i = 0; i < myBoardList.size(); i++) {
+	                    Map<String, Object> map = myBoardList.get(i);
+	                    System.out.print(map.get("REQ_NO")
+	                            + "\t\t" + map.get("REQ_TITLE")
+	                            + "\t\t" + map.get("REQ_WRITER"));
+	                    System.out.println();
+	                }
+	                System.out.println();
+	                PrintUtil.bar();
+	                System.out.println("① 뒤로가기");
+	                System.out.print("선택  : ");
+	                int choice = ScanUtil.nextInt();
+	                if (choice == 1) {
+	                    return View.BOARD;
+	                } else {
+	                    System.out.println("잘못된 입력입니다.");
+	                }
+	                break;
 	            default:
 	                System.out.println("잘못된 입력입니다.");
 	                break;
 	        }
 	    }
 	}
-
-}
+}	            

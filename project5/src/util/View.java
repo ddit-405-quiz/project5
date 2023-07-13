@@ -32,6 +32,7 @@ public interface View {
 	//게시판 혹은 유저가 관리자에게 요청사항 등  -- 수정필요
 	int BOARD = 5;
 	
+	
 	int MYPAGE = 6;
 	int MYPAGE_FIND = 61;			//친구찾기
 	int MYPAGE_WRITE = 62;			//내가 작성한 글
