@@ -118,7 +118,8 @@ public class Controller {
 		case 5:
 			return View.SHOP_MAIN;
 		case 6:
-			return View.USER_LOGOUT;
+			return View.HOME;
+//			return View.USER_LOGOUT;
 		default:
 			return View.QUIZ;
 		}
@@ -270,7 +271,8 @@ public class Controller {
 		case 3:
 			return View.USER_MANAGE;
 		case 4:
-			return View.ADMIN_LOGOUT;
+			return View.HOME;
+//			return View.ADMIN_LOGOUT;
 		default:
 			return View.ADMIN_MAIN;
 		}

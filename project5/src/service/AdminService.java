@@ -49,7 +49,7 @@ public class AdminService {
 			ScanUtil.nextLine();
 			return View.ADMIN_MAIN;
 		} else { // 로그인x
-			System.out.println("관리자 로그인에 실패했습니다.");
+			System.out.println("【 관리자 로그인에 실패했습니다. 】");
 			System.out.println();
 			return View.HOME;
 		}
