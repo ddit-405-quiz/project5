@@ -42,9 +42,6 @@ public class Controller {
 			case View.USER_SIGNUP:
 				view = userService.signUp();
 				break;
-			case View.QUIZ_MANAGE:
-				view = questionList();
-				break;
 			case View.QUIZ_START:
 				view = quizMenu();
 				break;
@@ -66,8 +63,8 @@ public class Controller {
 			case View.ADMIN_MAIN:
 				view = adminMain();
 				break;
-
 			}
+			
 		}
 	}
 
@@ -84,18 +81,22 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.USER_LOGIN;
-		case 2:
-			return View.USER_SIGNUP;
-		case 3:
-			return View.ADMIN_LOGIN;
-		default:
-			return View.HOME;
-		}
-
+		
+		try {			
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.USER_LOGIN;
+			case 2:
+				return View.USER_SIGNUP;
+			case 3:
+				return View.ADMIN_LOGIN;
+			default:
+				return View.HOME;
+			}
+		} catch (NumberFormatException e) {
+	        System.out.println("올바른 숫자를 입력하세요.");	        
+	        return View.HOME; // 예외 발생 시 홈 메인으로 돌아감
+	    }
 	}
 
 	// 메인메뉴
@@ -111,22 +112,29 @@ public class Controller {
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
 
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_START;
-//		case 2:
-//			return View.;
-//		case 3:
-//			return View.;
-//		case 4:
-//			return View.;
-		case 5:
-			return View.SHOP_MAIN;
-		case 6:
-			return View.USER_LOGOUT;
-		default:
-			return View.QUIZ;
-		}
+		try {			
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.QUIZ_START;
+//			case 2:
+//				return View.;
+//			case 3:
+//				return View.;
+//			case 4:
+//				return View.;
+			case 5:
+				return View.SHOP_MAIN;
+			case 6:
+				return View.HOME;
+//				return View.USER_LOGOUT;
+			default:
+				return View.QUIZ;
+			
+	        }		
+		} catch (NumberFormatException e) {
+	        System.out.println("올바른 숫자를 입력하세요.");
+	        return View.HOME_MAIN; // 예외 발생 시 홈 메인으로 돌아감
+	    }		
 	}
 	
 	// 상점 이용
@@ -239,21 +247,26 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return quizService.startQuiz(1);
-		case 2:
-			return quizService.startQuiz(2);
-		case 3:
-			return quizService.startQuiz(3);
-		case 4:
-			return quizService.startQuiz(4);
-		case 5:
-			return View.HOME_MAIN;
-		default:
-			return View.QUIZ;
-		}
+		
+		try {			
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return quizService.startQuiz(1);
+			case 2:
+				return quizService.startQuiz(2);
+			case 3:
+				return quizService.startQuiz(3);
+			case 4:
+				return quizService.startQuiz(4);
+			case 5:
+				return View.HOME_MAIN;
+			default:
+				return View.QUIZ;
+			}
+		} catch (NumberFormatException e) {
+	        System.out.println("올바른 숫자를 입력하세요.");
+	        return View.QUIZ_START; // 예외 발생 시 홈 메인으로 돌아감
+	    }				
 	}
 	
 	// 관리자 로그인시 출력되는 화면
@@ -267,18 +280,25 @@ public class Controller {
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
 		
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.QUIZ_MANAGE;
-		case 2:
-			return View.BOARD;
-		case 3:
-			return View.USER_MANAGE;
-		case 4:
-			return View.ADMIN_LOGOUT;
-		default:
-			return View.ADMIN_MAIN;
-		}
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.QUIZ_MANAGE;
+			case 2:
+				return View.BOARD;
+			case 3:
+				return View.USER_MANAGE;
+			case 4:
+				return View.HOME;
+//				return View.ADMIN_LOGOUT;
+			default:
+				return View.ADMIN_MAIN;
+			}
+		} catch (NumberFormatException e) {
+	        System.out.println("올바른 숫자를 입력하세요.");
+	        return View.ADMIN_MAIN; // 예외 발생 시 홈 메인으로 돌아감
+	    }		
+		
 	}
 
 	// 문제 조회시 출력되는 화면
@@ -290,25 +310,30 @@ public class Controller {
 		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			quizService.searchQuiz(View.QUIZ_COMMON_SENSE);
-			return View.ADMIN_MAIN;
-		case 2:
-			quizService.searchQuiz(View.QUIZ_KOREAN);
-			return View.ADMIN_MAIN;
-		case 3:
-			quizService.searchQuiz(View.QUIZ_HISTORY);
-			return View.ADMIN_MAIN;
-		case 4:
-			quizService.searchQuiz(View.QUIZ_NONSENSE);
-			return View.ADMIN_MAIN;
-		case 5:
-			return View.ADMIN_MAIN;
-		default:
-			return View.ADMIN_MAIN;
-		}
+		
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				quizService.searchQuiz(View.QUIZ_COMMON_SENSE);
+				return View.ADMIN_MAIN;
+			case 2:
+				quizService.searchQuiz(View.QUIZ_KOREAN);
+				return View.ADMIN_MAIN;
+			case 3:
+				quizService.searchQuiz(View.QUIZ_HISTORY);
+				return View.ADMIN_MAIN;
+			case 4:
+				quizService.searchQuiz(View.QUIZ_NONSENSE);
+				return View.ADMIN_MAIN;
+			case 5:
+				return View.ADMIN_MAIN;
+			default:
+				return View.ADMIN_MAIN;
+			}
+		}	catch (NumberFormatException e) {
+	        System.out.println("올바른 숫자를 입력하세요.");
+	        return View.QUIZ_MANAGE; // 예외 발생 시 홈 메인으로 돌아감
+	    }
 
 	}
 

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 public class PrintUtil {
 	
-	static String bar = "°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡°·°‡";
+	static String bar = "‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°‚ñ†‚ñ°";
 	static String bar2 = "-----------------------------------------------------------------";
     private static final Font font = new Font("Arial", Font.PLAIN, 12);
     
@@ -49,10 +49,10 @@ public class PrintUtil {
 }	
 //	public static void startScreen() {
 //		String[] str= {"Q","U","I","Z","G","A","M","E"};
-//		String[] name1= {"±Ë","øµ","≥≤"};
-//		String[] name2= {"±Ë","∞°","∂˜"};
-//		String[] name3= {"¿±","«œ"};
-//		String[] name4= {"¿¸","øµ","±’"};
+//		String[] name1= {"ÍπÄ","ÏòÅ","ÎÇ®"};
+//		String[] name2= {"ÍπÄ","Í∞Ä","Îûå"};
+//		String[] name3= {"Ïú§","Ìïò"};
+//		String[] name4= {"Ï†Ñ","ÏòÅ","Í∑†"};
 //		
 //		int n1=0, n2=0, n3=0, n4=0;
 //		String pressEnter="";
