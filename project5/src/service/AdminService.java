@@ -48,8 +48,13 @@ public class AdminService {
 			PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
 			ScanUtil.nextLine();
 			return View.ADMIN_MAIN;
+
 		} else { // 로그인x
 			PrintUtil.centerAlignment("관리자 로그인에 실패했습니다.");
+
+		}  else { // 로그인x
+			System.out.println("관리자 로그인에 실패했습니다.");
+
 			System.out.println();
 			return View.HOME;
 		}
