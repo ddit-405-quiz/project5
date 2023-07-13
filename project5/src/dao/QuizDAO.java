@@ -59,7 +59,9 @@ public class QuizDAO {
 		String sql = "SELECT * FROM QUIZ" + " WHERE SUBSTR(QUIZ_NO, 1, 1) = " + quizCategory;
 
 		quizList = jdbc.selectAll(sql);
-
+		
+		
+		
 		return quizList;
 	}
 }

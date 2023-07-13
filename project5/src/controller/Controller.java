@@ -126,8 +126,8 @@ public class Controller {
 				return View.QUIZ_START;
 			case 2:
 				return View.BOARD;
-//			case 3:
-//				return View.;
+			case 3:
+				return View.QUIZ_MANAGE;
 //			case 4:
 //				return View.;
 			case 5:
