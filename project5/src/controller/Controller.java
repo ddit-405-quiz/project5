@@ -54,6 +54,9 @@ public class Controller {
 			case View.QUIZ_SUCCESS:
 				view = quizService.success();
 				break;
+			case View.QUIZ_MANAGE:
+				view = questionList();
+				break;
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
@@ -62,23 +65,25 @@ public class Controller {
 				break;
 			case View.ADMIN_MAIN:
 				view = adminMain();
+				break;
+
 			}
 		}
 	}
 
-	// È¨¸Ş´º
+	// í™ˆë©”ë‰´
 	private int home() {
 		PrintUtil.bar();
 		System.out.println();
 		System.out.println();
-		PrintUtil.centerAlignment("ÄûÁî¾ß ³îÀÚ!");
+		PrintUtil.centerAlignment("í€´ì¦ˆì•¼ ë†€ì!");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("1.·Î±×ÀÎ     2.È¸¿ø °¡ÀÔ     3.°ü¸®ÀÚ Á¢¼Ó");
+		PrintUtil.centerAlignment("1.ë¡œê·¸ì¸     2.íšŒì› ê°€ì…     3.ê´€ë¦¬ì ì ‘ì†");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
@@ -93,18 +98,18 @@ public class Controller {
 
 	}
 
-	// ¸ŞÀÎ¸Ş´º
+	// ë©”ì¸ë©”ë‰´
 	private int mainMenu() {
 		PrintUtil.bar();
 		System.out.println();
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("¨ç ¹®Á¦Ç®±â   ¨è Ä¿¹Â´ÏÆ¼   ¨é ¹®Á¦Áı   ¨ê ¸¶ÀÌÆäÀÌÁö  ¨ë »óÁ¡  ¨ë ·Î±×¾Æ¿ô");
+		PrintUtil.centerAlignment("â‘  ë¬¸ì œí’€ê¸°   â‘¡ ì»¤ë®¤ë‹ˆí‹°   â‘¢ ë¬¸ì œì§‘   â‘£ ë§ˆì´í˜ì´ì§€  â‘¤ ìƒì   â‘¤ ë¡œê·¸ì•„ì›ƒ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
@@ -125,86 +130,86 @@ public class Controller {
 		}
 	}
 	
-	// »óÁ¡ ÀÌ¿ë
+	// ìƒì  ì´ìš©
 	private int shopMain() {
 		PrintUtil.bar();
 		System.out.println();
 		PrintUtil.centerAlignment("SHOP");
 		PrintUtil.bar2();
-		String str = "ÇöÀç ±İ¾× : " + userService.getUserInfo().get("USER_GM");
+		String str = "í˜„ì¬ ê¸ˆì•¡ : " + userService.getUserInfo().get("USER_GM");
 		PrintUtil.centerAlignment(str);
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment("¨ç Á¡¼ö2¹è ±¸¸Å   ¨è ÃÊ¼ºÈùÆ® ±¸¸Å  ¨é ¸ñ¼û +2 ±¸¸Å  ¨ê ¾ÆÀÌÅÛ ¼³¸íµè±â  ¨ë µÚ·Î°¡±â");
+		PrintUtil.centerAlignment("â‘  ì ìˆ˜2ë°° êµ¬ë§¤   â‘¡ ì´ˆì„±íŒíŠ¸ êµ¬ë§¤  â‘¢ ëª©ìˆ¨ +2 êµ¬ë§¤  â‘£ ì•„ì´í…œ ì„¤ëª…ë“£ê¸°  â‘¤ ë’¤ë¡œê°€ê¸°");
 		System.out.println("        200g         100g        100g  ");
 		PrintUtil.bar2();
 		String userNo = userService.getUserInfo().get("USER_NO").toString();
-		PrintUtil.centerAlignment("º¸À¯ÁßÀÎ ¾ÆÀÌÅÛ ");
-		PrintUtil.centerAlignment("Á¡¼ö2¹è : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") 
-						 + "    ÃÊ¼ºÈùÆ® : " + itemService.checkItem(userNo).get("ITEM_HINT")  
-						 + "    ¸ñ¼û +2 : " + itemService.checkItem(userNo).get("ITEM_LIFE"));
+		PrintUtil.centerAlignment("ë³´ìœ ì¤‘ì¸ ì•„ì´í…œ ");
+		PrintUtil.centerAlignment("ì ìˆ˜2ë°° : " + itemService.checkItem(userNo).get("ITEM_DOUBLE") 
+						 + "    ì´ˆì„±íŒíŠ¸ : " + itemService.checkItem(userNo).get("ITEM_HINT")  
+						 + "    ëª©ìˆ¨ +2 : " + itemService.checkItem(userNo).get("ITEM_LIFE"));
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 		
 		int quantity = 0;
 		
 		switch (ScanUtil.nextInt()) {
 		case 1:
-			System.out.println("¸î°³¸¦ ±¸¸ÅÇÏ½Ã°Ú½À´Ï±î?");
-			System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+			System.out.println("ëª‡ê°œë¥¼ êµ¬ë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+			System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(200 * quantity)){
 				itemService.setUserItem(1, quantity, userService.getUserInfo().get("USER_NO").toString());
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("Á¡¼ö 2¹è¸¦ " + quantity + "°³ ¸¸Å­ ±¸¸ÅÇÏ¿´½À´Ï´Ù");
+				PrintUtil.centerAlignment("ì ìˆ˜ 2ë°°ë¥¼ " + quantity + "ê°œ ë§Œí¼ êµ¬ë§¤í•˜ì˜€ìŠµë‹ˆë‹¤");
 				PrintUtil.bar3();
 			} else {
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("±İ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù");
+				PrintUtil.centerAlignment("ê¸ˆì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤");
 				PrintUtil.bar3();
 			}
 			break;
 		case 2:
-			System.out.println("¸î°³¸¦ ±¸¸ÅÇÏ½Ã°Ú½À´Ï±î?");
-			System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+			System.out.println("ëª‡ê°œë¥¼ êµ¬ë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+			System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(100 * quantity)){
 				itemService.setUserItem(2, quantity, userService.getUserInfo().get("USER_NO").toString());
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("ÃÊ¼ºÈùÆ®¸¦ " + quantity + "°³ ¸¸Å­ ±¸¸ÅÇÏ¿´½À´Ï´Ù");
+				PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ë¥¼ " + quantity + "ê°œ ë§Œí¼ êµ¬ë§¤í•˜ì˜€ìŠµë‹ˆë‹¤");
 				PrintUtil.bar3();
 			} else {
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("±İ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù");
+				PrintUtil.centerAlignment("ê¸ˆì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤");
 				PrintUtil.bar3();
 			}
 			break;
 		case 3:
 			PrintUtil.bar3();
-			PrintUtil.centerAlignment("¸î°³¸¦ ±¸¸ÅÇÏ½Ã°Ú½À´Ï±î?");
+			PrintUtil.centerAlignment("ëª‡ê°œë¥¼ êµ¬ë§¤í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 			PrintUtil.bar3();
-			System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+			System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 			quantity = ScanUtil.nextInt();
 			
 			if(userService.purchaseItem(100 * quantity)){
 				itemService.setUserItem(3, quantity, userService.getUserInfo().get("USER_NO").toString());
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("¸ñ¼û +2¸¦ " + quantity + "°³ ¸¸Å­ ±¸¸ÅÇÏ¿´½À´Ï´Ù");
+				PrintUtil.centerAlignment("ëª©ìˆ¨ +2ë¥¼ " + quantity + "ê°œ ë§Œí¼ êµ¬ë§¤í•˜ì˜€ìŠµë‹ˆë‹¤");
 				PrintUtil.bar3();
 			} else {
 				PrintUtil.bar3();
-				PrintUtil.centerAlignment("±İ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù");
+				PrintUtil.centerAlignment("ê¸ˆì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤");
 				PrintUtil.bar3();
 			}
 			break;
 		case 4:
 			PrintUtil.bar3();
-			PrintUtil.centerAlignment("¾ÆÀÌÅÛÀº °ÔÀÓ´ç 1¹ø¸¸ »ç¿ëÇÒ ¼ö ÀÖÀ¸¸ç ´ÙÀ½°ú °°Àº È¿°ú¸¦ °¡Áı´Ï´Ù");
-			PrintUtil.centerAlignment("Á¡¼ö2¹è : °ÔÀÓÀÌ ³¡³¯½Ã ¾ò´Â Á¡¼ö¸¦ 2¹è·Î ¾ò½À´Ï´Ù");
-			PrintUtil.centerAlignment("ÃÊ¼ºÈùÆ® : »ç¿ë½Ã ÇØ´ç °ÔÀÓ³»³» ÃÊ¼º ÈùÆ®¸¦ ¾ò½À´Ï´Ù");
-			PrintUtil.centerAlignment("¸ñ¼û +2 : ½ÃÀÛÇÏ´Â ¸ñ¼ûÀÇ °³¼ö°¡ 2°³ ´Ã¾î³³´Ï´Ù");
+			PrintUtil.centerAlignment("ì•„ì´í…œì€ ê²Œì„ë‹¹ 1ë²ˆë§Œ ì‚¬ìš©í•  ìˆ˜ ìˆìœ¼ë©° ë‹¤ìŒê³¼ ê°™ì€ íš¨ê³¼ë¥¼ ê°€ì§‘ë‹ˆë‹¤");
+			PrintUtil.centerAlignment("ì ìˆ˜2ë°° : ê²Œì„ì´ ëë‚ ì‹œ ì–»ëŠ” ì ìˆ˜ë¥¼ 2ë°°ë¡œ ì–»ìŠµë‹ˆë‹¤");
+			PrintUtil.centerAlignment("ì´ˆì„±íŒíŠ¸ : ì‚¬ìš©ì‹œ í•´ë‹¹ ê²Œì„ë‚´ë‚´ ì´ˆì„± íŒíŠ¸ë¥¼ ì–»ìŠµë‹ˆë‹¤");
+			PrintUtil.centerAlignment("ëª©ìˆ¨ +2 : ì‹œì‘í•˜ëŠ” ëª©ìˆ¨ì˜ ê°œìˆ˜ê°€ 2ê°œ ëŠ˜ì–´ë‚©ë‹ˆë‹¤");
 			PrintUtil.bar3();
 			break;
 		case 5:
@@ -213,7 +218,7 @@ public class Controller {
 			return View.HOME_MAIN;
 		}
 		PrintUtil.bar3();
-		PrintUtil.centerAlignment("°è¼Ó ±¸¸Å ÇÏ½Ã°Ú½À´Ï±î? (y/n)");
+		PrintUtil.centerAlignment("ê³„ì† êµ¬ë§¤ í•˜ì‹œê² ìŠµë‹ˆê¹Œ? (y/n)");
 		PrintUtil.bar3();
 		switch (ScanUtil.nextLine()) {
 		case "y":
@@ -225,16 +230,16 @@ public class Controller {
 		}
 	}
 
-	// ÄûÁî¼±ÅÃ¸Ş´º
+	// í€´ì¦ˆì„ íƒë©”ë‰´
 	private int quizMenu() {
 		PrintUtil.bar();
-		PrintUtil.centerAlignment("ÄûÁî Ä«Å×°í¸® ¼±ÅÃ");
+		PrintUtil.centerAlignment("í€´ì¦ˆ ì¹´í…Œê³ ë¦¬ ì„ íƒ");
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment("¨ç »ó½Ä ÄûÁî  ¨è ¿ì¸®¸» ¸ÂÃß±â   ¨é ¿ª»ç ÄûÁî   ¨ê ³Í¼¾½º ÄûÁî  ¨ë µÚ·Î°¡±â   ");
+		PrintUtil.centerAlignment("â‘  ìƒì‹ í€´ì¦ˆ  â‘¡ ìš°ë¦¬ë§ ë§ì¶”ê¸°   â‘¢ ì—­ì‚¬ í€´ì¦ˆ   â‘£ ë„Œì„¼ìŠ¤ í€´ì¦ˆ  â‘¤ ë’¤ë¡œê°€ê¸°   ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
@@ -252,16 +257,16 @@ public class Controller {
 		}
 	}
 	
-	// °ü¸®ÀÚ ·Î±×ÀÎ½Ã Ãâ·ÂµÇ´Â È­¸é
+	// ê´€ë¦¬ì ë¡œê·¸ì¸ì‹œ ì¶œë ¥ë˜ëŠ” í™”ë©´
 	private int adminMain() {
 		PrintUtil.bar();
 		System.out.println("\t\tADMIN MAIN");
 		PrintUtil.bar2();
-		System.out.println("\t¨ç ¹®Á¦°ü¸®   ¨è °Ô½ÃÆÇ   ¨é À¯Àú   ¨ê ·Î±×¾Æ¿ô ");
+		System.out.println("\tâ‘  ë¬¸ì œê´€ë¦¬   â‘¡ ê²Œì‹œíŒ   â‘¢ ìœ ì €   â‘£ ë¡œê·¸ì•„ì›ƒ ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 		
 		switch (ScanUtil.nextInt()) {
 		case 1:
@@ -278,15 +283,15 @@ public class Controller {
 		}
 	}
 
-	// ¹®Á¦ Á¶È¸½Ã Ãâ·ÂµÇ´Â È­¸é
+	// ë¬¸ì œ ì¡°íšŒì‹œ ì¶œë ¥ë˜ëŠ” í™”ë©´
 	public int questionList() {
 		System.out.println();
 		PrintUtil.bar();
-		System.out.println("\t\tÄûÁî ¸ñ·Ï");
-		System.out.println("  1. »ó½Ä ÄûÁî Á¶È¸   2. ¿ì¸®¸» ¸ÂÃß±â ¹®Á¦ Á¶È¸   3. ¿ª»ç ÄûÁî Á¶È¸    4. ³Í¼¾½º ÄûÁî Á¶È¸   5. µÚ·Î°¡±â   ");
+		System.out.println("\t\tí€´ì¦ˆ ëª©ë¡");
+		System.out.println("  1. ìƒì‹ í€´ì¦ˆ ì¡°íšŒ   2. ìš°ë¦¬ë§ ë§ì¶”ê¸° ë¬¸ì œ ì¡°íšŒ   3. ì—­ì‚¬ í€´ì¦ˆ ì¡°íšŒ    4. ë„Œì„¼ìŠ¤ í€´ì¦ˆ ì¡°íšŒ   5. ë’¤ë¡œê°€ê¸°   ");
 		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n ¡¼  ¼±ÅÃ  ¡½ ");
+		System.out.print("\n ã€  ì„ íƒ  ã€‘ ");
 
 		switch (ScanUtil.nextInt()) {
 		case 1:
