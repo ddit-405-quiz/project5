@@ -53,6 +53,12 @@ public class ItemService {
 			break;
 		}
 
+
+//		String operator = increase ? "+" : "-";
+//		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + operator + quantity
+//				+ " WHERE USER_NO = " + userNo;
+
+
 		int operator = increase ? 1 : -1;
 		String sql = "UPDATE ITEM "
 				   + " SET " + itemName + "  =  " + itemName + " + " + quantity
