@@ -13,19 +13,32 @@ public class GameManager {
 		return instance;
 	}
 	
-	// 현재 로그인한 유저 정보를 반환
+	/**
+	 * 현재 로그인한 사용자의 정보들을 Map<String,Object>로 반환
+	 * @return 사용자의 정보들
+	 */
 	public Map<String, Object> getUserInfo(){
 		return UserService.getInstance().getUserInfo();
 	}
 
 	// 현재 정답 개수 확인 변수 및 get, set 메소드
 	private int correctCount = 0;
+	/**
+	 * 현재 정답의 개수를 +1시킴
+	 */
 	public void setCorrectCount() {
 		correctCount++;
 	}
+	/**
+	 * 현재 정답의 개수를 반환함
+	 * @return correctCount
+	 */
 	public int getCorrectCount() {
 		return correctCount;
 	}
+	/**
+	 * 현재 정답의 개수를 0으로 초기화시킴
+	 */
 	public void resetCorrectCount() {
 		correctCount = 0;
 	}

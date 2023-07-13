@@ -31,8 +31,14 @@ public class ItemService {
 		return itemDAO.checkItem(sql);
 	}
 
-	// 매개변수 2개를 입력받고 itemNo의 아이템을 quantity만큼 더함
-	public void setUserItem(int itemNo, int quantity, String userNo) {
+	/** 
+	 * 매개변수 4개를 입력받고 userNo의 itemNo의 아이템을 quantity만큼 increase를 통해 더하거나 뺌
+	 * @param itemNo
+	 * @param quantity
+	 * @param userNo
+	 * @param increase
+	 */
+	public void setUserItem(int itemNo, int quantity, String userNo, boolean increase) {
 
 		String itemName = "";
 		switch (itemNo) {
@@ -47,54 +53,71 @@ public class ItemService {
 			break;
 		}
 
-		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + quantity + " WHERE USER_NO = "
+		String operator = increase ? "+" : "-";
+		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + operator + quantity + " WHERE USER_NO = "
 				+ userNo;
-		itemDAO.increaseItem(sql);
+		
+		itemDAO.setUserItem(sql);
 	}
 
-	// 아이템 사용하는 메소드
+	/**
+	 * 아이템 사용 메소드, 실행시 아이템을 사용할건지 물어보고, 아이템중 하나를 사용하면 해당 아이템의 useItem을 true로 변경한다
+	 */
 	public void useItem() {
 		PrintUtil.bar();
+		PrintUtil.bar2();
 		PrintUtil.centerAlignment("아이템 1개 선택");
 		PrintUtil.bar2();
 		String userNo = UserService.getInstance().getUserInfo().get("USER_NO").toString();
-		PrintUtil.centerAlignment("점수2배  : " + checkItem(userNo).get("ITEM_DOUBLE") + " 개 보유중 ");
-		PrintUtil.centerAlignment("초성힌트 : " + checkItem(userNo).get("ITEM_HINT") + " 개 보유중 ");
-		PrintUtil.centerAlignment("목숨 +2 : " + checkItem(userNo).get("ITEM_LIFE") + " 개 보유중 ");
-		PrintUtil.centerAlignment("사용하지않음");
+		System.out.println("\t\t     1.점수2배  : " + checkItem(userNo).get("ITEM_DOUBLE") + " 개 보유중 ");
+		System.out.println("\t\t     2.초성힌트 : " + checkItem(userNo).get("ITEM_HINT") + " 개 보유중 ");
+		System.out.println("\t\t     3.목숨 +2 : " + checkItem(userNo).get("ITEM_LIFE") + " 개 보유중 ");
+		System.out.println("\t\t     4.사용하지않음");
 		PrintUtil.bar2();
-		System.out.println();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
-
+		
 		switch (ScanUtil.nextInt()) {
 		case 1:
-			// 아이템의 개수가 부족하면
+			// 아이템의 개수가 부족하면 if문 실행
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_DOUBLE").toString()) <= 0) {
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+				PrintUtil.bar3();
 				return;
 			}
+			// 부족하지 않으면 아이템 사용
+			PrintUtil.bar3();
 			PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
+			PrintUtil.bar3();
 			gameManager.useItem(View.ITEM_DOUBLE);
-			itemDAO.decreaseItem(View.ITEM_DOUBLE);
+			setUserItem(View.ITEM_DOUBLE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 			break;
 		case 2:
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_HINT").toString()) <= 0) {
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+				PrintUtil.bar3();
 				return;
 			}
+			PrintUtil.bar3();
 			PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
+			PrintUtil.bar3();
 			gameManager.useItem(View.ITEM_HINT);
-			itemDAO.decreaseItem(View.ITEM_HINT);
+			setUserItem(View.ITEM_HINT, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 			break;
 		case 3:
 			if (Integer.parseInt(checkItem(userNo).get("ITEM_LIFE").toString()) <= 0) {
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
+				PrintUtil.bar3();
 				return;
 			}
+			PrintUtil.bar3();
 			PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
+			PrintUtil.bar3();
 			gameManager.useItem(View.ITEM_LIFE);
-			itemDAO.decreaseItem(View.ITEM_LIFE);
+			setUserItem(View.ITEM_LIFE, 1, gameManager.getUserInfo().get("USER_NO").toString(), false);
 			break;
 		case 4:
 			return;

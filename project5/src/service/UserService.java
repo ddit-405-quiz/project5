@@ -20,7 +20,7 @@ import util.View;
 
 
 public class UserService {
-	// 필요한 데이터를 수집하는 클래스
+
 	private static UserService instance = null;
 	private UserService () {}
 	public static UserService getInstance() {
@@ -46,8 +46,9 @@ public class UserService {
 		
 		//id확인
 		if(memId == null || !userDAO.checkId(memId)) {
-			System.out.println("해당 ID는 존재하지 않습니다.");
-			System.out.println();
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("해당 ID는 존재하지 않습니다.");
+			PrintUtil.bar3();
 			return View.HOME;
 		}
 		
@@ -62,17 +63,19 @@ public class UserService {
 		
 		if(userInfo != null) { //정상적 로그인 o
 			Controller.sessionStorage.put("loginInfo", userInfo); 
-			System.out.println(userInfo.get("USER_NAME") + "님 환영합니다.");
-			System.out.println("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment(userInfo.get("USER_NAME") + "님 환영합니다.");
+			PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
+			PrintUtil.bar3();
 			ScanUtil.nextLine();
 			return View.HOME_MAIN;
 		} else { // 로그인x
 			boolean run = true;
 			while(run) {
-				PrintUtil.bar();
-				System.out.println("비밀번호가 틀렸습니다");
-				System.out.println("새 비밀번호를 만드시겠습니까?");
-				PrintUtil.bar();
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("비밀번호가 틀렸습니다");
+				PrintUtil.centerAlignment("새 비밀번호를 만드시겠습니까?");
+				PrintUtil.bar3();
 				System.out.println("① 예    ② 아니오");
 				System.out.printf("입력 ☞ ");
 				int select = ScanUtil.nextInt();
@@ -88,14 +91,14 @@ public class UserService {
 						run = false;
 						break;
 					case 2:
-						System.out.println("------------------");
-						System.out.println("메인 메뉴로 돌아갑니다");
-						System.out.println("------------------");
+						PrintUtil.bar3();
+						PrintUtil.centerAlignment("메인 메뉴로 돌아갑니다");
+						PrintUtil.bar3();
 						System.out.println();
 						run = false;
 						break;
 					default:
-						System.out.print("\"예\" 또는 \"아니오\"를 선택하세요");
+						PrintUtil.centerAlignment("\"예\" 또는 \"아니오\"를 선택하세요");
 						System.out.println();
 						break;
 				}
@@ -105,6 +108,7 @@ public class UserService {
 		}
 		
 	}
+	
 	//회원가입
 	public int signUp() {
 		int result = 0;
@@ -122,19 +126,26 @@ public class UserService {
 		System.out.print("전화번호: ");
 		String userTel = ScanUtil.nextLine();
 		
-		System.out.println("정보를 저장하겠습니까?  (y / n)");
+		PrintUtil.bar3();
+		PrintUtil.centerAlignment("정보를 저장하겠습니까?  (y / n)");
+		PrintUtil.bar3();
 		String flag = ScanUtil.nextLine();
 		if(flag.equalsIgnoreCase("y")) {
 			result = userDAO.signUp(name, userId, userPw, userTel);
 		}
 		if(result != 0) {
-			System.out.println(name + "회원님의 자료 입력이 정상 처리되었습니다.");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment((name + "회원님의 자료 입력이 정상 처리되었습니다."));
+			PrintUtil.bar3();
 			return View.USER_LOGIN;
 		} else {
-			System.out.println(name + "회원님의 자료 입력이 취소되었습니다.");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment(name + "회원님의 자료 입력이 취소되었습니다.");		
+			PrintUtil.bar3();
 			return View.HOME;
 		}
 	}
+	
 	//비밀번호찾기
 	public void userPasswordReset() throws Exception{
 		
@@ -145,15 +156,15 @@ public class UserService {
 		con = Connect.getConnection();
 		stmt = con.createStatement();
 		
-		System.out.println("------------------");
-        System.out.println("아래의 회원 정보를 입력하세요");
-        System.out.println("------------------");
+		PrintUtil.bar3();
+		PrintUtil.centerAlignment("아래의 회원 정보를 입력하세요");
+		PrintUtil.bar3();
         System.out.println();
-        System.out.println("아이디를 입력하세요 ☞ ");
+        System.out.print("아이디를 입력하세요 ☞  ");
 		String user_id = ScanUtil.nextLine();
-		System.out.println("이름을 입력하세요 ☞ ");
+		System.out.print("이름을 입력하세요 ☞  ");
 		String user_name = ScanUtil.nextLine();
-		System.out.println("전화번호를 입력하세요 ☞ ");
+		System.out.print("전화번호를 입력하세요 ☞  ");
 		String user_ph = ScanUtil.nextLine();
 		
 		String sql = "SELECT USER_ID, USER_NAME, USER_PH"+
@@ -171,13 +182,13 @@ public class UserService {
 			while(run) {
 				
 				
-			System.out.println("------------------");
-			System.out.println("회원번호가 일치합니다");
-			System.out.println("임시로 비밀번호를 생성하시겠습니까?");
-			System.out.println("① 예    ② 아니오");
-			System.out.println("------------------");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("회원번호가 일치합니다");
+			PrintUtil.centerAlignment("임시로 비밀번호를 생성하시겠습니까?");
+			PrintUtil.centerAlignment("① 예    ② 아니오");
+			PrintUtil.bar3();
 				
-			System.out.println("입력 ☞ ");
+			System.out.print("입력 ☞ ");
 			
 			int select = ScanUtil.nextInt();
 			
@@ -186,16 +197,16 @@ public class UserService {
 					createRandomPw(user_id);
 					run = false;
 				case 2:
-					System.out.println("------------------");
-					System.out.println("메인 메뉴로 돌아갑니다");
-					System.out.println("------------------");
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("메인 메뉴로 돌아갑니다");
+					PrintUtil.bar3();
 					System.out.println();
 					run = false;
 					break;
 				default:
-					System.out.println("------------------");
-					System.out.print("\"예\" 또는 \"아니오\"를 선택하세요");
-					System.out.println("------------------");
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("\"예\" 또는 \"아니오\"를 선택하세요");
+					PrintUtil.bar3();
 					System.out.println();
 					break;
 			}
@@ -205,13 +216,14 @@ public class UserService {
 		}
 			
 		}else {
-			System.out.println("------------------");
-	        System.out.println("회원정보가 틀렸습니다");
-	        System.out.println("메인 메뉴로 돌아갑니다");
-	        System.out.println("------------------");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("회원정보가 틀렸습니다");
+			PrintUtil.centerAlignment("메인 메뉴로 돌아갑니다");
+			PrintUtil.bar3();
 	        System.out.println();
 		}
 	}
+	
 	//임시비밀번호
 	public void createRandomPw(String user_id) throws Exception{
 	
@@ -236,15 +248,19 @@ public class UserService {
 		rs = stmt.executeUpdate(sql);
 	
 		if(rs !=0 ) {
-			System.out.println("------------------");
-			System.out.println("임시 비밀번호가 생성되었습니다");
-			System.out.println("임시 비밀번호 : "+randomPw);
-			System.out.println("마이페이지에서 꼭 변경하세요");
-			System.out.println("------------------");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("임시 비밀번호가 생성되었습니다");
+			PrintUtil.centerAlignment("임시 비밀번호 : "+ randomPw);
+			PrintUtil.centerAlignment("마이페이지에서 꼭 변경하세요");
+			PrintUtil.bar3();
 			System.out.println();		
 		}
 	}
-	// 유저의 스코어를 매개변수로 입력받은 정수만큼 더함
+	
+	/**
+	 * 유저의 스코어를 매개변수로 입력받은 만큼 증가시킴
+	 * @param 증가시킬 스코어
+	 */
 	public void setUserScore(int score) {
 		if(score >= 0) {
 			String sql =  "UPDATE USERS" +
@@ -254,7 +270,11 @@ public class UserService {
 			userDAO.setUserScore(sql);
 		} 
 	}
-	// 유저의 게임머니를 매개변수로 입력받은 정수만큼 더함
+	
+	/**
+	 * 유저의 게임머니를 매개변수로 입력받은 만큼 증가시킴
+	 * @param 증가시킬 금액
+	 */
 	public void setUserGameMoney(int money) {
 		if(money >= 0) {
 			String sql =  "UPDATE USERS" +
@@ -264,13 +284,18 @@ public class UserService {
 			userDAO.setUserScore(sql);
 		} 
 	}
-	//	상점에서 아이템 구매 시 금액 체크 후 금액이 맞으면 아이템 구매
+	
+	/**
+	 * 상점에서 아이템 구매 시 금액 체크 후 금액이 맞으면 아이템 구매
+	 * @param 구매할 금액
+	 * @return 금액이 존재하면 구매후 true를 반환, 존재하지 않으면 false를 반환
+	 */
 	public boolean purchaseItem(int money) {
 		
 		if (Integer.parseInt(getUserInfo().get("USER_GM").toString()) >= money){
 			String sql =  "UPDATE USERS" +
-					  " SET USER_GM = USER_GM - " + money +
-					  " WHERE USER_NO = " + userInfo.get("USER_NO");
+					  	  " SET USER_GM = USER_GM - " + money +
+					  	  " WHERE USER_NO = " + userInfo.get("USER_NO");
 			
 			userDAO.setUserScore(sql);
 			return true;

@@ -1,11 +1,6 @@
 package util;
 
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 
 public class PrintUtil {
 	
@@ -13,18 +8,34 @@ public class PrintUtil {
 	static String bar2 = "-----------------------------------------------------------------";
     private static final Font font = new Font("Arial", Font.PLAIN, 12);
     
+	/**
+	 * □■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□
+	 * 를 콘솔창에 출력
+	 */
 	public static void bar() {
 		System.out.println(bar);
 	}
 	
+	/**
+	 * 공백을 콘솔창에 출력
+	 */
 	public static void bar2() {
 		System.out.println();
 	}
 	
+	/**
+	 * -----------------------------------------------------------------
+	 * 를 콘솔창에 출력
+	 */
 	public static void bar3() {
 		System.out.println(bar2);
 	}
 	
+	/**
+
+	 * 가운데 정렬하고싶은 문자열을 매개변수로 입력하면 가운데로 정렬해서 출력시켜줌
+	 * @param 정렬하고싶은 문자열
+	 */
 	public static void centerAlignment(String str) {
 		int strLength = str.length();
 		int totalLength = bar.length();

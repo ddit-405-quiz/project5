@@ -15,8 +15,7 @@ public class QuizService {
 
 	private static QuizService instance = null;
 
-	private QuizService() {
-	}
+	private QuizService() {}
 
 	public static QuizService getInstance() {
 		if (instance == null)
@@ -75,7 +74,7 @@ public class QuizService {
 			PrintUtil.bar2();
 			PrintUtil.centerAlignment(quizList.get(i).get("QUIZ_DETAIL").toString());
 			if (gameManager.hasItem(View.ITEM_HINT)) {
-				PrintUtil.bar2();
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("초성힌트 : " + quizList.get(i).get("QUIZ_HINT"));
 			}
 			PrintUtil.bar();
@@ -83,16 +82,16 @@ public class QuizService {
 			String answer = ScanUtil.nextLine();
 
 			if (answer.equals(quizList.get(i).get("QUIZ_ANSWER"))) {
-				PrintUtil.bar2();
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("정답입니다!");
-				PrintUtil.bar2();
+				PrintUtil.bar3();
 				gameManager.setCorrectCount();
 			} else {
-				PrintUtil.bar2();
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("오답입니다!");
 				life--;
 				PrintUtil.centerAlignment("남은목숨 : " + life);
-				PrintUtil.bar2();
+				PrintUtil.bar3();
 			}
 		}
 
