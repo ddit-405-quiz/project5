@@ -122,7 +122,7 @@ public class Controller {
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
+		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 랭킹   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -134,17 +134,15 @@ public class Controller {
 				return View.QUIZ_START;
 			case 2:
 				return View.BOARD;
-//			case 3:
-//				return View.;
+			case 3:
+				return View.RANKING;
 //			case 4:
 //				return View.;
 			case 5:
 				return View.SHOP_MAIN;
 			case 6:
 				return View.HOME;
-//				return View.USER_LOGOUT;
-			case 7:
-				return View.RANKING;
+//				return View.USER_LOGOUT;	
 			default:
 				return View.QUIZ;
 
@@ -389,9 +387,8 @@ public class Controller {
 		switch (ScanUtil.nextInt()) {
 		case 1:
 			return View.RANKING_ALL;
-
-		case 3:
-			return View.HOME_MAIN;
+		case 2:
+			return View.RANKING_UNLIMIT;
 		default:
 			return View.QUIZ;
 		}

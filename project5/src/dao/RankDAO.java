@@ -25,7 +25,8 @@ public class RankDAO {
 
 		List<Map<String, Object>> rankList = new ArrayList<>();
 
-		String sql = "SELECT rank, user_name, user_score " + "from ranking ORDER BY rank";
+		String sql = "select rank() over (order by user_score desc, user_no asc) rank, user_score, user_name" + 
+					" from ranking";
 
 		rankList = jdbc.selectAll(sql);
 

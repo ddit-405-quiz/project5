@@ -55,6 +55,7 @@ public interface View {
 	
 	int RANKING = 10;
 	int RANKING_ALL = 101;
+	int RANKING_UNLIMIT = 102;
 	
 	//결제 관련된 상점이나 아이템
 }
