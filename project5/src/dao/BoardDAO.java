@@ -20,7 +20,7 @@ public class BoardDAO {
 	public List<Map<String, Object>> boardList(){
 		String sql = "SELECT * FROM REQUEST "
 				+ "ORDER BY REQ_NO ASC";
-		return jdbc.selectList(sql);				
+		return jdbc.selectAll(sql);				
 	}
 	
 	//게시판 리스트
@@ -28,7 +28,7 @@ public class BoardDAO {
 	    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER FROM REQUEST WHERE REQ_NO = ?";
 	    List<Object> params = new ArrayList<>();
 	    params.add(reqNo);
-	    List<Map<String, Object>> result = jdbc.selectList(sql, params);
+	    List<Map<String, Object>> result = jdbc.selectAll(sql, params);
 	    if (result != null && result.size() > 0) {
 	        return result.get(0);
 	    } else {
@@ -72,7 +72,7 @@ public class BoardDAO {
 	    List<Object> params = new ArrayList<>();
 	    params.add(end);
 	    params.add(start);
-	    return jdbc.selectList(sql, params);
+	    return jdbc.selectAll(sql, params);
 	}
 	
 	//게시판의 레코드 수 반환

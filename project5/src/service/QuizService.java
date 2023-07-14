@@ -168,37 +168,4 @@ public class QuizService {
 			return View.HOME_MAIN;
 		}
 	}
-
-	// 선택한 장르의 문제 보여주기
-	public void searchQuiz(int genre) {
-
-		List<Map<String, Object>> quizList = quizDAO.searchQuiz(genre);
-
-		switch (genre) {
-		case View.QUIZ_COMMON_SENSE:
-			PrintUtil.centerAlignment("상식 퀴즈 목록");
-			break;
-		case View.QUIZ_KOREAN:
-			PrintUtil.centerAlignment("우리말 퀴즈 목록");
-			break;
-		case View.QUIZ_HISTORY:
-			PrintUtil.centerAlignment("역사 퀴즈 목록");
-			break;
-		case View.QUIZ_NONSENSE:
-			PrintUtil.centerAlignment("넌센스 퀴즈 목록");
-			break;
-		}
-
-		quizList = quizDAO.searchQuiz(genre);
-
-		for (Map<String, Object> quiz : quizList) {
-			int quizId = Integer.parseInt(quiz.get("QUIZ_NO").toString());
-			String question = (String) quiz.get("QUIZ_DETAIL");
-			String answer = (String) quiz.get("QUIZ_ANSWER");
-			PrintUtil.centerAlignment("문제 ID : " + quizId);
-			PrintUtil.centerAlignment("질문 : " + question);
-			PrintUtil.centerAlignment("정답 : " + answer);
-			System.out.println();
-		}
-	}
 }
