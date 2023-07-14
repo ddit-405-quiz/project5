@@ -42,21 +42,21 @@ public class ItemService {
 
 		String itemName = "";
 		switch (itemNo) {
-		case 1:
+		case View.ITEM_DOUBLE:
 			itemName = "ITEM_DOUBLE";
 			break;
-		case 2:
+		case View.ITEM_HINT:
 			itemName = "ITEM_HINT";
 			break;
-		case 3:
+		case View.ITEM_LIFE:
 			itemName = "ITEM_LIFE";
 			break;
 		}
 
-		String operator = increase ? "+" : "-";
-		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + operator + quantity
-				+ " WHERE USER_NO = " + userNo;
-
+		int operator = increase ? 1 : -1;
+		String sql = "UPDATE ITEM "
+				   + " SET " + itemName + "  =  " + itemName + " + " + quantity
+				   + " WHERE USER_NO = " + gameManager.getUserInfo().get("USER_NO");
 		itemDAO.setUserItem(sql);
 	}
 

@@ -21,12 +21,13 @@ public class UserDAO {
 	
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 
+	//À¯ÀúÀÇ Á¤º¸ ¹ÝÈ¯ ¸Þ¼Òµå
 	public  Map<String, Object> getUserInfo(String user_NO){
 		return jdbc.selectOne("SELECT * FROM USERS " + 
 							  "WHERE USER_NO = " + user_NO);
 	}
 
-	//idÈ®ÀÎ
+	//idÈ®ï¿½ï¿½
 	public boolean checkId(String memId) {
 		String sql = "SELECT USER_NAME FROM USERS WHERE USER_ID = ?";
 		Map<String, Object> result = jdbc.selectOne(sql, Collections.singletonList(memId));
@@ -34,7 +35,7 @@ public class UserDAO {
 		return result != null;
 	}
 	
-	//·Î±×ÀÎ
+	//ï¿½Î±ï¿½ï¿½ï¿½
 	public Map<String, Object> login(List<Object> param) { 
 		String sql = "SELECT * FROM USERS "
 				+ "WHERE USER_ID = ? AND USER_PW = ?";	
@@ -42,7 +43,7 @@ public class UserDAO {
 	}
 	
 	
-	//È¸¿ø°¡ÀÔ
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int signUp(String name, String userId, String userPw, String userTel) {
 		String sql = "INSERT INTO USERS(USER_NO, USER_ID, USER_PW, USER_PH, USER_NAME, USER_GM, USER_SCORE)";
 		sql = sql + "VALUES(fn_create_user_no, ?, ?, ?, ?, 100, 0)";

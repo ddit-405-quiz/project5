@@ -14,10 +14,12 @@ public class Controller {
 
 	public static Map<String, Object> sessionStorage = new HashMap<>();
 
+	GameManager gameManager = GameManager.getInstance();
 	UserService userService = UserService.getInstance();
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
 	AdminService adminService = AdminService.getInstance();
+	RankService rankService = RankService.getInstance();
 	BoardService boardService = BoardService.getInstance();
 
 	public static void main(String[] args) {
@@ -58,11 +60,18 @@ public class Controller {
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
-			case View.ADMIN_LOGIN:
+			case View.ADMIN_LOGIN:   
 				view = adminService.adminLogin();
 				break;
 			case View.ADMIN_MAIN:
 				view = adminMain();
+				break;
+			case View.RANKING:
+				view = rankingMain();
+				break;
+			case View.RANKING_ALL:
+				view = rankService.rankingPage();
+				break;
 			case View.USER_LOGOUT:
 				break;
 			case View.BOARD:
@@ -113,7 +122,7 @@ public class Controller {
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
+		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 랭킹   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -125,15 +134,15 @@ public class Controller {
 				return View.QUIZ_START;
 			case 2:
 				return View.BOARD;
-//			case 3:
-//				return View.;
+			case 3:
+				return View.RANKING;
 //			case 4:
 //				return View.;
 			case 5:
 				return View.SHOP_MAIN;
 			case 6:
 				return View.HOME;
-//				return View.USER_LOGOUT;
+//				return View.USER_LOGOUT;	
 			default:
 				return View.QUIZ;
 
@@ -177,8 +186,7 @@ public class Controller {
 				quantity = ScanUtil.nextInt();
 
 				if (userService.purchaseItem(200 * quantity)) {
-					itemService.setUserItem(View.ITEM_DOUBLE, quantity,
-							userService.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_DOUBLE, quantity, gameManager.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
@@ -194,8 +202,7 @@ public class Controller {
 				quantity = ScanUtil.nextInt();
 
 				if (userService.purchaseItem(100 * quantity)) {
-					itemService.setUserItem(View.ITEM_HINT, quantity,
-							userService.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
@@ -364,6 +371,30 @@ public class Controller {
 
 	}
 	
+	private int rankingMain() {
+		PrintUtil.bar();
+		System.out.println();
+		System.out.println();
+		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.bar();
+		System.out.print("\n 【  선택  】 ");
+
+		switch (ScanUtil.nextInt()) {
+		case 1:
+			return View.RANKING_ALL;
+		case 2:
+			return View.RANKING_UNLIMIT;
+		case 3:
+			return View.HOME_MAIN;
+		default:
+			return View.RANKING;
+		}
+	}
 	//커뮤니티 이용
 	public int list() {
 	    int currentPage = 1; // 현재 페이지
