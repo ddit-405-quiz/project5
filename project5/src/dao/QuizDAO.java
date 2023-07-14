@@ -30,4 +30,40 @@ public class QuizDAO {
 		
 		return jdbc.selectAll(sql);
 	}
+
+
+	/**
+	 * 입력받은 장르를 토대로 해당 장르의 퀴즈를 모두 List에 담은다음 반환
+	 * @param 조회하고 싶은 장르
+	 * @return 해당 장르의 모든 퀴즈를 List<Map<String, Object>> 타입에 담아서 반환
+	 */
+	public List<Map<String, Object>> searchQuiz(int genre) {
+		List<Map<String, Object>> quizList = new ArrayList<>();
+
+		String quizCategory = "";
+
+		switch (genre) {
+		case View.QUIZ_COMMON_SENSE:
+			quizCategory = "1";
+			break;
+		case View.QUIZ_KOREAN:
+			quizCategory = "2";
+			break;
+		case View.QUIZ_HISTORY:
+			quizCategory = "3";
+			break;
+		case View.QUIZ_NONSENSE:
+			quizCategory = "4";
+			break;
+		}
+
+		String sql = "SELECT * FROM QUIZ" + " WHERE SUBSTR(QUIZ_NO, 1, 1) = " + quizCategory;
+
+		quizList = jdbc.selectAll(sql);
+		
+		
+		
+		return quizList;
+	}
+
 }

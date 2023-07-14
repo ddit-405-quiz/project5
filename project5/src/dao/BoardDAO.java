@@ -24,6 +24,19 @@ public class BoardDAO {
 	}
 	
 	//게시판 리스트
+
+		public Map<String, Object> selectBoard(int reqNo) {
+		    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER, USER_NO FROM REQUEST WHERE REQ_NO = ?";
+		    List<Object> params = new ArrayList<>();
+		    params.add(reqNo);
+		    List<Map<String, Object>> result = jdbc.selectList(sql, params);
+		    if (result != null && result.size() > 0) {
+		        return result.get(0);
+		    } else {
+		        return null;
+		    }
+		}
+
 	public Map<String, Object> selectBoard(int reqNo) {
 	    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER FROM REQUEST WHERE REQ_NO = ?";
 	    List<Object> params = new ArrayList<>();
@@ -35,6 +48,7 @@ public class BoardDAO {
 	        return null;
 	    }
 	}
+
 	
 	//게시물 수정
 	public int updateBoard(Map<String, Object> board) {
@@ -85,4 +99,14 @@ public class BoardDAO {
 	        return 0;
 	    }
 	}
+	
+	// 관리자 댓글 생성
+    public int createReply(Map<String, Object> reply) {
+        String sql = "INSERT INTO REPLY (REQ_NO, REQ_RESP) "
+                + "VALUES (?, ?)";
+        List<Object> params = new ArrayList<>();
+        params.add(reply.get("REQ_NO"));
+        params.add(reply.get("REQ_RESP"));
+        return jdbc.update(sql, params);
+    }
 }

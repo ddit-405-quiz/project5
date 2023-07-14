@@ -23,10 +23,11 @@ public interface View {
 	int QUIZ_START = 43;         // 퀴즈 - 시작
 	int QUIZ_FAIL = 44;          // 퀴즈 - 실패
 	int QUIZ_SUCCESS = 45;		 // 퀴즈 - 성공
-	int QUIZ_NONSENSE = 46;		 // 퀴즈 - 넌센스
-	int QUIZ_KOREAN = 47;		 // 퀴즈 - 우리말
-	int QUIZ_COMMON_SENSE = 48;  // 퀴즈 - 상식
-	int QUIZ_HISTORY = 49;		 // 퀴즈 - 역사
+	int QUIZ_NONSENSE = 411;		 // 퀴즈 - 넌센스
+	int QUIZ_KOREAN = 412;		 // 퀴즈 - 우리말
+	int QUIZ_COMMON_SENSE = 413;  // 퀴즈 - 상식
+	int QUIZ_HISTORY = 414;		 // 퀴즈 - 역사
+	int QUIZ_USER = 498;		//퀴즈 - 문제조회 및 관리자 접근
 	int QUIZ_MANAGE = 499;		//퀴즈 - 문제조회 및 관리자 접근
 	
 	//게시판 혹은 유저가 관리자에게 요청사항 등  -- 수정필요

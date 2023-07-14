@@ -60,7 +60,7 @@ public class BoardService {
         System.out.println("내용: " + board.get("REQ_DETAIL"));
         System.out.println("작성자: " + board.get("REQ_WRITER"));
         PrintUtil.bar2();
-        System.out.println("① 수정 ② 삭제 ③ 뒤로가기");
+        PrintUtil.centerAlignment("1. 수정  2. 삭제  3. 뒤로가기");
         System.out.print("\n 【  선택  】");
 
         switch (ScanUtil.nextInt()) {
@@ -84,6 +84,16 @@ public class BoardService {
                 break;
             case 3:
                 return View.BOARD;
+//            //관리자 전용 댓글 작성
+//            case 999:
+//            	if (SessionUtil.isAdmin()) {
+//                    return createReply(reqNo);
+//                } else {
+//                    PrintUtil.bar3();
+//                    PrintUtil.centerAlignment("관리자만 댓글 작성이 가능합니다.");
+//                    PrintUtil.bar3();
+//                }
+//                break;
             default:
             	PrintUtil.bar3();
     			PrintUtil.centerAlignment("잘못된 입력입니다.");
@@ -93,14 +103,15 @@ public class BoardService {
         return View.BOARD;
     }
     
+    //게시글 수정
     public int update(int reqNo) {
-        Map<String, Object> board = boardDAO.selectBoard(reqNo);
-        	if (board == null) {
-        		PrintUtil.bar3();
-        		PrintUtil.centerAlignment("존재하지 않는 게시글입니다.");
-        		PrintUtil.bar3();
-        		return View.BOARD;
-        	}
+    	Map<String, Object> board = boardDAO.selectBoard(reqNo);
+    	if (board == null) {
+    	    PrintUtil.bar3();
+    	    PrintUtil.centerAlignment("존재하지 않는 게시글입니다.");
+    	    PrintUtil.bar3();
+    	    return View.BOARD;
+    	}
 
         PrintUtil.bar();
         System.out.println(" 【 게시물 수정 】 ");
@@ -140,6 +151,13 @@ public class BoardService {
     }
     //게시글 삭제
     public int delete(int reqNo) {
+    	Map<String, Object> board = boardDAO.selectBoard(reqNo);
+    	if (board == null) {
+    	    PrintUtil.bar3();
+    	    PrintUtil.centerAlignment("존재하지 않는 게시글입니다.");
+    	    PrintUtil.bar3();
+    	    return View.BOARD;
+    	}    	
     	System.out.println("정말로 삭제하시겠습니까? (y / n)");
     	System.out.print("\n 【  선택  】");
     	String confirm=ScanUtil.nextLine();
@@ -200,7 +218,7 @@ public class BoardService {
         	return View.BOARD;
     }
         
-    //게시글 작성자가 현재 유저인지 확인
+  //게시글 작성자가 현재 유저인지 확인
     public boolean currentUser(int reqNo) {
         String currentUserNo = SessionUtil.getCurrentUserNo();
         Map<String, Object> board = boardDAO.selectBoard(reqNo);
@@ -208,8 +226,8 @@ public class BoardService {
             return false;
         }
         // 작성자의 회원번호 가져오기
-        String writerUserNo = board.get("REQ_WRITER").toString();
-        //비교
+        String writerUserNo = board.get("USER_NO").toString();
+        // 비교
         return currentUserNo.equals(writerUserNo);
     }
 }
