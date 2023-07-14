@@ -23,7 +23,6 @@ public class Controller {
 	BoardService boardService = BoardService.getInstance();
 
 
-	
 	public static void main(String[] args) {
 		new Controller().start();
 	}
