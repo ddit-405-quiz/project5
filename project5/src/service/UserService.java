@@ -394,6 +394,9 @@ public class UserService {
 	//회원 탈퇴
 	public int delete() {
 		Map<String, Object> userInfo = (Map<String, Object>) Controller.sessionStorage.get("loginInfo");
+		PrintUtil.bar3();
+		PrintUtil.centerAlignment("회원 탈퇴를 진행하시겠습니까? (여기서 시도하면 되돌릴 수 없습니다.)");
+		PrintUtil.bar3();
 		System.out.print("아이디를 입력하시오: ");
 		String userid = ScanUtil.nextLine();
 		System.out.print("비밀번호를 입력하시오: ");
@@ -411,8 +414,10 @@ public class UserService {
 		PrintUtil.bar3();
 		PrintUtil.centerAlignment("회원 탈퇴를 진행하시겠습니까?");
 		PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
+		PrintUtil.centerAlignment("지금 여기까지 온 당신. 되돌릴 수 없습니다.(취소 불가)");
 		PrintUtil.bar3();
 		System.out.println();
+		ScanUtil.nextLine();
 		
 		return userDAO.delete(userid, userpw);
 	}
