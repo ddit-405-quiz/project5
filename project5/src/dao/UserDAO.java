@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+//import service.LoginService;
+import service.UserService;
 import util.JDBCUtil;
+import util.ScanUtil;
 
 public class UserDAO {
 	
@@ -27,7 +30,7 @@ public class UserDAO {
 							  "WHERE USER_NO = " + user_NO);
 	}
 
-	//idȮ��
+	
 	public boolean checkId(String memId) {
 		String sql = "SELECT USER_NAME FROM USERS WHERE USER_ID = ?";
 		Map<String, Object> result = jdbc.selectOne(sql, Collections.singletonList(memId));
@@ -35,7 +38,7 @@ public class UserDAO {
 		return result != null;
 	}
 	
-	//�α���
+	
 	public Map<String, Object> login(List<Object> param) { 
 		String sql = "SELECT * FROM USERS "
 				+ "WHERE USER_ID = ? AND USER_PW = ?";	
@@ -43,7 +46,7 @@ public class UserDAO {
 	}
 	
 	
-	//ȸ������
+	
 	public int signUp(String name, String userId, String userPw, String userTel) {
 		String sql = "INSERT INTO USERS(USER_NO, USER_ID, USER_PW, USER_PH, USER_NAME, USER_GM, USER_SCORE)";
 		sql = sql + "VALUES(fn_create_user_no, ?, ?, ?, ?, 100, 0)";
@@ -65,4 +68,20 @@ public class UserDAO {
 	public void setUserGameMoney(String sql) {
 		jdbc.update(sql);
 	}
+	
+	public int update(String str, String userid) {
+		String sql = "UPDATE USERS SET " 
+				   + str
+				   + " WHERE USER_ID = " + "'" + userid + "'";
+		
+		return jdbc.update(sql);
+	}
+	
+	public int delete(String userid, String userpw) {
+		
+		String sql = "DELETE FROM USERS WHERE USER_ID =" + "'" + userid + "' AND " + "USER_PW= " + "'" + userpw +"'";
+		
+		return jdbc.update(sql);
+	}
+	
 }
