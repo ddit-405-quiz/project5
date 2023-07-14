@@ -12,21 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dao.AdminDAO;
+
 public class JDBCUtil {
 
 	private static JDBCUtil instance = null;
-
-	private JDBCUtil() {
-	}
-
-	public static JDBCUtil getInstance() {
-		if (instance == null)
+	private JDBCUtil() {}
+	public static JDBCUtil getInstance() {	
+		if(instance == null) {
 			instance = new JDBCUtil();
+		}
 		return instance;
 	}
 
 	private final String url = "jdbc:oracle:thin:@192.168.145.29:1521:xe";
-
 	private final String user = "project5";
 	private final String password = "java";
 
@@ -73,13 +72,18 @@ public class JDBCUtil {
 		
 		try {
 			
+			// DB�� �������ִ� �ڵ�
 			conn = DriverManager.getConnection(url, user, password);
+			// ����
 			pstmt = conn.prepareStatement(sql);
+			// ����� rs�� ����
 			rs = pstmt.executeQuery();
+			// rs�� ��Ÿ�����͸� �̾ƿ�
 			ResultSetMetaData rsmd = rs.getMetaData();
 			
 			int columnCount = rsmd.getColumnCount();
 			
+			// ���� ������ŭ �� ���� key(�÷��� �̸�), value(�ش� �÷��� ������)�� ���ؼ� ���� map�� �־���
 			while (rs.next()) {
 				if (row == null)
 					row = new HashMap<>();
@@ -102,6 +106,11 @@ public class JDBCUtil {
 	public List<Map<String, Object>> selectAll (String sql) {
 
 		List<Map<String, Object>> list = new ArrayList<>();
+
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).get("RANK"));
+			System.out.println(list.get(i).get("SCORE"));
+		}
 		
 		try {
 			

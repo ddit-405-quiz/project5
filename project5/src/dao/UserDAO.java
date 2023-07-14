@@ -21,6 +21,7 @@ public class UserDAO {
 	
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 
+	//유저의 정보 반환 메소드
 	public  Map<String, Object> getUserInfo(String user_NO){
 		return jdbc.selectOne("SELECT * FROM USERS " + 
 							  "WHERE USER_NO = " + user_NO);
