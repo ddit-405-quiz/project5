@@ -484,7 +484,7 @@ public class Controller {
 	public int adminlist() {
 		while(true) {
 	        PrintUtil.bar();
-	        PrintUtil.centerAlignment(" 【 게시물 목록 】 ");
+	        PrintUtil.centerAlignment(" 【 게시물 관리 】 ");
 	        System.out.println("no\t\ttitle\t\twriter");
 
 	        List<Map<String, Object>> boardList = adminBoardService.boardList();

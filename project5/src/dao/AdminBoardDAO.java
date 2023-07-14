@@ -60,4 +60,25 @@ public class AdminBoardDAO {
 	    params.add(board.get("REQ_WRITER"));
 	    return jdbc.update(sql, params);
 	}
+    
+    public int createComment(int reqNo, String comment) {
+        String sql = "UPDATE REQUEST SET REQ_RESP= '" + comment + "', REQ_WRITER = '관리자' WHERE REQ_NO=" + reqNo;
+        return jdbc.update(sql);
+    }
+    
+    public int updateAdminBoard(Map<String, Object> board) {
+        String sql = "UPDATE REQUEST SET REQ_TITLE = ?, REQ_DETAIL = ?, REQ_WRITER = ?, REQ_RESP = ? WHERE REQ_NO = ?";
+        List<Object> params = new ArrayList<>();
+        params.add(board.get("REQ_TITLE"));
+        params.add(board.get("REQ_DETAIL"));
+        params.add(board.get("REQ_WRITER"));
+        params.add(board.get("REQ_RESP"));
+        params.add(board.get("REQ_NO"));
+        return jdbc.update(sql, params);
+    }
+    
+    public List<Map<String, Object>> getComments(int reqNo) {
+        String sql = "SELECT * FROM REQUEST WHERE REQ_NO = " + reqNo;
+        return jdbc.selectAll(sql);
+    }
 }
