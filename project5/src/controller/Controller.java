@@ -389,8 +389,10 @@ public class Controller {
 			return View.RANKING_ALL;
 		case 2:
 			return View.RANKING_UNLIMIT;
+		case 3:
+			return View.HOME_MAIN;
 		default:
-			return View.QUIZ;
+			return View.RANKING;
 		}
 	}
 	//커뮤니티 이용
