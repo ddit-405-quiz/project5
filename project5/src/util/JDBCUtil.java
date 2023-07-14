@@ -103,7 +103,7 @@ public class JDBCUtil {
 		return row;
 	}
 
-	public List<Map<String, Object>> selectAll(String sql) {
+	public List<Map<String, Object>> selectAll (String sql) {
 
 		List<Map<String, Object>> list = new ArrayList<>();
 
@@ -144,43 +144,8 @@ public class JDBCUtil {
 		}
 		return list;
 	}
-	
-	public int update(String sql, List<Object> param) {
-		int result = 0;
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-			pstmt = conn.prepareStatement(sql);
-			for (int i = 0; i < param.size(); i++) {
-				pstmt.setObject(i + 1, param.get(i));
-			}
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) try {rs.close();} catch (Exception e) {}
-			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
-			if (conn != null) try {conn.close();} catch (Exception e) {}
-		}
-		return result;
-	}
-	
-	public int update(String sql) {
-		int result = 0;
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-			pstmt = conn.prepareStatement(sql);
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) try {rs.close();} catch (Exception e) {}
-			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
-			if (conn != null) try {conn.close();} catch (Exception e) {}
-		}
-		return result;
-	}
-	
-	public List<Map<String, Object>> selectList(String sql, List<Object> param){
+
+	public List<Map<String, Object>> selectAll(String sql, List<Object> param){
 		List<Map<String, Object>> list = new ArrayList<>();
 
 		try {
@@ -217,37 +182,39 @@ public class JDBCUtil {
 
 	}
 	
-	public List<Map<String, Object>> selectList(String sql){	
-		List<Map<String, Object>> list = new ArrayList<>();
-
+	public int update(String sql, List<Object> param) {
+		int result = 0;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-
-			ResultSetMetaData md = rs.getMetaData();
-
-			int columnCount = md.getColumnCount();
-
-			while(rs.next()){
-				Map<String, Object> row = new HashMap<>();
-				for(int i=1; i<= columnCount; i++){
-					String key =md.getColumnName(i);
-					Object value = rs.getObject(key);
-					row.put(key, value);
-				}
-				list.add(row);
+			for (int i = 0; i < param.size(); i++) {
+				pstmt.setObject(i + 1, param.get(i));
 			}
-
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
-			if(rs != null) try{ rs.close(); } catch(Exception e){}
-			if(pstmt != null) try{ pstmt.close(); } catch(Exception e){}
-			if(conn != null) try{ conn.close(); } catch(Exception e){}
+		} finally {
+			if (rs != null) try {rs.close();} catch (Exception e) {}
+			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
+			if (conn != null) try {conn.close();} catch (Exception e) {}
 		}
-
-		return list;
-
+		return result;
 	}
+	
+	public int update(String sql) {
+		int result = 0;
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("올바른 입력값이 아님");
+		} finally {
+			if (rs != null) try {rs.close();} catch (Exception e) {}
+			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
+			if (conn != null) try {conn.close();} catch (Exception e) {}
+		}
+		return result;
+	}
+
 }
