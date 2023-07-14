@@ -18,6 +18,7 @@ public interface View {
 	int ADMIN_LOGOUT = 32;		//관리자 로그아웃
 	int ADMIN_BOARD = 33;
 	
+	
 	int QUIZ = 4;
 	int QUIZ_CATEGORY = 41;		 // 퀴즈 - 카테고리 선택
 	int QUIZ_ITEM = 42;          // 퀴즈 - 아이템 사용 여부

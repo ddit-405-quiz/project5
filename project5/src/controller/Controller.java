@@ -21,7 +21,8 @@ public class Controller {
 	AdminService adminService = AdminService.getInstance();
 	AdminBoardService adminBoardService = AdminBoardService.getInstance();
 	BoardService boardService = BoardService.getInstance();
-	
+
+
 	
 	public static void main(String[] args) {
 		new Controller().start();
@@ -74,6 +75,7 @@ public class Controller {
 			case View.ADMIN_BOARD:
 				view= adminlist();
                 break;
+			
 			}
 		}
 

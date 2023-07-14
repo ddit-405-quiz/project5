@@ -26,13 +26,13 @@ public class AdminBoardDAO {
         List<Object> params = new ArrayList<>();
         params.add(reqNo);
         List<Map<String, Object>> result = jdbc.selectList(sql, params);
-        if (result != null && result.size() > 0) {
+        if (result != null && !result.isEmpty()) {
             return result.get(0);
         } else {
             return null;
         }
     }
-
+    
     public int updateBoard(Map<String, Object> board) {
         String sql = "UPDATE REQUEST SET REQ_TITLE = ?, REQ_DETAIL = ?, REQ_WRITER = ? WHERE REQ_NO = ?";
         List<Object> params = new ArrayList<>();

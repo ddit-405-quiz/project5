@@ -21,7 +21,9 @@ public class AdminBoardService {
     }
 
     private AdminBoardDAO adminBoardDAO = AdminBoardDAO.getInstance();
-
+	private String title;
+	private String comment;
+	
     public List<Map<String, Object>> boardList() {
         return adminBoardDAO.boardList();
     }
@@ -61,10 +63,11 @@ public class AdminBoardService {
         System.out.println("작성자 : " + board.get("REQ_WRITER"));
         System.out.println("작성자번호 :" + board.get("USER_NO"));
         PrintUtil.bar2();
-        System.out.println("① 수정 ② 삭제 ③ 뒤로가기");
+        System.out.println("① 수정 ② 삭제 ③ 뒤로가기 ④ 댓글작성");
         PrintUtil.bar();
         System.out.print("\n【 선택 】");
-
+        System.out.println();
+        
         switch (ScanUtil.nextInt()) {
             case 1:
                 return update(reqNo);
@@ -72,6 +75,8 @@ public class AdminBoardService {
                 return delete(reqNo);
             case 3:
                 return View.ADMIN_BOARD;
+            case 4:
+            	//댓글작성
             default:
                 PrintUtil.bar3();
                 PrintUtil.centerAlignment("잘못된 입력입니다.");
@@ -175,7 +180,16 @@ public class AdminBoardService {
         System.out.print("작성자 입력 : ");
         String writer = ScanUtil.nextLine();
         
-        String userNo = SessionUtil.getCurrentUserNo();
+        String userNo;
+        if (SessionUtil.getCurrentUserNo() == null) {
+        // 현재 로그인된 유저 정보가 없을 경우, 관리자로 게시글을 생성하므로 관리자 정보 사용
+            userNo = "관리자";
+        } else {
+        
+        	// 현재 로그인된 유저 정보가 있을 경우, 유저 번호 사용
+            userNo = SessionUtil.getCurrentUserNo();
+        }
+        
         // 게시글 생성
         Map<String, Object> board = new HashMap<>();
         	board.put("REQ_TITLE", title);
@@ -196,4 +210,7 @@ public class AdminBoardService {
         	}
         	return View.ADMIN_BOARD;
     }
+    
+    
+    
 }
