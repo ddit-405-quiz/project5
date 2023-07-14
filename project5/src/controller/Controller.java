@@ -66,22 +66,22 @@ public class Controller {
 				break;
 			case View.ADMIN_MAIN:
 				view = adminMain();
-
+				break;
 			case View.ADMIN_QUIZ:
 				view = quizListMain();
-
 				break;
 			case View.RANKING:
 				view = rankingMain();
 				break;
 			case View.RANKING_ALL:
 				view = rankService.rankingPage();
-
 				break;
 			case View.USER_LOGOUT:
 				break;
 			case View.BOARD:
 				view = list();
+				break;
+			case View.USER_MANAGE:
 				break;
 			}
 		}
@@ -142,8 +142,8 @@ public class Controller {
 				return View.BOARD;
 			case 3:
 				return View.RANKING;
-//			case 4:
-//				return View.;
+			case 4:
+				return View.MYPAGE;
 			case 5:
 				return View.SHOP_MAIN;
 			case 6:
@@ -408,7 +408,7 @@ public class Controller {
 				}
 
 				if (input == 3) {
-					break;
+					return View.ADMIN_QUIZ;
 				} else if (input == 4) {
 					quizEdit();
 				} else if (input == 5) {
@@ -434,20 +434,9 @@ public class Controller {
 		PrintUtil.bar2();
 		PrintUtil.bar2();
 		PrintUtil.centerAlignment("1.문제 추가  2.문제 삭제   3.문제 수정   4.뒤로 가기");
-	
-	private int rankingMain() {
-		PrintUtil.bar();
-		System.out.println();
-		System.out.println();
-		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
 		PrintUtil.bar2();
-		System.out.println();
-		PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
-		PrintUtil.bar2();
-		System.out.println();
 		PrintUtil.bar();
-		System.out.print("\n 【  선택  】 ");
-
+		
 		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
@@ -471,6 +460,20 @@ public class Controller {
 			return;
 		}
 	}
+	
+	// 랭킹 조회시 메인화면
+	private int rankingMain() {
+		PrintUtil.bar();
+		System.out.println();
+		System.out.println();
+		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.bar();
+		System.out.print("\n 【  선택  】 ");
 
 	// 커뮤니티 이용
 		switch (ScanUtil.nextInt()) {
@@ -484,6 +487,7 @@ public class Controller {
 			return View.RANKING;
 		}
 	}
+	
 	//커뮤니티 이용
 	public int list() {
 		int currentPage = 1; // 현재 페이지
