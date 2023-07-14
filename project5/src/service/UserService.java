@@ -336,15 +336,14 @@ public class UserService {
 		String name = "";
 		String telNum = "";
 		String str = "";
-		boolean flag = false;
-		
-//		try {	
+		boolean flag = false;	
 			
 		System.out.println("<< 회원 정보 수정 >>");
 				
 		System.out.print("이름을 변경하겠습니까? ( y / n ) : ");
 		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
-			System.out.print("변경할 이름: ");
+			System.out.println("변경할 이름  (10글자 이내로 작성해주세요)");
+			System.out.print("입력 >>  ");
 			name = ScanUtil.nextLine();
 			str = str + " USER_NAME = '" + name + "' ,";
 			flag = true;
@@ -358,7 +357,7 @@ public class UserService {
 		}
 		System.out.print("전화번호를 변경하겠습니까? ( y / n ) : ");
 		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
-			System.out.print("변경할 전화번호: ");
+			System.out.println("변경할 전화번호: ");
 			telNum = ScanUtil.nextLine();
 			str = str + " USER_PH = '" + telNum + "' ,";
 			flag = true;
@@ -378,14 +377,6 @@ public class UserService {
 		
 		result = userDAO.update(str, userid);
 		
-//		} catch (NullPointerException e) {
-//			System.out.println();
-//			PrintUtil.bar3();
-//			PrintUtil.centerAlignment("입력된 정보가 없어 메인 화면으로 돌아갑니다.");
-//			PrintUtil.bar3();
-//			return View.HOME_MAIN;
-//		} 
-		
 		
 		if(result != 0) {
 			PrintUtil.bar3();
@@ -401,8 +392,30 @@ public class UserService {
 	}
 	
 	//회원 탈퇴
-	
-	
+	public int delete() {
+		Map<String, Object> userInfo = (Map<String, Object>) Controller.sessionStorage.get("loginInfo");
+		System.out.print("아이디를 입력하시오: ");
+		String userid = ScanUtil.nextLine();
+		System.out.print("비밀번호를 입력하시오: ");
+		String userpw = ScanUtil.nextLine();
+		
+		if(!userInfo.get("USER_ID").equals(userid) || !userInfo.get("USER_PW").equals(userpw)) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("회원정보가 일치하지 않습니다.");
+			PrintUtil.centerAlignment( "이전 화면으로 돌아갑니다.");
+			PrintUtil.bar3();
+			return View.MYPAGE;
+			
+		}
+		
+		PrintUtil.bar3();
+		PrintUtil.centerAlignment("회원 탈퇴를 진행하시겠습니까?");
+		PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
+		PrintUtil.bar3();
+		System.out.println();
+		
+		return userDAO.delete(userid, userpw);
+	}
 
 	
 }

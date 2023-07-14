@@ -76,10 +76,11 @@ public class UserDAO {
 		return jdbc.update(sql);
 	}
 	
+	public int delete(String userid, String userpw) {
 		
+		String sql = "DELETE FROM USERS WHERE USER_ID =" + "'" + userid + "' AND " + "USER_PW= " + "'" + userpw +"'";
 		
-//		USER_ID
-//		USER_PW
-//		USER_PH
-//		USER_NAME
+		return jdbc.update(sql);
+	}
+	
 }

@@ -500,8 +500,7 @@ public class Controller {
 				userService.update();
 				return View.HOME_MAIN;
 			case 2:
-//				userService.searchQuiz(View.QUIZ_KOREAN);
-//				return View.ADMIN_MAIN;
+				return userService.delete();
 			case 3:
 				return View.HOME_MAIN;
 			default:
