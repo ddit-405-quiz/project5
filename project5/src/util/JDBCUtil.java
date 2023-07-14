@@ -72,18 +72,13 @@ public class JDBCUtil {
 		
 		try {
 			
-			// DB�� �������ִ� �ڵ�
 			conn = DriverManager.getConnection(url, user, password);
-			// ����
 			pstmt = conn.prepareStatement(sql);
-			// ����� rs�� ����
 			rs = pstmt.executeQuery();
-			// rs�� ��Ÿ�����͸� �̾ƿ�
 			ResultSetMetaData rsmd = rs.getMetaData();
 			
 			int columnCount = rsmd.getColumnCount();
 			
-			// ���� ������ŭ �� ���� key(�÷��� �̸�), value(�ش� �÷��� ������)�� ���ؼ� ���� map�� �־���
 			while (rs.next()) {
 				if (row == null)
 					row = new HashMap<>();

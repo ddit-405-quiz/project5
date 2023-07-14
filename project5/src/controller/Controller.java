@@ -93,7 +93,9 @@ public class Controller {
 		PrintUtil.bar();
 		System.out.println();
 		System.out.println();
-		PrintUtil.centerAlignment("퀴즈야 놀자!");
+		PrintUtil.centerAlignment("_    ____ ___ . ____    ___  _    ____ _   _    ____ _  _ _ ___  \r\n" + 
+								  "|    |___  |    [__     |__] |    |__|  \\_/     |  | |  | |   /  \r\n" + 
+								"|___ |___  |    ___]    |    |___ |  |   |      |_\\| |__| |  /__ ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.centerAlignment("1.로그인     2.회원 가입     3.관리자 접속");
