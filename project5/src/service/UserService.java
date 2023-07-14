@@ -323,7 +323,10 @@ public class UserService {
 		String userid = ScanUtil.nextLine();
 		
 		if(!userInfo.get("USER_ID").equals(userid)) {
-			System.out.println("변경 안돼 돌아가");
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("ID가 일치하지 않습니다.");
+			PrintUtil.centerAlignment( "메인화면으로 돌아갑니다.");
+			PrintUtil.bar3();
 			return View.MYPAGE_UPDATE;
 		}
 		
@@ -332,9 +335,10 @@ public class UserService {
 		String userpw = "";
 		String name = "";
 		String telNum = "";
-		String str = null;
+		String str = "";
+		boolean flag = false;
 		
-		try {	
+//		try {	
 			
 		System.out.println("<< 회원 정보 수정 >>");
 				
@@ -343,18 +347,28 @@ public class UserService {
 			System.out.print("변경할 이름: ");
 			name = ScanUtil.nextLine();
 			str = str + " USER_NAME = '" + name + "' ,";
+			flag = true;
 		}
 		System.out.print("비밀번호를 변경하겠습니까? ( y / n ) : ");
 		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
 			System.out.print("변경할 비밀번호: ");
 			userpw = ScanUtil.nextLine();
 			str = str + " USER_PW = '" + userpw + "' ,";
+			flag = true;
 		}
 		System.out.print("전화번호를 변경하겠습니까? ( y / n ) : ");
 		if(ScanUtil.nextLine().equalsIgnoreCase("y")) {
 			System.out.print("변경할 전화번호: ");
 			telNum = ScanUtil.nextLine();
 			str = str + " USER_PH = '" + telNum + "' ,";
+			flag = true;
+		}
+		
+		if(flag==false) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("입력된 정보가 없어 메인 화면으로 돌아갑니다.");
+			PrintUtil.bar3();
+			return View.HOME_MAIN;
 		}
 		
 		int length = str.length();
@@ -364,12 +378,13 @@ public class UserService {
 		
 		result = userDAO.update(str, userid);
 		
-		} catch (NullPointerException e) {
-			PrintUtil.bar3();
-			PrintUtil.centerAlignment("입력된 정보가 없어 메인 화면으로 돌아갑니다.");
-			PrintUtil.bar3();
-			return View.HOME_MAIN;
-		}
+//		} catch (NullPointerException e) {
+//			System.out.println();
+//			PrintUtil.bar3();
+//			PrintUtil.centerAlignment("입력된 정보가 없어 메인 화면으로 돌아갑니다.");
+//			PrintUtil.bar3();
+//			return View.HOME_MAIN;
+//		} 
 		
 		
 		if(result != 0) {

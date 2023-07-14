@@ -69,9 +69,9 @@ public class UserDAO {
 	}
 	
 	public int update(String str, String userid) {
-		String sql = "UPDATE USERS SET ";
-		sql = sql + str;
-		sql = sql + "WHERE USER_ID = " + "'" + userid + "'";
+		String sql = "UPDATE USERS SET " 
+				   + str
+				   + " WHERE USER_ID = " + "'" + userid + "'";
 		
 		return jdbc.update(sql);
 	}
