@@ -25,11 +25,11 @@ public class BoardDAO {
 	
 	//게시판 리스트
 
-		public Map<String, Object> selectBoard(int reqNo) {
+	public Map<String, Object> selectBoard(int reqNo) {
 		    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER, USER_NO FROM REQUEST WHERE REQ_NO = ?";
 		    List<Object> params = new ArrayList<>();
 		    params.add(reqNo);
-		    List<Map<String, Object>> result = jdbc.selectList(sql, params);
+		    List<Map<String, Object>> result = jdbc.selectAll(sql, params);
 		    if (result != null && result.size() > 0) {
 		        return result.get(0);
 		    } else {
@@ -37,19 +37,6 @@ public class BoardDAO {
 		    }
 		}
 
-	public Map<String, Object> selectBoard(int reqNo) {
-	    String sql = "SELECT REQ_NO, REQ_TITLE, REQ_DETAIL, REQ_WRITER FROM REQUEST WHERE REQ_NO = ?";
-	    List<Object> params = new ArrayList<>();
-	    params.add(reqNo);
-	    List<Map<String, Object>> result = jdbc.selectAll(sql, params);
-	    if (result != null && result.size() > 0) {
-	        return result.get(0);
-	    } else {
-	        return null;
-	    }
-	}
-
-	
 	//게시물 수정
 	public int updateBoard(Map<String, Object> board) {
 		String sql = "UPDATE REQUEST SET REQ_TITLE=?, REQ_DETAIL=?, REQ_WRITER=? WHERE REQ_NO=?";
