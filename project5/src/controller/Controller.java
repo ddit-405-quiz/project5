@@ -22,7 +22,6 @@ public class Controller {
 	AdminBoardService adminBoardService = AdminBoardService.getInstance();
 	BoardService boardService = BoardService.getInstance();
 
-
 	public static void main(String[] args) {
 		new Controller().start();
 	}
@@ -74,7 +73,6 @@ public class Controller {
 			case View.ADMIN_BOARD:
 				view= adminlist();
                 break;
-			
 			}
 		}
 
@@ -201,8 +199,10 @@ public class Controller {
 
 				if (userService.purchaseItem(100 * quantity)) {
 					itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_DOUBLE, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
-					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
 				} else {
 					PrintUtil.bar3();

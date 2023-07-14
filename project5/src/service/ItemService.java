@@ -53,22 +53,13 @@ public class ItemService {
 			break;
 		}
 
-
-
-//		String operator = increase ? "+" : "-";
-//		String sql = "UPDATE ITEM" + " SET " + itemName + " = " + itemName + " + " + operator + quantity
-//				+ " WHERE USER_NO = " + userNo;
-
-
-		
-
 		String operator = increase ? "+": "-";
 
 		String sql = "UPDATE ITEM "
 				   + " SET " + itemName + "  =  " + itemName + operator + quantity
 				   + " WHERE USER_NO = " + gameManager.getUserInfo().get("USER_NO");
-		System.out.println();
 
+		itemDAO.setUserItem(sql);
 	}
 
 	/**

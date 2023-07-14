@@ -93,11 +93,8 @@ public class BoardService {
         return View.BOARD;
     }
     
-
     // 게시글 수정
-
     public int update(int reqNo) {
-
     	Map<String, Object> board = boardDAO.selectBoard(reqNo);
     	if (board == null) {
     	    PrintUtil.bar3();
@@ -105,7 +102,6 @@ public class BoardService {
     	    PrintUtil.bar3();
     	    return View.BOARD;
     	}
-
 
         PrintUtil.bar();
         System.out.println(" 【 게시물 수정 】 ");
@@ -143,9 +139,8 @@ public class BoardService {
         	}
         	return View.BOARD;
     }
-
+    //게시글 삭제
     public int delete(int reqNo) {
-
     	Map<String, Object> board = boardDAO.selectBoard(reqNo);
     	if (board == null) {
     	    PrintUtil.bar3();
@@ -153,7 +148,6 @@ public class BoardService {
     	    PrintUtil.bar3();
     	    return View.BOARD;
     	}    	
-    	
     	System.out.println("정말로 삭제하시겠습니까? (y / n)");
     	System.out.print("\n 【  선택  】");
     	String confirm=ScanUtil.nextLine();
@@ -210,7 +204,6 @@ public class BoardService {
         		PrintUtil.bar3();
         		PrintUtil.centerAlignment("게시글 생성에 실패했습니다.");
         		PrintUtil.bar3();
-
         	}
         	return View.BOARD;
     }
