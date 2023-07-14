@@ -19,7 +19,9 @@ public class Controller {
 	QuizService quizService = QuizService.getInstance();
 	ItemService itemService = ItemService.getInstance();
 	AdminService adminService = AdminService.getInstance();
+	RankService rankService = RankService.getInstance();
 	BoardService boardService = BoardService.getInstance();
+	QuizListService quizListService = QuizListService.getInstance();
 
 	public static void main(String[] args) {
 		new Controller().start();
@@ -54,23 +56,37 @@ public class Controller {
 				view = quizService.success();
 				break;
 			case View.QUIZ_MANAGE:
-				view = questionList();
+				view = quizListMain();
 				break;
 			case View.SHOP_MAIN:
 				view = shopMain();
 				break;
-			case View.ADMIN_LOGIN:
+			case View.ADMIN_LOGIN:   
 				view = adminService.adminLogin();
 				break;
 			case View.ADMIN_MAIN:
 				view = adminMain();
+				break;
+			case View.ADMIN_QUIZ:
+				view = quizListMain();
+				break;
+			case View.RANKING:
+				view = rankingMain();
+				break;
+			case View.RANKING_ALL:
+				view = rankService.rankingPage();
+				break;
 			case View.USER_LOGOUT:
 				break;
 			case View.BOARD:
 				view = list();
 				break;
+
 			case View.MYPAGE:
 				view = mypage();
+
+			case View.USER_MANAGE:
+
 				break;
 			}
 		}
@@ -117,7 +133,7 @@ public class Controller {
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 문제집   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
+		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 랭킹   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -130,14 +146,18 @@ public class Controller {
 			case 2:
 				return View.BOARD;
 			case 3:
+
 				return View.QUIZ_MANAGE;
+
+				return View.RANKING;
+
 			case 4:
 				return View.MYPAGE;
 			case 5:
 				return View.SHOP_MAIN;
 			case 6:
 				return View.HOME;
-//				return View.USER_LOGOUT;
+//				return View.USER_LOGOUT;	
 			default:
 				return View.QUIZ;
 
@@ -181,7 +201,8 @@ public class Controller {
 				quantity = ScanUtil.nextInt();
 
 				if (userService.purchaseItem(200 * quantity)) {
-					itemService.setUserItem(View.ITEM_DOUBLE, quantity, gameManager.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_DOUBLE, quantity,
+							gameManager.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
@@ -197,7 +218,8 @@ public class Controller {
 				quantity = ScanUtil.nextInt();
 
 				if (userService.purchaseItem(100 * quantity)) {
-					itemService.setUserItem(View.ITEM_HINT, quantity, userService.getUserInfo().get("USER_NO").toString(), true);
+					itemService.setUserItem(View.ITEM_HINT, quantity,
+							userService.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
@@ -330,8 +352,13 @@ public class Controller {
 
 	}
 
+
 	// 관리자 문제 조회시 출력되는 화면
 	public int questionList() {
+
+	// 문제 조회시 출력되는 메인 화면
+	public int quizListMain() {
+
 		System.out.println();
 		PrintUtil.bar();
 		PrintUtil.bar2();
@@ -346,17 +373,13 @@ public class Controller {
 		try {
 			switch (ScanUtil.nextInt()) {
 			case 1:
-				quizService.searchQuiz(View.QUIZ_COMMON_SENSE);
-				return View.ADMIN_MAIN;
+				return quizList(View.QUIZ_COMMON_SENSE);
 			case 2:
-				quizService.searchQuiz(View.QUIZ_KOREAN);
-				return View.ADMIN_MAIN;
+				return quizList(View.QUIZ_KOREAN);
 			case 3:
-				quizService.searchQuiz(View.QUIZ_HISTORY);
-				return View.ADMIN_MAIN;
+				return quizList(View.QUIZ_HISTORY);
 			case 4:
-				quizService.searchQuiz(View.QUIZ_NONSENSE);
-				return View.ADMIN_MAIN;
+				return quizList(View.QUIZ_NONSENSE);
 			case 5:
 				return View.ADMIN_MAIN;
 			default:
@@ -370,9 +393,118 @@ public class Controller {
 		}
 
 	}
+
+	// 조회하고싶은 문제 선택 시 나오는 화면
+	public int quizList(int genre) {
+
+		try {
+			// 퀴즈리스트 얻어오기
+			List<Map<String, Object>> quizList = quizListService.getQuizList(genre);
+			// 페이지 나누기
+			List<List<Map<String, Object>>> pages = quizListService.paginateData(quizList);
+
+			// 페이지 출력
+			int currentPage = 0;
+			int input;
+
+			while (true) {
+				List<Map<String, Object>> currentPageData = pages.get(currentPage);
+				quizListService.printPage(currentPageData, currentPage, pages.size());
+
+				System.out.print("\n1.다음 페이지 보기 2.이전 페이지 보기 3.뒤로가기 4.문제수정 5.새로고침 ");
+				System.out.print("\n 【  선택  】 ");
+				input = ScanUtil.nextInt();
+
+				if (input == 1 && currentPage < pages.size() - 1) {
+					currentPage++;
+				} else if (input == 2 && currentPage > 0) {
+					currentPage--;
+				}
+
+				if (input == 3) {
+					return View.ADMIN_QUIZ;
+				} else if (input == 4) {
+					quizEdit();
+				} else if (input == 5) {
+					quizList(genre);
+				}
+			}
+		} catch (Exception e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			quizList(genre);
+		}
+		
+		return View.ADMIN_QUIZ;
+	}
+
+	// 문제 조회 화면에서 문제 수정을 선택 시 나오는 화면
+	public void quizEdit() {
+		System.out.println();
+		PrintUtil.bar();
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("문제를 어떻게 수정 하시겠습니까?");
+		PrintUtil.bar2();
+		PrintUtil.bar2();
+		PrintUtil.centerAlignment("1.문제 추가  2.문제 삭제   3.문제 수정   4.뒤로 가기");
+		PrintUtil.bar2();
+		PrintUtil.bar();
+		
+		try {
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				quizListService.addQuiz();
+				return;
+			case 2:
+				quizListService.deleteQuiz();
+				return;
+			case 3:
+				quizListService.editQuiz();
+				return;
+			case 4:
+				return;
+			default:
+				return;
+			}
+		} catch (NumberFormatException e) {
+			PrintUtil.bar3();
+			PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
+			PrintUtil.bar3();
+			return;
+		}
+	}
+	
+	// 랭킹 조회시 메인화면
+	private int rankingMain() {
+		PrintUtil.bar();
+		System.out.println();
+		System.out.println();
+		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
+		PrintUtil.bar2();
+		System.out.println();
+		PrintUtil.bar();
+		System.out.print("\n 【  선택  】 ");
+
+	// 커뮤니티 이용
+		switch (ScanUtil.nextInt()) {
+		case 1:
+			return View.RANKING_ALL;
+		case 2:
+			return View.RANKING_UNLIMIT;
+		case 3:
+			return View.HOME_MAIN;
+		default:
+			return View.RANKING;
+		}
+	}
 	
 	//커뮤니티 이용
 	public int list() {
+
 	    int currentPage = 1; // 현재 페이지
 	    int totalPage = boardService.getTotalPage(); // 전체 페이지 수
 	    while (true) {
@@ -519,3 +651,105 @@ public class Controller {
 	
 	
 }	            
+
+		int currentPage = 1; // 현재 페이지
+		int totalPage = boardService.getTotalPage(); // 전체 페이지 수
+		while (true) {
+			PrintUtil.bar();
+			PrintUtil.centerAlignment(" 【 게시물 목록 】 ");
+			System.out.println("no\t\ttitle\t\twriter");
+
+			List<Map<String, Object>> boardList = BoardService.getInstance().getBoardListByPage(currentPage);
+			for (int i = 0; i < boardList.size(); i++) {
+				Map<String, Object> map = boardList.get(i);
+				System.out.print(map.get("REQ_NO") + "\t\t" + map.get("REQ_TITLE") + "\t\t" + map.get("REQ_WRITER"));
+				System.out.println();
+			}
+			System.out.println();
+			PrintUtil.bar();
+			System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
+			System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ⑥ 나의글보기  ");
+			System.out.print("\n 【  선택  】 ");
+
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				System.out.print("게시물 번호 입력: ");
+				int reqNo = ScanUtil.nextInt();
+				return boardService.read(reqNo);
+			case 2:
+				return boardService.create();
+			case 3:
+				return View.HOME_MAIN;
+			case 4:
+				if (currentPage == 1) {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("이전 페이지가 없습니다");
+					PrintUtil.bar3();
+				} else {
+					currentPage--;
+				}
+				break;
+			case 5:
+				if (currentPage == totalPage) {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("다음 페이지가 없습니다");
+					PrintUtil.bar3();
+				} else {
+					currentPage++;
+				}
+				break;
+			case 6:
+				int savedCurrentPage = currentPage;
+				int savedTotalPage = totalPage;
+
+				currentPage = 1;
+				List<Map<String, Object>> myBoardList = new ArrayList<>();
+				String currentUserNo = SessionUtil.getCurrentUserNo();
+
+				for (int page = 1; page <= totalPage; page++) {
+					// 현재 페이지 정보 업데이트
+					currentPage = page;
+					boardList = boardService.getBoardListByPage(currentPage);
+
+					// 각 페이지의 글을 순회하면서 나의 글인지 확인하여 저장
+					for (Map<String, Object> board : boardList) {
+						String writerUserNo = board.get("USER_NO").toString();
+						if (currentUserNo.equals(writerUserNo)) {
+							myBoardList.add(board);
+						}
+					}
+				}
+				PrintUtil.bar();
+				System.out.println("【 나의 글 목록 】");
+				System.out.println("no\t\ttitle\t\twriter");
+
+				for (int i = 0; i < myBoardList.size(); i++) {
+					Map<String, Object> map = myBoardList.get(i);
+					System.out
+							.print(map.get("REQ_NO") + "\t\t" + map.get("REQ_TITLE") + "\t\t" + map.get("REQ_WRITER"));
+					System.out.println();
+				}
+				System.out.println();
+				PrintUtil.bar();
+				System.out.println("① 뒤로가기");
+				System.out.print("\n 【  선택  】  ");
+				int choice = ScanUtil.nextInt();
+				if (choice == 1) {
+					return View.BOARD;
+				} else {
+					PrintUtil.bar3();
+					PrintUtil.centerAlignment("잘못된 입력입니다.");
+					PrintUtil.bar3();
+				}
+				break;
+			default:
+				PrintUtil.bar3();
+				PrintUtil.centerAlignment("잘못된 입력입니다.");
+				PrintUtil.bar3();
+				break;
+			}
+		}
+	}
+
+}
+

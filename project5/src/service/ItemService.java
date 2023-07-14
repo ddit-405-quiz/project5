@@ -134,7 +134,11 @@ public class ItemService {
 			PrintUtil.bar3();
 	        PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
 			PrintUtil.bar3();
+
 	        useItem(); // 예외 발생 시  돌아감
+
+
+	        useItem(); // 예외 발생 시 홈 메인으로 돌아감
 
 		}
 	}

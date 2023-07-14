@@ -31,6 +31,7 @@ public class QuizDAO {
 		return jdbc.selectAll(sql);
 	}
 
+
 	/**
 	 * 입력받은 장르를 토대로 해당 장르의 퀴즈를 모두 List에 담은다음 반환
 	 * @param 조회하고 싶은 장르
@@ -64,4 +65,5 @@ public class QuizDAO {
 		
 		return quizList;
 	}
+
 }
