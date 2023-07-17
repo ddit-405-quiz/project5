@@ -24,13 +24,12 @@ public class UserDAO {
 	
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 
-	//À¯ÀúÀÇ Á¤º¸ ¹ÝÈ¯ ¸Þ¼Òµå
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Þ¼Òµï¿½
 	public  Map<String, Object> getUserInfo(String user_NO){
 		return jdbc.selectOne("SELECT * FROM USERS " + 
-							  "WHERE USER_NO = " + user_NO);
+							  "WHERE USER_NO = '" + user_NO + "'");
 	}
 
-	
 	public boolean checkId(String memId) {
 		String sql = "SELECT USER_NAME FROM USERS WHERE USER_ID = ?";
 		Map<String, Object> result = jdbc.selectOne(sql, Collections.singletonList(memId));
@@ -38,13 +37,11 @@ public class UserDAO {
 		return result != null;
 	}
 	
-	
 	public Map<String, Object> login(List<Object> param) { 
 		String sql = "SELECT * FROM USERS "
 				+ "WHERE USER_ID = ? AND USER_PW = ?";	
 		return jdbc.selectOne(sql, param); 
 	}
-	
 	
 	
 	public int signUp(String name, String userId, String userPw, String userTel) {

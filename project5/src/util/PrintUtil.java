@@ -57,6 +57,12 @@ public class PrintUtil {
 		System.out.println("ID : ");
 		System.out.println("PW : ");
 	}
+	
+	public static void printErrorMessage() {
+    	bar3();
+        centerAlignment("올바른 숫자를 입력하세요.");
+    	bar3();
+	}
 }	
 //	public static void startScreen() {
 //		String[] str= {"Q","U","I","Z","G","A","M","E"};

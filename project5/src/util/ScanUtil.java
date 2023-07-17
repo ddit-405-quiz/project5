@@ -12,5 +12,9 @@ public class ScanUtil {
 		public static int nextInt() {
 			return Integer.parseInt(sc.nextLine());
 		}
+		
+		public static String next() {
+			return sc.next();
+		}
 
 }

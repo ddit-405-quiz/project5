@@ -66,7 +66,6 @@ public class JDBCUtil {
 		return row;
 	}
 
-	//매개변수로 sql문을 줘서 하나 불러오긴가?
 	public Map<String, Object> selectOne(String sql) {
 		Map<String, Object> row = null;
 		
@@ -102,11 +101,6 @@ public class JDBCUtil {
 
 		List<Map<String, Object>> list = new ArrayList<>();
 
-		for(int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).get("RANK"));
-			System.out.println(list.get(i).get("SCORE"));
-		}
-		
 		try {
 			
 			conn = DriverManager.getConnection(url, user, password);
@@ -139,42 +133,55 @@ public class JDBCUtil {
 		}
 		return list;
 	}
-
-	public List<Map<String, Object>> selectAll(String sql, List<Object> param){
+	
+	public List<Map<String, Object>> selectAll(String sql, List<Object> param) {
 		List<Map<String, Object>> list = new ArrayList<>();
+		Map<String, Object>	row = null;
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			pstmt = conn.prepareStatement(sql);
-
-			for(int i=0; i<param.size(); i++){
-				pstmt.setObject(i+1, param.get(i));
+			for (int i = 0; i < param.size(); i++) {
+				pstmt.setObject(i + 1, param.get(i));
 			}
-
-			rs = pstmt.executeQuery();
-			ResultSetMetaData md = rs.getMetaData();
-			int columnCount = md.getColumnCount();
-
-			while(rs.next()){
-				Map<String, Object> row = new HashMap<>();
-				for(int i=1; i<= columnCount; i++){
-					String key =md.getColumnName(i);
-					Object value = rs.getObject(key);
+			rs = pstmt.executeQuery(); 
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+			while (rs.next()) {
+				row = new HashMap<>();
+				for (int i = 1; i <= columnCount; i++) {
+					String key = rsmd.getColumnLabel(i);
+					Object value = rs.getObject(i);
 					row.put(key, value);
 				}
+				
 				list.add(row);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
-			if(rs != null) try{ rs.close(); } catch(Exception e){}
-			if(pstmt != null) try{ pstmt.close(); } catch(Exception e){}
-			if(conn != null) try{ conn.close(); } catch(Exception e){}
+		} finally {
+			if (rs != null) try {rs.close();} catch (Exception e) {}
+			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
+			if (conn != null) try {conn.close();} catch (Exception e) {}
 		}
 
 		return list;
+	}
 
+	public int update(String sql) {
+		int result = 0;
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) try {rs.close();} catch (Exception e) {}
+			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
+			if (conn != null) try {conn.close();} catch (Exception e) {}
+		}
+		return result;
 	}
 	
 	public int update(String sql, List<Object> param) {
@@ -195,21 +202,4 @@ public class JDBCUtil {
 		}
 		return result;
 	}
-	
-	public int update(String sql) {
-		int result = 0;
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-			pstmt = conn.prepareStatement(sql);
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("올바른 입력값이 아님");
-		} finally {
-			if (rs != null) try {rs.close();} catch (Exception e) {}
-			if (pstmt != null) try {pstmt.close();} catch (Exception e) {}
-			if (conn != null) try {conn.close();} catch (Exception e) {}
-		}
-		return result;
-	}
-
 }
