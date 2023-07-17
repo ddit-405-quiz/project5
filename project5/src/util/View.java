@@ -25,6 +25,7 @@ public interface View {
 	int QUIZ_START = 43;         // 퀴즈 - 시작
 	int QUIZ_FAIL = 44;          // 퀴즈 - 실패
 	int QUIZ_SUCCESS = 45;		 // 퀴즈 - 성공
+	int QUIZ_ENDINFINITY = 46;  // 퀴즈 - 무한모드 종료
 	int QUIZ_NONSENSE = 411;		 // 퀴즈 - 넌센스
 	int QUIZ_KOREAN = 412;		 // 퀴즈 - 우리말
 	int QUIZ_COMMON_SENSE = 413;  // 퀴즈 - 상식

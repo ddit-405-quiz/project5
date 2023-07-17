@@ -65,5 +65,8 @@ public class QuizDAO {
 		
 		return quizList;
 	}
-
+	
+	public void setMaxScore(String sql) {
+		jdbc.update(sql);
+	}
 }

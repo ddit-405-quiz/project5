@@ -77,6 +77,9 @@ public class Controller {
 			case View.RANKING_ALL:
 				view = rankService.rankingPage();
 				break;
+			case View.RANKING_UNLIMIT:
+				view = rankService.infinityRankingPage();
+				break;
 			case View.USER_LOGOUT:
 				break;
 			case View.BOARD:
@@ -89,6 +92,8 @@ public class Controller {
 			case View.ADMIN_BOARD:
 				view = adminlist();
 				break;
+			case View.QUIZ_ENDINFINITY:
+				view = quizService.endInfinity();
 			}
 		}
 
@@ -136,7 +141,7 @@ public class Controller {
 		PrintUtil.centerAlignment("MAIN");
 		PrintUtil.bar2();
 		System.out.println();
-		PrintUtil.centerAlignment("① 문제풀기   ② 커뮤니티   ③ 랭킹   ④ 마이페이지  ⑤ 상점  ⑤ 로그아웃");
+		PrintUtil.centerAlignment("1.문제풀기   2.커뮤니티   3.랭킹   4.마이페이지  5.상점  6.로그아웃");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -177,7 +182,7 @@ public class Controller {
 		String str = "현재 금액 : " + userService.getUserInfo().get("USER_GM");
 		PrintUtil.centerAlignment(str);
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment("① 점수2배 구매   ② 초성힌트 구매  ③ 목숨 +2 구매  ④ 아이템 설명듣기  ⑤ 뒤로가기");
+		PrintUtil.centerAlignment("1.점수2배 구매   2.초성힌트 구매  3.목숨 +2 구매  4.아이템 설명듣기  5.뒤로가기");
 		System.out.println("        200g         100g        100g  ");
 		PrintUtil.bar2();
 		String userNo = userService.getUserInfo().get("USER_NO").toString();
@@ -285,7 +290,7 @@ public class Controller {
 		PrintUtil.bar2();
 		PrintUtil.centerAlignment("퀴즈 카테고리 선택");
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment("① 상식 퀴즈  ② 우리말 맞추기   ③ 역사 퀴즈   ④ 넌센스 퀴즈  ⑤ 뒤로가기   ");
+		PrintUtil.centerAlignment("1.상식 퀴즈  2.우리말 맞추기  3.역사 퀴즈   4.넌센스 퀴즈  5.뒤로가기   ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -321,7 +326,7 @@ public class Controller {
 		PrintUtil.bar2();
 		PrintUtil.centerAlignment("ADMIN MAIN");
 		PrintUtil.bar2();
-		PrintUtil.centerAlignment("1.문제관리   2.게시판   3.유저   4.로그아웃 ");
+		PrintUtil.centerAlignment("1.문제관리   2.게시판   3.로그아웃 ");
 		PrintUtil.bar2();
 		System.out.println();
 		PrintUtil.bar();
@@ -334,8 +339,6 @@ public class Controller {
 			case 2:
 				return View.ADMIN_BOARD;
 			case 3:
-				return View.USER_MANAGE;
-			case 4:
 				return View.HOME;
 //				return View.ADMIN_LOGOUT;
 			default:
@@ -368,7 +371,7 @@ public class Controller {
 			System.out.println();
 			PrintUtil.bar();
 			System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
-			System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ⑥ 나의글보기  ");
+			System.out.println("1.읽기 2.생성 3.뒤로가기 4.이전페이지 5.다음페이지 6.나의글보기  ");
 			System.out.print("\n 【  선택  】 ");
 
 			switch (ScanUtil.nextInt()) {
@@ -431,7 +434,7 @@ public class Controller {
 				}
 				System.out.println();
 				PrintUtil.bar();
-				System.out.println("① 뒤로가기");
+				System.out.println("1.뒤로가기");
 				System.out.print("\n 【  선택  】  ");
 				int choice = ScanUtil.nextInt();
 				if (choice == 1) {
@@ -569,27 +572,32 @@ public class Controller {
 
 	// 랭킹 조회시 메인화면
 	private int rankingMain() {
-		PrintUtil.bar();
-		System.out.println();
-		System.out.println();
-		PrintUtil.centerAlignment("R  A  N  K  I  N  G");
-		PrintUtil.bar2();
-		System.out.println();
-		PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
-		PrintUtil.bar2();
-		System.out.println();
-		PrintUtil.bar();
-		System.out.print("\n 【  선택  】 ");
+		try {
+			PrintUtil.bar();
+			System.out.println();
+			System.out.println();
+			PrintUtil.centerAlignment("R  A  N  K  I  N  G");
+			PrintUtil.bar2();
+			System.out.println();
+			PrintUtil.centerAlignment(" 1.일반 순위  2.무한문제 순위  3.뒤로가기   ");
+			PrintUtil.bar2();
+			System.out.println();
+			PrintUtil.bar();
+			System.out.print("\n 【  선택  】 ");
 
-		// 커뮤니티 이용
-		switch (ScanUtil.nextInt()) {
-		case 1:
-			return View.RANKING_ALL;
-		case 2:
-			return View.RANKING_UNLIMIT;
-		case 3:
-			return View.HOME_MAIN;
-		default:
+			// 커뮤니티 이용
+			switch (ScanUtil.nextInt()) {
+			case 1:
+				return View.RANKING_ALL;
+			case 2:
+				return View.RANKING_UNLIMIT;
+			case 3:
+				return View.HOME_MAIN;
+			default:
+				return View.RANKING;
+			}
+		} catch (NumberFormatException e) {
+			PrintUtil.printErrorMessage();
 			return View.RANKING;
 		}
 	}
@@ -613,7 +621,7 @@ public class Controller {
 			System.out.println();
 			PrintUtil.bar();
 			System.out.println("\t\t\t현재 페이지: " + currentPage + "/" + totalPage);
-			System.out.println("① 읽기 ② 생성 ③ 뒤로가기 ④ 이전페이지 ⑤ 다음페이지 ⑥ 나의글보기  ");
+			System.out.println("1.읽기 2.생성 3.뒤로가기 4.이전페이지 5.다음페이지 6.나의글보기  ");
 			System.out.print("\n 【  선택  】 ");
 
 			try {
@@ -677,17 +685,9 @@ public class Controller {
 					}
 					System.out.println();
 					PrintUtil.bar();
-					System.out.println("① 뒤로가기");
-					System.out.print("\n 【  선택  】  ");
-					int choice = ScanUtil.nextInt();
-					if (choice == 1) {
-						return View.BOARD;
-					} else {
-						PrintUtil.bar3();
-						PrintUtil.centerAlignment("잘못된 입력입니다.");
-						PrintUtil.bar3();
-					}
-					break;
+					System.out.println("Enter를 눌러 뒤로가기");
+					ScanUtil.nextLine();
+					return View.BOARD;
 				default:
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("잘못된 입력입니다.");
@@ -757,7 +757,7 @@ public class Controller {
 
 				System.out.println();
 				PrintUtil.bar();
-				System.out.println("① 읽기 ② 생성 ③ 뒤로가기");
+				System.out.println("1.읽기 2.생성 3.뒤로가기");
 				System.out.print("\n 【  선택  】 ");
 
 				switch (ScanUtil.nextInt()) {
