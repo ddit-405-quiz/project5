@@ -63,13 +63,11 @@ public class UserService {
 		param.add(memPass);
 
 		userInfo = userDAO.login(param);
-
-		if (userInfo != null) { //로그인o
-			
+		
+		if(userInfo != null) {
 			String userNo = (String) userInfo.get("USER_NO");
-			SessionUtil.setCurrentUserNo(userNo);
-
-			Controller.sessionStorage.put("loginInfo", userInfo);
+            SessionUtil.setCurrentUserNo(userNo);
+			Controller.sessionStorage.put("loginInfo", userInfo); 
 			PrintUtil.bar3();
 			PrintUtil.centerAlignment(userInfo.get("USER_NAME") + "님 환영합니다.");
 			PrintUtil.centerAlignment("다음 화면으로 이동하려면 Enter 키를 입력하세요.");
@@ -275,8 +273,8 @@ public class UserService {
 	 */
 	public void setUserScore(int score) {
 		if (score >= 0) {
-			String sql = "UPDATE USERS" + " SET USER_SCORE = USER_SCORE + " + score + " WHERE USER_NO = "
-					+ userInfo.get("USER_NO");
+			String sql = "UPDATE USERS" + " SET USER_SCORE = USER_SCORE + " + score + " WHERE USER_NO = '"
+					+ userInfo.get("USER_NO") + "'";
 
 			userDAO.setUserScore(sql);
 		}
@@ -289,8 +287,8 @@ public class UserService {
 	 */
 	public void setUserGameMoney(int money) {
 		if (money >= 0) {
-			String sql = "UPDATE USERS" + " SET USER_GM = USER_GM + " + money + " WHERE USER_NO = "
-					+ userInfo.get("USER_NO");
+			String sql = "UPDATE USERS" + " SET USER_GM = USER_GM + " + money + " WHERE USER_NO = '"
+					+ userInfo.get("USER_NO") + "'";
 
 			userDAO.setUserScore(sql);
 		}
@@ -305,8 +303,8 @@ public class UserService {
 	public boolean purchaseItem(int money) {
 
 		if (Integer.parseInt(getUserInfo().get("USER_GM").toString()) >= money) {
-			String sql = "UPDATE USERS" + " SET USER_GM = USER_GM - " + money + " WHERE USER_NO = "
-					+ userInfo.get("USER_NO");
+			String sql = "UPDATE USERS" + " SET USER_GM = USER_GM - " + money + " WHERE USER_NO = '"
+					   + userInfo.get("USER_NO") + "'";
 
 			userDAO.setUserScore(sql);
 			return true;

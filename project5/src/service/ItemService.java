@@ -26,7 +26,7 @@ public class ItemService {
 
 	// itemNo의 아이템의 수량을 체크해주는 메소드
 	public Map<String, Object> checkItem(String userNo) {
-		String sql = "SELECT * FROM ITEM " + "WHERE USER_NO = " + userNo;
+		String sql = "SELECT * FROM ITEM " + "WHERE USER_NO = '" + userNo + "'";
 		return itemDAO.checkItem(sql);
 	}
 
@@ -54,10 +54,12 @@ public class ItemService {
 		}
 
 		String operator = increase ? "+": "-";
+
 		String sql = "UPDATE ITEM "
 				   + " SET " + itemName + "  =  " + itemName + operator + quantity
-				   + " WHERE USER_NO = " + gameManager.getUserInfo().get("USER_NO");
-		System.out.println();
+				   + " WHERE USER_NO = '" + gameManager.getUserInfo().get("USER_NO") + "'";
+
+		itemDAO.setUserItem(sql);
 	}
 
 	/**
@@ -136,10 +138,6 @@ public class ItemService {
 			PrintUtil.bar3();
 
 	        useItem(); // 예외 발생 시  돌아감
-
-
-	        useItem(); // 예외 발생 시 홈 메인으로 돌아감
-
 		}
 	}
 }

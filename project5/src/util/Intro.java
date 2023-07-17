@@ -16,20 +16,9 @@ public class Intro {
 			padding += " ";
 			
 			//51개의 바
-			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□");
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println(padding + running1);
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println();
-			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□■□");
-
-
+					System.out.println("╦  ╔═╗╔╦╗╔═╗  ╔═╗╦  ╔═╗╦ ╦  ╔═╗ ╦ ╦╦╔═╗");
+					System.out.println("║  ║╣  ║ ╚═╗  ╠═╝║  ╠═╣╚╦╝  ║═╬╗║ ║║╔═╝");
+					System.out.println("╩═╝╚═╝ ╩ ╚═╝  ╩  ╩═╝╩ ╩ ╩   ╚═╝╚╚═╝╩╚═╝");
 			try {
 			    // 1초(1000밀리초) 동안 기다리기
 			    Thread.sleep(75);
