@@ -23,10 +23,10 @@ public class QuizDAO {
 	 * @param 퀴즈의 장르 입력
 	 * @return 뽑아온 퀴즈들을 List<Map<String,Object>> 타입으로 반환
 	 */
-	public List<Map<String, Object>> getQuiz(int genre) {
+	public List<Map<String, Object>> getQuiz(int genre, int quantity) {
 		
 		String sql = "SELECT DISTINCT * FROM (SELECT * FROM QUIZ ORDER BY DBMS_RANDOM.VALUE)" +
-					 " WHERE ROWNUM <= 10 AND SUBSTR(QUIZ_NO, 1, 1) = " + genre;
+					 " WHERE ROWNUM <= " + quantity + " AND SUBSTR(QUIZ_NO, 1, 1) = " + genre;
 		
 		return jdbc.selectAll(sql);
 	}
@@ -65,5 +65,8 @@ public class QuizDAO {
 		
 		return quizList;
 	}
-
+	
+	public void setMaxScore(String sql) {
+		jdbc.update(sql);
+	}
 }

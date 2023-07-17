@@ -133,6 +133,7 @@ public class QuizListService {
 			PrintUtil.bar3();
 			PrintUtil.centerAlignment("문제를 추가하겠습니까?  (y / n)");
 			PrintUtil.bar3();
+			System.out.print("\n 【  선택  】 ");
 			String flag = ScanUtil.nextLine();
 			if (flag.equalsIgnoreCase("y")) {
 				String sql = "INSERT INTO QUIZ" + " VALUES(" + quizNo + ", '" + quizHint + "', '"
@@ -188,6 +189,7 @@ public class QuizListService {
 			PrintUtil.bar3();
 			PrintUtil.centerAlignment(quizNo + "번 문제를 삭제하겠습니까?  (y / n)");
 			PrintUtil.bar3();
+			System.out.print("\n 【  선택  】 ");
 			String flag = ScanUtil.nextLine();
 			if (flag.equalsIgnoreCase("y")) {
 				String sql = "DELETE FROM QUIZ" + " WHERE QUIZ_NO = " + quizNo;
@@ -252,6 +254,7 @@ public class QuizListService {
 			PrintUtil.bar3();
 			PrintUtil.centerAlignment("문제를 수정하겠습니까?  (y / n)");
 			PrintUtil.bar3();
+			System.out.print("\n 【  선택  】 ");
 			String flag = ScanUtil.nextLine();
 			if (flag.equalsIgnoreCase("y")) {
 				String sql = "UPDATE QUIZ" + " SET QUIZ_DETAIL = '" + quizDetail + "'," + " QUIZ_ANSWER = '"

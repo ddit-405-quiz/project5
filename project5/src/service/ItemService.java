@@ -65,7 +65,7 @@ public class ItemService {
 	/**
 	 * 아이템 사용 메소드, 실행시 아이템을 사용할건지 물어보고, 아이템중 하나를 사용하면 해당 아이템의 useItem을 true로 변경한다
 	 */
-	public void useItem() {
+	public boolean useItem() {
 		PrintUtil.bar();
 		PrintUtil.bar2();
 		PrintUtil.centerAlignment("아이템 1개 선택");
@@ -74,7 +74,8 @@ public class ItemService {
 		System.out.println("\t\t     1.점수2배  : " + checkItem(userNo).get("ITEM_DOUBLE") + " 개 보유중 ");
 		System.out.println("\t\t     2.초성힌트 : " + checkItem(userNo).get("ITEM_HINT") + " 개 보유중 ");
 		System.out.println("\t\t     3.목숨 +2 : " + checkItem(userNo).get("ITEM_LIFE") + " 개 보유중 ");
-		System.out.println("\t\t     4.사용하지않음");
+		System.out.println("\t\t     4.무한진행모드(아이템 사용 불가)");
+		System.out.println("\t\t     5.사용하지않음");
 		PrintUtil.bar2();
 		PrintUtil.bar();
 		System.out.print("\n 【  선택  】 ");
@@ -87,7 +88,7 @@ public class ItemService {
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("점수2배 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
 					PrintUtil.bar3();
-					return;
+					return false;
 				}
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("점수2배를 사용하셨습니다!");
@@ -100,7 +101,7 @@ public class ItemService {
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("초성힌트 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
 					PrintUtil.bar3();
-					return;
+					return false;
 				}
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("초성힌트를 사용하셨습니다!");
@@ -113,7 +114,7 @@ public class ItemService {
 					PrintUtil.bar3();
 					PrintUtil.centerAlignment("목숨 +2 아이템의 개수가 부족합니다, 아이템을 사용하지 않고 시작합니다");
 					PrintUtil.bar3();
-					return;
+					return false;
 				}
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("목숨 +2를 사용하셨습니다!");
@@ -123,21 +124,26 @@ public class ItemService {
 				break;
 			case 4:
 				PrintUtil.bar3();
+				PrintUtil.centerAlignment("무한진행모드로 시작합니다");
+				PrintUtil.bar3();
+				return true;
+			case 5:
+				PrintUtil.bar3();
 				PrintUtil.centerAlignment("아이템을 사용하지 않습니다");
 				PrintUtil.bar3();
-				return;
+				return false;
 			default:
 				PrintUtil.bar3();
 				PrintUtil.centerAlignment("아이템을 사용하지 않습니다");
 				PrintUtil.bar3();
-				return;
+				return false;
 			}
 		} catch (NumberFormatException e) {
 			PrintUtil.bar3();
 	        PrintUtil.centerAlignment("올바른 숫자를 입력하세요");
 			PrintUtil.bar3();
-
 	        useItem(); // 예외 발생 시  돌아감
 		}
+		return false;
 	}
 }

@@ -36,4 +36,20 @@ public class RankDAO {
 		return rankList;
 	}
 
+
+	public List<Map<String, Object>> getInfinityRank() {
+
+		List<Map<String, Object>> rankList = new ArrayList<>();
+
+		String sql = "SELECT rank, user_infinity, user_name"
+				   + " FROM ("
+				   + " SELECT RANK() OVER (ORDER BY user_infinity DESC, user_no ASC) AS rank, user_infinity, user_name"
+				   + " FROM ranking ORDER BY rank )"
+				   + " WHERE ROWNUM <= 10";
+
+		rankList = jdbc.selectAll(sql);
+
+		return rankList;
+	}
+	
 }
