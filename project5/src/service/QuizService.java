@@ -29,11 +29,11 @@ public class QuizService {
 	QuizDAO quizDAO = QuizDAO.getInstance();
 
 	// 퀴즈 10개를 얻어오는 메소드
-	public List<Map<String, Object>> getQuiz(int genre) {
+	public List<Map<String, Object>> getQuiz(int genre, int quantity) {
 
 		List<Map<String, Object>> quizList = new ArrayList<>();
 
-		quizList = quizDAO.getQuiz(genre);
+		quizList = quizDAO.getQuiz(genre, quantity);
 
 		return quizList;
 	}
@@ -58,12 +58,14 @@ public class QuizService {
 			life = 2;
 		}
 
-		// quizList라는 리스트를 하나 만들고
+		// quizList라는 리스트를 하나 만듬
 		List<Map<String, Object>> quizList = new ArrayList<>();
-		// quizList에 getQuiz메소드로 장르를 전달해주고 퀴즈 10개를 받아옴
-		quizList = getQuiz(genre);
+
 
 		if(infinity) {
+			
+			// quizList에 getQuiz메소드로 장르를 전달해주고 퀴즈 30개를 받아옴
+			quizList = getQuiz(genre, 30);
 			
 			int i = 0;
 			
@@ -107,6 +109,10 @@ public class QuizService {
 				i++;
 			}
 		} else {
+			
+			// quizList에 getQuiz메소드로 장르를 전달해주고 퀴즈 10개를 받아옴
+			quizList = getQuiz(genre, 10);
+			
 			for (int i = 0; i < 10; i++) {
 
 				// 2번 틀리면 게임오버
