@@ -224,7 +224,7 @@ public class Controller {
 					itemService.setUserItem(View.ITEM_HINT, quantity,
 							userService.getUserInfo().get("USER_NO").toString(), true);
 					PrintUtil.bar3();
-					PrintUtil.centerAlignment("점수 2배를 " + quantity + "개 만큼 구매하였습니다");
+					PrintUtil.centerAlignment("초성힌트를 " + quantity + "개 만큼 구매하였습니다");
 					PrintUtil.bar3();
 				} else {
 					PrintUtil.bar3();
