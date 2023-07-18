@@ -60,7 +60,7 @@ public class BoardDAO {
 	// 게시글 생성
 	public int createBoard(Map<String, Object> board) {
 		String sql = "INSERT INTO REQUEST (REQ_NO, REQ_TITLE, REQ_DETAIL, USER_NO, REQ_WRITER) "
-				+ "VALUES (fn_create_no, ?, ?, ?, ?)";
+				+ "VALUES (fn_create_req_no, ?, ?, ?, ?)";
 		List<Object> params = new ArrayList<>();
 		params.add(board.get("REQ_TITLE"));
 		params.add(board.get("REQ_DETAIL"));
